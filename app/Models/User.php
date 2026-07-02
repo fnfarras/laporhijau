@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PointLog::class);
     }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class)->latest();
+    }
 }
