@@ -131,3 +131,18 @@ Cek badge otomatis setiap kali poin user berubah via Observer atau Listener.
 - **Font:** Plus Jakarta Sans (semua teks)
 - **Border radius:** 12px card, 8px button, 20px pill/badge
 - **Shadow:** Minimal, hanya card dengan elevasi penting
+
+## Akun Demo (Seeder)
+
+| Role | Email | Password |
+|---|---|---|
+| Masyarakat | masyarakat@laporhijau.test | password |
+| Relawan | relawan@laporhijau.test | password |
+| Pemerintah | pemerintah@laporhijau.test | password |
+| Admin | admin@laporhijau.test | password |
+
+## Catatan Penting
+
+- Email seeder menggunakan domain @laporhijau.test (bukan @demo.com)
+- Password default semua akun: password (bukan demo1234)
+- email_verified_at wajib diisi now() di seeder agar login tidak redirect ke verify-email
