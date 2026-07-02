@@ -4,11 +4,17 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Relawan\RelawanVerificationController;
 use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
+use App\Http\Controllers\MapController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Interactive map routes (public)
+Route::get('/peta', [MapController::class, 'index'])->name('peta');
+Route::get('/api/map-data', [MapController::class, 'getData'])->name('api.map-data');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
