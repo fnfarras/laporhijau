@@ -14,25 +14,23 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
+use App\Listeners\CheckAndAwardBadges;
+
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+    public function register(): void {}
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         // Event & Listener — sistem poin via event (bukan hardcode di controller)
         Event::listen(ReportSubmitted::class, AwardReportSubmitPoints::class);
         Event::listen(ReportVerified::class,  AwardVerificationPoints::class);
         Event::listen(ReportResolved::class,  AwardResolvedPoints::class);
+
+        // Badge check — jalankan setelah setiap event poin
+        Event::listen(ReportSubmitted::class, CheckAndAwardBadges::class);
+        Event::listen(ReportVerified::class,  CheckAndAwardBadges::class);
+        Event::listen(ReportResolved::class,  CheckAndAwardBadges::class);
 
         // Policy
         Gate::policy(Report::class, ReportPolicy::class);

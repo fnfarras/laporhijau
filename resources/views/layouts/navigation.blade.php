@@ -16,14 +16,21 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('peta')" :active="request()->routeIs('peta')">
-                        {{ __('Peta Interaktif') }}
+                        {{ __('Peta') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
+                        🏆 {{ __('Leaderboard') }}
                     </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown / Guest Auth Links -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
                 @auth
+                    {{-- Poin Widget --}}
+                    <a href="{{ route('profil', auth()->user()) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-700 text-xs font-bold rounded-full border border-green-200 transition-colors">
+                        ⭐ {{ number_format(auth()->user()->fresh()->points) }} poin
+                    </a>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">

@@ -5,6 +5,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Relawan\RelawanVerificationController;
 use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\GamificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,6 +15,10 @@ Route::get('/', function () {
 // Interactive map routes (public)
 Route::get('/peta', [MapController::class, 'index'])->name('peta');
 Route::get('/api/map-data', [MapController::class, 'getData'])->name('api.map-data');
+
+// Gamification (public)
+Route::get('/komunitas/leaderboard', [GamificationController::class, 'leaderboard'])->name('leaderboard');
+Route::get('/profil/{user}', [GamificationController::class, 'profile'])->name('profil');
 
 
 Route::get('/dashboard', function () {
