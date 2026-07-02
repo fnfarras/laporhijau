@@ -60,6 +60,16 @@ return [
             'report' => false,
         ],
 
+        // Cloudinary disk — dibaca oleh CloudinaryServiceProvider v3
+        'cloudinary' => [
+            'driver'  => 'cloudinary',
+            'url'     => env('CLOUDINARY_URL'),        // jika pakai CLOUDINARY_URL
+            'cloud'   => env('CLOUDINARY_CLOUD_NAME', 'fex0dx5u'),
+            'key'     => env('CLOUDINARY_API_KEY',    '634746924414925'),
+            'secret'  => env('CLOUDINARY_API_SECRET', 'crWQ-tNkGytpBnBCbkdigUV67bI'),
+            'secure'  => true,
+        ],
+
     ],
 
     /*
