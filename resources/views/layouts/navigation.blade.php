@@ -11,18 +11,21 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-6 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        Dashboard
                     </x-nav-link>
                     <x-nav-link :href="route('peta')" :active="request()->routeIs('peta')">
-                        {{ __('Peta') }}
+                        🗺 Peta
                     </x-nav-link>
                     <x-nav-link :href="route('event.index')" :active="request()->routeIs('event.*')">
-                        🌿 {{ __('Event') }}
+                        🌿 Event
+                    </x-nav-link>
+                    <x-nav-link :href="route('artikel.index')" :active="request()->routeIs('artikel.*')">
+                        📚 Artikel
                     </x-nav-link>
                     <x-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
-                        🏆 {{ __('Leaderboard') }}
+                        🏆 Leaderboard
                     </x-nav-link>
                 </div>
             </div>
@@ -48,18 +51,23 @@
                         </x-slot>
 
                         <x-slot name="content">
+                            <x-dropdown-link :href="route('profil', auth()->user())">
+                                👤 Profil Saya
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('dashboard')">
+                                📊 Dashboard
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
+                                ⚙️ Pengaturan
                             </x-dropdown-link>
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-
                                 <x-dropdown-link :href="route('logout')"
                                         onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                                    🚪 Keluar
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -90,10 +98,19 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                Dashboard
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('peta')" :active="request()->routeIs('peta')">
-                {{ __('Peta Interaktif') }}
+                🗺 Peta
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('event.index')" :active="request()->routeIs('event.*')">
+                🌿 Event Komunitas
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('artikel.index')" :active="request()->routeIs('artikel.*')">
+                📚 Artikel Edukasi
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
+                🏆 Leaderboard
             </x-responsive-nav-link>
         </div>
 

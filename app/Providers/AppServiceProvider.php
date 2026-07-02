@@ -11,8 +11,10 @@ use App\Listeners\AwardResolvedPoints;
 use App\Listeners\CheckAndAwardBadges;
 use App\Models\Report;
 use App\Models\Event;
+use App\Models\Article;
 use App\Policies\ReportPolicy;
 use App\Policies\EventPolicy;
+use App\Policies\ArticlePolicy;
 use Illuminate\Support\Facades\Event as EventFacade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -34,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
         EventFacade::listen(ReportResolved::class,  CheckAndAwardBadges::class);
 
         // ── Policies ────────────────────────────────────────────────────────
-        Gate::policy(Report::class, ReportPolicy::class);
-        Gate::policy(Event::class,  EventPolicy::class);
+        Gate::policy(Report::class,  ReportPolicy::class);
+        Gate::policy(Event::class,   EventPolicy::class);
+        Gate::policy(Article::class, ArticlePolicy::class);
     }
 }

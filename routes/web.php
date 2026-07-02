@@ -3,15 +3,17 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Relawan\RelawanVerificationController;
 use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\GamificationController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// ── Landing Page ───────────────────────────────────────────────────────────
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/api/stats', [HomeController::class, 'apiStats'])->name('api.home-stats');
 
 // ── Public Routes ──────────────────────────────────────────────────────────
 Route::get('/peta',         [MapController::class, 'index'])->name('peta');
@@ -22,8 +24,12 @@ Route::get('/komunitas/leaderboard', [GamificationController::class, 'leaderboar
 Route::get('/profil/{user}',         [GamificationController::class, 'profile'])->name('profil');
 
 // Event (public read)
-Route::get('/komunitas/event',        [EventController::class, 'index'])->name('event.index');
+Route::get('/komunitas/event',         [EventController::class, 'index'])->name('event.index');
 Route::get('/komunitas/event/{event}', [EventController::class, 'show'])->name('event.show');
+
+// Artikel (public read)
+Route::get('/artikel',         [ArticleController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{slug}',  [ArticleController::class, 'show'])->name('artikel.show');
 
 
 Route::get('/dashboard', function () {
@@ -49,6 +55,12 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:relawan|pemerintah|admin')->group(function () {
         Route::get('/komunitas/event/create',  [EventController::class, 'create'])->name('event.create');
         Route::post('/komunitas/event',        [EventController::class, 'store'])->name('event.store');
+    });
+
+    // ── Artikel: create & store (admin & pemerintah) ──────────────
+    Route::middleware('role:admin|pemerintah')->group(function () {
+        Route::get('/artikel/create', [ArticleController::class, 'create'])->name('artikel.create');
+        Route::post('/artikel',       [ArticleController::class, 'store'])->name('artikel.store');
     });
 
     // ── Relawan Area ──────────────────────────────────────────────
