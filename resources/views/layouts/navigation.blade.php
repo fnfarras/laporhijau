@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('peta')" :active="request()->routeIs('peta')">
                         {{ __('Peta') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('event.index')" :active="request()->routeIs('event.*')">
+                        🌿 {{ __('Event') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
                         🏆 {{ __('Leaderboard') }}
                     </x-nav-link>

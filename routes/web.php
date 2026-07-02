@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\Relawan\RelawanVerificationController;
 use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
 use App\Http\Controllers\MapController;
@@ -12,13 +13,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Interactive map routes (public)
-Route::get('/peta', [MapController::class, 'index'])->name('peta');
+// ── Public Routes ──────────────────────────────────────────────────────────
+Route::get('/peta',         [MapController::class, 'index'])->name('peta');
 Route::get('/api/map-data', [MapController::class, 'getData'])->name('api.map-data');
 
 // Gamification (public)
 Route::get('/komunitas/leaderboard', [GamificationController::class, 'leaderboard'])->name('leaderboard');
-Route::get('/profil/{user}', [GamificationController::class, 'profile'])->name('profil');
+Route::get('/profil/{user}',         [GamificationController::class, 'profile'])->name('profil');
+
+// Event (public read)
+Route::get('/komunitas/event',        [EventController::class, 'index'])->name('event.index');
+Route::get('/komunitas/event/{event}', [EventController::class, 'show'])->name('event.show');
 
 
 Route::get('/dashboard', function () {
@@ -38,6 +43,13 @@ Route::middleware('auth')->group(function () {
 
     // ── Masyarakat Area ───────────────────────────────────────────
     Route::get('/masyarakat/laporan', [ReportController::class, 'index'])->name('masyarakat.laporan');
+
+    // ── Event: create (relawan & pemerintah) + rsvp (semua auth) ──
+    Route::post('/komunitas/event/{event}/rsvp', [EventController::class, 'rsvp'])->name('event.rsvp');
+    Route::middleware('role:relawan|pemerintah|admin')->group(function () {
+        Route::get('/komunitas/event/create',  [EventController::class, 'create'])->name('event.create');
+        Route::post('/komunitas/event',        [EventController::class, 'store'])->name('event.store');
+    });
 
     // ── Relawan Area ──────────────────────────────────────────────
     Route::middleware('role:relawan')->prefix('relawan')->name('relawan.')->group(function () {

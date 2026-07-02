@@ -8,13 +8,14 @@ use App\Events\ReportResolved;
 use App\Listeners\AwardReportSubmitPoints;
 use App\Listeners\AwardVerificationPoints;
 use App\Listeners\AwardResolvedPoints;
+use App\Listeners\CheckAndAwardBadges;
 use App\Models\Report;
+use App\Models\Event;
 use App\Policies\ReportPolicy;
-use Illuminate\Support\Facades\Event;
+use App\Policies\EventPolicy;
+use Illuminate\Support\Facades\Event as EventFacade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-
-use App\Listeners\CheckAndAwardBadges;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,17 +23,18 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Event & Listener — sistem poin via event (bukan hardcode di controller)
-        Event::listen(ReportSubmitted::class, AwardReportSubmitPoints::class);
-        Event::listen(ReportVerified::class,  AwardVerificationPoints::class);
-        Event::listen(ReportResolved::class,  AwardResolvedPoints::class);
+        // ── Events & Listeners: sistem poin (bukan hardcode di controller) ──
+        EventFacade::listen(ReportSubmitted::class, AwardReportSubmitPoints::class);
+        EventFacade::listen(ReportVerified::class,  AwardVerificationPoints::class);
+        EventFacade::listen(ReportResolved::class,  AwardResolvedPoints::class);
 
-        // Badge check — jalankan setelah setiap event poin
-        Event::listen(ReportSubmitted::class, CheckAndAwardBadges::class);
-        Event::listen(ReportVerified::class,  CheckAndAwardBadges::class);
-        Event::listen(ReportResolved::class,  CheckAndAwardBadges::class);
+        // ── Badge check setelah setiap event poin ───────────────────────────
+        EventFacade::listen(ReportSubmitted::class, CheckAndAwardBadges::class);
+        EventFacade::listen(ReportVerified::class,  CheckAndAwardBadges::class);
+        EventFacade::listen(ReportResolved::class,  CheckAndAwardBadges::class);
 
-        // Policy
+        // ── Policies ────────────────────────────────────────────────────────
         Gate::policy(Report::class, ReportPolicy::class);
+        Gate::policy(Event::class,  EventPolicy::class);
     }
 }
