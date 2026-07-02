@@ -126,6 +126,22 @@
                     </h3>
                     <p class="text-xs text-gray-500 mb-4">Klik tombol GPS atau klik langsung pada peta untuk menentukan lokasi.</p>
 
+                    {{-- Geocoding Search Box (Nominatim - Gratis) --}}
+                    <div class="relative mb-3" id="geocode-container">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1.5">🔍 Cari Alamat (ketik lalu tekan Enter)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="geocode-input"
+                                   placeholder="cth: Jl. Sudirman, Pekanbaru atau nama tempat..."
+                                   class="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <button type="button" onclick="geocodeAddress()"
+                                    class="px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-all">
+                                Cari
+                            </button>
+                        </div>
+                        <div id="geocode-results" class="absolute z-50 w-full bg-white border border-gray-200 rounded-xl shadow-lg mt-1 hidden max-h-48 overflow-y-auto"></div>
+                        <p class="text-[10px] text-gray-400 mt-1">Powered by OpenStreetMap Nominatim — Gratis & tanpa API key</p>
+                    </div>
+
                     {{-- GPS Button --}}
                     <button
                         type="button"
@@ -142,6 +158,7 @@
 
                     {{-- Leaflet Map --}}
                     <div id="map" class="mb-4 border border-gray-200"></div>
+
 
                     {{-- Address --}}
                     <div class="mb-4">
@@ -247,7 +264,7 @@
 
             const map = L.map('map').setView([defaultLat, defaultLng], 13);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
@@ -362,6 +379,82 @@
                 renderPreviews();
             }
 
+            // ── Geocoding dengan Nominatim (Gratis, tanpa API key) ─────────
+            let geocodeTimeout = null;
+
+            document.getElementById('geocode-input').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault(); geocodeAddress(); }
+            });
+
+            document.getElementById('geocode-input').addEventListener('input', function() {
+                clearTimeout(geocodeTimeout);
+                const q = this.value.trim();
+                if (q.length < 3) { document.getElementById('geocode-results').classList.add('hidden'); return; }
+                geocodeTimeout = setTimeout(() => geocodeAddress(false), 500);
+            });
+
+            async function geocodeAddress(fly = true) {
+                const input = document.getElementById('geocode-input').value.trim();
+                if (!input) return;
+
+                const resultsEl = document.getElementById('geocode-results');
+                resultsEl.innerHTML = '<div class="px-3 py-2 text-xs text-gray-400 animate-pulse">🔍 Mencari...</div>';
+                resultsEl.classList.remove('hidden');
+
+                try {
+                    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(input)}&countrycodes=id&limit=5`;
+                    const res = await fetch(url, { headers: { 'Accept-Language': 'id' } });
+                    const data = await res.json();
+
+                    if (!data.length) {
+                        resultsEl.innerHTML = '<div class="px-3 py-2 text-xs text-red-400">Lokasi tidak ditemukan. Coba kata kunci lain.</div>';
+                        return;
+                    }
+
+                    resultsEl.innerHTML = data.map(item => `
+                        <div class="geocode-item px-3 py-2.5 text-xs text-gray-700 hover:bg-green-50 cursor-pointer border-b border-gray-100 last:border-0 transition-colors"
+                             data-lat="${item.lat}" data-lng="${item.lon}" data-name="${item.display_name}">
+                            <span class="text-green-600 mr-1">📍</span>${item.display_name}
+                        </div>
+                    `).join('');
+
+                    // Auto-fly ke hasil pertama jika tekan Cari
+                    if (fly) {
+                        const first = data[0];
+                        flyToLocation(parseFloat(first.lat), parseFloat(first.lon), first.display_name);
+                        if (data.length === 1) resultsEl.classList.add('hidden');
+                    }
+
+                    // Click handler untuk setiap hasil
+                    resultsEl.querySelectorAll('.geocode-item').forEach(el => {
+                        el.addEventListener('click', () => {
+                            flyToLocation(parseFloat(el.dataset.lat), parseFloat(el.dataset.lng), el.dataset.name);
+                            document.getElementById('geocode-input').value = el.dataset.name.split(',')[0];
+                            resultsEl.classList.add('hidden');
+                        });
+                    });
+                } catch(err) {
+                    resultsEl.innerHTML = '<div class="px-3 py-2 text-xs text-red-400">Error: tidak bisa terhubung ke layanan geocoding.</div>';
+                }
+            }
+
+            function flyToLocation(lat, lng, name) {
+                setMarker(lat, lng);
+                map.flyTo([lat, lng], 16, { duration: 1.2 });
+                // Auto-isi field address jika masih kosong
+                const addrInput = document.getElementById('address');
+                if (!addrInput.value) {
+                    addrInput.value = name.split(',').slice(0, 3).join(',').trim();
+                }
+            }
+
+            // Tutup dropdown jika klik di luar
+            document.addEventListener('click', function(e) {
+                if (!document.getElementById('geocode-container').contains(e.target)) {
+                    document.getElementById('geocode-results').classList.add('hidden');
+                }
+            });
+
             // ── Form submit loading state ──────────────────────────────────
             document.getElementById('report-form').addEventListener('submit', function() {
                 const btn = document.getElementById('submit-btn');
@@ -375,3 +468,4 @@
         </script>
     @endpush
 </x-app-layout>
+

@@ -7,6 +7,26 @@
 
         <title>{{ config('app.name', 'LaporHijau') }} — @yield('title', 'Platform Laporan Lingkungan')</title>
 
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="@yield('meta_description', 'LaporHijau — Platform civic tech untuk pelaporan, pemantauan, dan penanganan masalah lingkungan hidup secara kolaboratif di Indonesia.')">
+        <meta name="keywords" content="laporan lingkungan, civic tech, lingkungan hidup, sampah, banjir, komunitas, relawan">
+        <meta name="author" content="LaporHijau">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="{{ url()->current() }}">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="@yield('title', 'LaporHijau — Platform Lingkungan Komunitas')">
+        <meta property="og:description" content="@yield('meta_description', 'Platform civic tech untuk pelaporan masalah lingkungan di Indonesia.')">
+        <meta property="og:site_name" content="LaporHijau">
+        <meta property="og:locale" content="id_ID">
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="@yield('title', 'LaporHijau')">
+        <meta name="twitter:description" content="@yield('meta_description', 'Platform pelaporan masalah lingkungan Indonesia.')">
+
         <!-- Plus Jakarta Sans — design system LaporHijau -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +37,7 @@
 
         <!-- Extra styles (Leaflet, dll) -->
         @stack('styles')
+
     </head>
     <body class="font-sans antialiased bg-gray-50">
         <div class="min-h-screen">

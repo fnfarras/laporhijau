@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     @section('title', 'Buat Event - LaporHijau')
 
     @push('styles')
@@ -158,8 +158,8 @@
             const defaultLng = {{ old('longitude', 101.4506) }};
 
             map = L.map('create-map').setView([defaultLat, defaultLng], 12);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap © CARTO'
             }).addTo(map);
 
             // Restore existing marker from old()
@@ -222,3 +222,4 @@
     </script>
     @endpush
 </x-app-layout>
+

@@ -1,4 +1,4 @@
-<x-app-layout>
+﻿<x-app-layout>
     @section('title', $event->title . ' - LaporHijau')
 
     @push('styles')
@@ -254,8 +254,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const map = L.map('event-map').setView([{{ $event->latitude }}, {{ $event->longitude }}], 15);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap © CARTO'
             }).addTo(map);
 
             const icon = L.divIcon({
@@ -293,3 +293,4 @@
     </script>
     @endpush
 </x-app-layout>
+

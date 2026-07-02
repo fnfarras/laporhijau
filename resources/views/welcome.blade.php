@@ -20,6 +20,7 @@
         /* ── Counter animasi ── */
         @keyframes countUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .counter-in { animation: countUp 0.5s ease forwards; }
+        .counter-num { display: inline-block; transition: all 0.3s ease; }
 
         /* ── Cards ── */
         .how-card { transition: transform 0.25s, box-shadow 0.25s; }
@@ -114,23 +115,23 @@
                     </a>
                 </div>
 
-                {{-- Impact Counter ── Alpine.js live update tiap 30 detik --}}
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                {{-- Impact Counter ── Alpine.js live update + count-up animasi --}}
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto" id="counter-grid">
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 text-center">
-                        <p class="text-2xl font-black text-gray-900 counter-in" x-text="stats.total_laporan">{{ $stats['total_laporan'] }}</p>
-                        <p class="text-xs text-gray-500 font-medium mt-0.5">Laporan Masuk</p>
+                        <p class="text-2xl font-black text-gray-900 counter-num" id="cnt-laporan" data-target="{{ $stats['total_laporan'] }}">0</p>
+                        <p class="text-xs text-gray-500 font-medium mt-0.5">📋 Laporan Masuk</p>
                     </div>
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 text-center">
-                        <p class="text-2xl font-black text-green-600 counter-in" x-text="stats.laporan_selesai">{{ $stats['laporan_selesai'] }}</p>
-                        <p class="text-xs text-gray-500 font-medium mt-0.5">Laporan Selesai</p>
+                        <p class="text-2xl font-black text-green-600 counter-num" id="cnt-selesai" data-target="{{ $stats['laporan_selesai'] }}">0</p>
+                        <p class="text-xs text-gray-500 font-medium mt-0.5">🎉 Laporan Selesai</p>
                     </div>
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 text-center">
-                        <p class="text-2xl font-black text-sky-600 counter-in" x-text="stats.relawan_aktif">{{ $stats['relawan_aktif'] }}</p>
-                        <p class="text-xs text-gray-500 font-medium mt-0.5">Relawan Aktif</p>
+                        <p class="text-2xl font-black text-sky-600 counter-num" id="cnt-relawan" data-target="{{ $stats['relawan_aktif'] }}">0</p>
+                        <p class="text-xs text-gray-500 font-medium mt-0.5">🌿 Relawan Aktif</p>
                     </div>
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 text-center">
-                        <p class="text-2xl font-black text-amber-600 counter-in" x-text="stats.artikel">{{ $stats['artikel'] }}</p>
-                        <p class="text-xs text-gray-500 font-medium mt-0.5">Artikel Edukasi</p>
+                        <p class="text-2xl font-black text-amber-600 counter-num" id="cnt-artikel" data-target="{{ $stats['artikel'] }}">0</p>
+                        <p class="text-xs text-gray-500 font-medium mt-0.5">📚 Artikel Edukasi</p>
                     </div>
                 </div>
             </div>
@@ -363,6 +364,37 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // ── Count-Up Animation ──────────────────────────────────────────────
+        function animateCounter(el, target, duration = 1200) {
+            const start = performance.now();
+            const startVal = 0;
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(startVal + (target - startVal) * eased);
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Trigger count-up saat counter grid masuk viewport
+        const counterGrid = document.getElementById('counter-grid');
+        if (counterGrid) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.counter-num').forEach(el => {
+                            animateCounter(el, parseInt(el.dataset.target || '0'));
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            observer.observe(counterGrid);
+        }
+
         function landingApp() {
             return {
                 stats: {
@@ -383,7 +415,15 @@
                 async fetchStats() {
                     try {
                         const r = await fetch('/api/stats');
-                        if (r.ok) this.stats = await r.json();
+                        if (r.ok) {
+                            this.stats = await r.json();
+                            // Re-animate counters setelah data update
+                            ['total_laporan','laporan_selesai','relawan_aktif','artikel'].forEach(key => {
+                                const ids = {total_laporan:'cnt-laporan',laporan_selesai:'cnt-selesai',relawan_aktif:'cnt-relawan',artikel:'cnt-artikel'};
+                                const el = document.getElementById(ids[key]);
+                                if (el) animateCounter(el, this.stats[key], 600);
+                            });
+                        }
                     } catch(e) {}
                 },
 
@@ -391,8 +431,10 @@
                     const map = L.map('home-map', { zoomControl: true, scrollWheelZoom: false })
                         .setView([0.5096, 101.4506], 11);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap'
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                        attribution: '&copy; OpenStreetMap &copy; CARTO',
+                        subdomains: 'abcd',
+                        maxZoom: 19
                     }).addTo(map);
 
                     const statusColors = {
@@ -426,3 +468,4 @@
     </script>
 </body>
 </html>
+
