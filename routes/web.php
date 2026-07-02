@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Relawan\RelawanVerificationController;
+use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +36,19 @@ Route::middleware('auth')->group(function () {
         Route::post('/laporan/{report}/verify', [RelawanVerificationController::class, 'verify'])->name('verify');
         Route::post('/laporan/{report}/reject', [RelawanVerificationController::class, 'reject'])->name('reject');
     });
+
+    // ── Pemerintah Area ───────────────────────────────────────────
+    Route::middleware('role:pemerintah')->prefix('pemerintah')->name('pemerintah.')->group(function () {
+        Route::get('/dashboard',                       [PemerintahDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/laporan',                         [PemerintahDashboardController::class, 'reports'])->name('laporan');
+        Route::post('/laporan/{report}/update-status', [PemerintahDashboardController::class, 'updateStatus'])->name('update-status');
+
+        // API untuk Chart.js (masih dalam middleware auth)
+        Route::get('/api/stats',          [PemerintahDashboardController::class, 'apiStats'])->name('api.stats');
+        Route::get('/api/chart/trend',    [PemerintahDashboardController::class, 'apiChartTrend'])->name('api.chart.trend');
+        Route::get('/api/chart/kategori', [PemerintahDashboardController::class, 'apiChartKategori'])->name('api.chart.kategori');
+    });
 });
 
 require __DIR__.'/auth.php';
+

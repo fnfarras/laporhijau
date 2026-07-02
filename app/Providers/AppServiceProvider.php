@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Events\ReportSubmitted;
 use App\Events\ReportVerified;
+use App\Events\ReportResolved;
 use App\Listeners\AwardReportSubmitPoints;
 use App\Listeners\AwardVerificationPoints;
+use App\Listeners\AwardResolvedPoints;
 use App\Models\Report;
 use App\Policies\ReportPolicy;
 use Illuminate\Support\Facades\Event;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         // Event & Listener — sistem poin via event (bukan hardcode di controller)
         Event::listen(ReportSubmitted::class, AwardReportSubmitPoints::class);
         Event::listen(ReportVerified::class,  AwardVerificationPoints::class);
+        Event::listen(ReportResolved::class,  AwardResolvedPoints::class);
 
         // Policy
         Gate::policy(Report::class, ReportPolicy::class);
