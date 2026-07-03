@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+      x-data="darkModeApp()"
+      x-init="initDark()"
+      :class="{ 'dark': dark }">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,13 +42,13 @@
         @stack('styles')
 
     </head>
-    <body class="font-sans antialiased bg-gray-50">
+    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="min-h-screen">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white border-b border-gray-200">
+                <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors">
                     <div class="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -79,5 +82,28 @@
 
         <!-- Extra scripts (Leaflet, dll) -->
         @stack('scripts')
+
+        <!-- Dark Mode Alpine.js Controller -->
+        <script>
+            function darkModeApp() {
+                return {
+                    dark: false,
+                    initDark() {
+                        // Baca preferensi dari localStorage
+                        const saved = localStorage.getItem('laporhijau-dark');
+                        if (saved !== null) {
+                            this.dark = saved === 'true';
+                        } else {
+                            // Deteksi preferensi sistem operasi
+                            this.dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        }
+                    },
+                    toggleDark() {
+                        this.dark = !this.dark;
+                        localStorage.setItem('laporhijau-dark', this.dark);
+                    }
+                }
+            }
+        </script>
     </body>
 </html>
