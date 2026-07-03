@@ -15,23 +15,23 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name'              => 'Masyarakat Demo',
+                'name'              => 'Ahmad Fauzi',
                 'email'             => 'masyarakat@laporhijau.test',
                 'password'          => Hash::make('password'),
-                'points'            => 0,
+                'points'            => 170,
                 'email_verified_at' => now(),
                 'role'              => 'masyarakat',
             ],
             [
-                'name'              => 'Relawan Demo',
+                'name'              => 'Siti Rahayu',
                 'email'             => 'relawan@laporhijau.test',
                 'password'          => Hash::make('password'),
-                'points'            => 0,
+                'points'            => 420,
                 'email_verified_at' => now(),
                 'role'              => 'relawan',
             ],
             [
-                'name'              => 'Pemerintah Demo',
+                'name'              => 'Dinas Lingkungan Hidup Pekanbaru',
                 'email'             => 'pemerintah@laporhijau.test',
                 'password'          => Hash::make('password'),
                 'points'            => 0,
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
             $role = $userData['role'];
             unset($userData['role']);
 
-            $user = User::firstOrCreate(
+            $user = User::updateOrCreate(
                 ['email' => $userData['email']],
                 $userData
             );

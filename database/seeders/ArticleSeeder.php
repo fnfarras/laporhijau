@@ -19,163 +19,77 @@ class ArticleSeeder extends Seeder
                 'author' => $admin,
                 'title'    => '7 Cara Mudah Mengurangi Sampah Plastik di Rumah',
                 'category' => 'Tips Lingkungan',
-                'content'  => '<p>Sampah plastik menjadi salah satu masalah lingkungan terbesar yang dihadapi Indonesia saat ini. Setiap tahun, jutaan ton sampah plastik berakhir di lautan dan mengganggu ekosistem laut. Namun, kita bisa mulai dari hal-hal kecil di rumah untuk menguranginya.</p>
+                'content'  => '<p>Sampah plastik sekali pakai telah menjadi krisis global yang mengancam keberlangsungan ekosistem bumi, tidak terkecuali di Indonesia di mana jutaan ton sampah berakhir di tempat pembuangan akhir dan mencemari ekosistem perairan setiap tahunnya. Akumulasi sampah plastik yang sulit terurai secara alami membutuhkan ratusan tahun untuk terfragmentasi menjadi mikroplastik yang berbahaya bagi kesehatan. Oleh karena itu, kesadaran dan tindakan nyata untuk mengurangi konsumsi plastik harus segera dimulai dari lingkup terkecil, yaitu dari kebiasaan harian kita di dalam rumah.</p>
 
-<h2>1. Bawa Tas Belanja Sendiri</h2>
-<p>Kebiasaan membawa tas belanja reusable adalah langkah pertama yang paling mudah. Simpan tas kain di dalam tas atau mobil agar selalu siap digunakan saat berbelanja.</p>
+<p>Salah satu langkah awal yang sangat efektif adalah dengan selalu membawa kantong belanja ramah lingkungan yang terbuat dari kain atau bahan daur ulang ketika bepergian. Dengan menolak penggunaan kantong plastik kresek dari toko ritel atau pasar tradisional, kita secara langsung memutus rantai pasokan sampah plastik harian. Menyimpan beberapa kantong kain cadangan di dalam kendaraan atau tas kerja akan memastikan kita selalu siap berbelanja tanpa perlu meminta kantong plastik baru.</p>
 
-<h2>2. Gunakan Botol Minum Isi Ulang</h2>
-<p>Mengganti botol plastik sekali pakai dengan botol stainless steel atau kaca dapat menghemat ratusan botol plastik per tahun. Investasi kecil dengan dampak besar bagi lingkungan.</p>
+<p>Selanjutnya, beralihlah ke botol minum (tumbler) dan wadah makanan isi ulang yang tahan lama. Penggunaan botol plastik sekali pakai saat bekerja, sekolah, atau berolahraga menyumbang persentase limbah yang sangat besar. Memilih tumbler berbahan stainless steel atau kaca yang aman tidak hanya ramah lingkungan tetapi juga lebih higienis dan ekonomis dalam jangka panjang karena kita tidak perlu terus-menerus membeli air kemasan sekali pakai.</p>
 
-<h2>3. Pilih Produk dengan Kemasan Minimal</h2>
-<p>Saat berbelanja, pilih produk yang menggunakan kemasan lebih sedikit atau kemasan yang dapat didaur ulang. Beberapa produk sabun dan shampo kini tersedia dalam bentuk batang yang tidak memerlukan kemasan plastik.</p>
+<p>Langkah keempat yang tidak kalah penting adalah memilah sampah rumah tangga secara konsisten antara sampah organik, anorganik, dan sampah berbahaya. Sampah dapur seperti sisa makanan dan kulit buah dapat diolah menjadi kompos mandiri yang sangat baik untuk nutrisi tanaman di pekarangan rumah. Sementara itu, sampah plastik yang bersih dan kering dapat dikumpulkan untuk disalurkan ke bank sampah terdekat atau industri daur ulang setempat guna memberikan nilai ekonomi baru.</p>
 
-<h2>4. Kompos dari Sampah Organik</h2>
-<p>Pisahkan sampah organik dari sampah anorganik. Sampah dapur seperti kulit buah dan sayuran dapat diolah menjadi kompos yang bermanfaat untuk tanaman.</p>
-
-<h2>5. Tolak Sedotan Plastik</h2>
-<p>Saat memesan minuman di kafe atau restoran, biasakan untuk menolak sedotan plastik. Tersedia alternatif ramah lingkungan seperti sedotan bambu, stainless steel, atau kertas.</p>
-
-<h2>6. Daur Ulang dengan Benar</h2>
-<p>Pelajari cara memilah sampah yang benar di daerahmu. Plastik jenis PET (biasanya untuk botol air minum) dan HDPE (galon, botol sabun) adalah yang paling mudah didaur ulang.</p>
-
-<h2>7. Edukasi Keluarga dan Tetangga</h2>
-<p>Perubahan dimulai dari diri sendiri dan keluarga. Ajak anggota keluarga dan tetangga untuk sadar akan pentingnya mengurangi sampah plastik. Bersama-sama, dampaknya akan jauh lebih besar.</p>
-
-<p><strong>Kesimpulan:</strong> Mengurangi sampah plastik bukan berarti harus zero waste dalam semalam. Mulailah dengan satu atau dua perubahan kecil, lalu tingkatkan secara bertahap. Setiap tindakan kecil kita berkontribusi pada lingkungan yang lebih sehat untuk generasi mendatang.</p>',
+<p>Terakhir, kita perlu aktif mengedukasi anggota keluarga, tetangga, dan lingkungan sosial terdekat mengenai bahaya nyata dari pencemaran plastik. Mengajak mereka menolak penggunaan sedotan plastik, alat makan sekali pakai, serta memilih produk dengan kemasan yang minimal merupakan kontribusi kolektif yang berdampak besar. Dengan konsistensi melakukan langkah-langkah kecil ini secara bersama-sama, kita dapat menciptakan masa depan lingkungan yang lebih bersih, hijau, dan lestari untuk generasi mendatang.</p>',
             ],
             [
                 'author' => $pemerintah,
                 'title'    => 'Mengenal UU No. 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup',
                 'category' => 'Regulasi',
-                'content'  => '<p>Undang-Undang Nomor 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup (UUPPLH) merupakan payung hukum utama perlindungan lingkungan di Indonesia. Undang-undang ini menggantikan UU No. 23 Tahun 1997 dan memberikan kerangka hukum yang lebih komprehensif.</p>
+                'content'  => '<p>Undang-Undang Nomor 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup (UU PPLH) merupakan payung hukum utama yang komprehensif dalam mengawal kelestarian lingkungan di wilayah Negara Kesatuan Republik Indonesia. Undang-undang ini dirancang untuk menjawab tantangan pemanasan global, penurunan kualitas lingkungan, serta eksploitasi sumber daya alam secara berlebihan yang mengancam daya dukung lingkungan. UU PPLH secara tegas mengamanatkan bahwa pembangunan nasional harus diselenggarakan berdasarkan prinsip berkelanjutan dan berwawasan lingkungan.</p>
 
-<h2>Pokok-Pokok Pengaturan</h2>
-<p>UUPPLH mengatur berbagai aspek penting dalam pengelolaan lingkungan hidup, antara lain:</p>
-<ul>
-<li><strong>Perencanaan</strong>: Inventarisasi lingkungan hidup, RPPLH, dan KLHS</li>
-<li><strong>Pemanfaatan</strong>: Eksploitasi sumber daya alam yang berkelanjutan</li>
-<li><strong>Pengendalian</strong>: AMDAL, UKL-UPL, dan izin lingkungan</li>
-<li><strong>Pemeliharaan</strong>: Konservasi dan pencegahan kerusakan</li>
-<li><strong>Pengawasan</strong>: Pejabat pengawas lingkungan hidup</li>
-<li><strong>Penegakan hukum</strong>: Sanksi administratif, perdata, dan pidana</li>
-</ul>
+<p>Salah satu aspek terpenting dari regulasi ini adalah penguatan instrumen pencegahan pencemaran dan perusakan lingkungan hidup. Pemerintah diwajibkan menyusun Kajian Lingkungan Hidup Strategis (KLHS) serta menerapkan Analisis Mengenai Dampak Lingkungan (AMDAL) secara ketat bagi setiap rencana usaha atau kegiatan yang berpotensi menimbulkan dampak penting. Melalui instrumen-instrumen evaluasi preventif ini, kelayakan lingkungan dari suatu proyek industri dapat dipantau dan dipertanggungjawabkan sebelum perizinan resmi diterbitkan.</p>
 
-<h2>Hak dan Kewajiban Warga</h2>
-<p>Setiap orang berhak atas lingkungan hidup yang baik dan sehat. Sebaliknya, setiap orang juga berkewajiban memelihara kelestarian lingkungan dan mencegah kerusakan.</p>
+<p>UU PPLH juga memberikan jaminan perlindungan hukum yang kuat bagi setiap warga negara yang memperjuangkan hak atas lingkungan hidup yang baik dan sehat. Pasal 66 undang-undang ini secara khusus mengatur bahwa setiap orang yang memperjuangkan hak atas lingkungan hidup yang baik dan sehat tidak dapat dituntut secara pidana maupun digugat secara perdata. Hal ini memberikan ruang aman bagi masyarakat, aktivis, maupun jurnalis lingkungan untuk berpartisipasi aktif dalam melakukan pengawasan dan melaporkan dugaan pencemaran tanpa takut akan intimidasi hukum.</p>
 
-<h2>Sanksi Pidana</h2>
-<p>UUPPLH memberikan sanksi pidana yang cukup berat bagi pelaku pencemaran dan perusakan lingkungan, termasuk penjara hingga 15 tahun dan denda hingga Rp 15 miliar.</p>
+<p>Di samping hak perlindungan, undang-undang ini juga mengatur sanksi pidana dan denda administratif yang berat bagi korporasi maupun individu yang terbukti melakukan pencemaran atau perusakan lingkungan secara sengaja maupun karena kelalaian. Pelaku pembakaran lahan hutan secara ilegal, pembuangan limbah beracun ke sungai, atau perusakan kawasan lindung dapat dijerat hukuman penjara hingga belasan tahun serta denda miliaran rupiah. Penegakan hukum yang tegas ini bertujuan untuk memberikan efek jera yang nyata serta menuntut pertanggungjawaban pemulihan lingkungan dari pihak yang merusak.</p>
 
-<p>Pemahaman terhadap regulasi ini penting bagi masyarakat agar dapat berpartisipasi aktif dalam pengawasan lingkungan dan melaporkan pelanggaran yang terjadi di sekitar mereka.</p>',
+<p>Secara keseluruhan, UU No. 32 Tahun 2009 menekankan pentingnya sinergi antara pemerintah pusat, pemerintah daerah, pelaku usaha, dan seluruh elemen masyarakat dalam menjaga kelestarian bumi. Pengelolaan lingkungan hidup bukanlah tugas tunggal instansi pemerintah, melainkan tanggung jawab bersama. Dengan memahami hak, kewajiban, dan regulasi yang ada, masyarakat diharapkan dapat menjadi garda terdepan dalam melaporkan setiap tindakan ilegal yang merusak alam demi keberlanjutan masa depan bangsa.</p>',
             ],
             [
                 'author' => $admin,
                 'title'    => 'Kompos dari Sampah Dapur: Panduan Lengkap untuk Pemula',
                 'category' => 'Daur Ulang',
-                'content'  => '<p>Membuat kompos dari sampah dapur adalah salah satu cara paling efektif untuk mengurangi sampah rumah tangga sekaligus menghasilkan pupuk organik berkualitas tinggi. Proses ini mudah dilakukan bahkan di rumah dengan lahan terbatas.</p>
+                'content'  => '<p>Membuat kompos secara mandiri dari sisa-sisa bahan dapur merupakan salah satu kontribusi nyata yang paling mudah dilakukan oleh setiap rumah tangga untuk menekan volume sampah yang dibuang ke tempat pembuangan akhir (TPA). Hampir separuh dari total produksi sampah harian rumah tangga kita merupakan material organik yang sebenarnya memiliki potensi nutrisi tinggi bagi tanah jika diolah dengan tepat. Dengan merubah sampah dapur menjadi pupuk kompos, kita tidak hanya mengurangi emisi gas metana dari penumpukan limbah basah, tetapi juga memperoleh pasokan pupuk organik gratis yang berkualitas tinggi.</p>
 
-<h2>Mengapa Membuat Kompos?</h2>
-<p>Sekitar 60% sampah rumah tangga di Indonesia adalah sampah organik yang sebenarnya bisa diolah menjadi kompos. Dengan membuat kompos, kita mengurangi volume sampah ke TPA, menghemat biaya pembelian pupuk, dan membantu tanaman tumbuh lebih sehat.</p>
+<p>Langkah pertama dalam pembuatan kompos adalah menyiapkan wadah komposter yang memadai, seperti ember plastik besar yang telah dilubangi kecil-kecil di bagian bawah dan samping untuk sirkulasi udara, atau lubang khusus di pekarangan rumah jika lahan mencukupi. Penempatan komposter di area yang teduh namun memiliki ventilasi udara yang baik sangat penting agar suhu di dalam wadah tetap terjaga selama proses dekomposisi berlangsung. Penggunaan alas berupa tanah gembur atau kompos lama pada bagian terbawah wadah akan membantu mempercepat aktivitas mikroba pengurai.</p>
 
-<h2>Bahan yang Bisa Dikompos</h2>
-<p><strong>Bahan hijau (nitrogen tinggi):</strong></p>
-<ul>
-<li>Sisa sayuran dan buah</li>
-<li>Kulit telur</li>
-<li>Ampas kopi dan teh</li>
-<li>Potongan rumput segar</li>
-</ul>
+<p>Selanjutnya, penting bagi pemula untuk memahami klasifikasi bahan organik yang dimasukkan ke dalam komposter, yaitu perbandingan antara bahan hijau (sumber nitrogen) dan bahan cokelat (sumber karbon). Bahan hijau meliputi sisa sayuran, kulit buah, potongan rumput segar, serta ampas kopi atau teh, sementara bahan cokelat mencakup daun kering, ranting kecil, kertas koran bekas yang dicacah, serta serbuk gergaji. Rasio ideal yang direkomendasikan adalah tiga bagian bahan cokelat untuk setiap satu bagian bahan hijau guna mencegah kelembaban berlebih yang dapat memicu aroma tidak sedap.</p>
 
-<p><strong>Bahan coklat (karbon tinggi):</strong></p>
-<ul>
-<li>Dedaunan kering</li>
-<li>Kardus dan kertas bekas</li>
-<li>Ranting kecil</li>
-<li>Serbuk gergaji</li>
-</ul>
+<p>Proses pemeliharaan kompos relatif sederhana namun memerlukan konsistensi, di antaranya menjaga kelembaban tumpukan bahan agar tetap stabil seperti spons basah yang telah diperas airnya. Jika tumpukan terlalu kering, percikkan sedikit air secara merata; sebaliknya, jika terlalu basah atau berbau, tambahkan lebih banyak bahan cokelat kering lalu aduk secara merata. Pengadukan tumpukan kompos secara berkala setiap satu atau dua minggu sekali sangat dianjurkan untuk memasukkan oksigen baru yang dibutuhkan oleh bakteri pengurai aerobik.</p>
 
-<h2>Cara Membuat Kompos Sederhana</h2>
-<ol>
-<li>Siapkan wadah kompos (bisa ember bekas atau buat dari kayu)</li>
-<li>Campur bahan hijau dan coklat dengan rasio 1:3</li>
-<li>Tambahkan sedikit air agar lembab (tidak becek)</li>
-<li>Aduk setiap 1-2 minggu untuk sirkulasi udara</li>
-<li>Setelah 6-8 minggu, kompos siap digunakan</li>
-</ol>
-
-<h2>Tips Sukses Kompos</h2>
-<p>Pastikan tumpukan kompos selalu lembab seperti spons yang diperas. Hindari menambahkan daging, produk susu, atau minyak karena bisa menarik hama dan menimbulkan bau tidak sedap.</p>
-
-<p>Dengan konsistensi dan sedikit kesabaran, kamu akan memiliki "emas hijau" untuk tanamanmu dalam waktu singkat!</p>',
+<p>Setelah jangka waktu sekitar enam hingga delapan minggu, bahan-bahan organik di dalam wadah akan berubah bentuk menjadi material berwarna cokelat gelap kehitaman dengan tekstur menyerupai tanah gembur dan berbau alami seperti humus hutan. Hasil akhir inilah yang disebut sebagai pupuk kompos matang yang siap diaplikasikan langsung pada tanaman hias, pot sayuran, maupun kebun buah. Menggunakan kompos buatan sendiri tidak hanya menyuburkan tanaman tetapi juga memberikan kepuasan tersendiri karena kita telah berhasil menutup siklus daur ulang alami langsung dari dapur rumah kita.</p>',
             ],
             [
                 'author' => $pemerintah,
                 'title'    => 'Bahaya Limbah B3 dan Cara Melaporkannya ke Pihak Berwenang',
                 'category' => 'Edukasi',
-                'content'  => '<p>Limbah Bahan Berbahaya dan Beracun (B3) merupakan salah satu ancaman serius bagi kesehatan manusia dan lingkungan hidup. Mengenal jenis, bahaya, dan cara melaporkannya adalah langkah penting dalam menjaga lingkungan kita.</p>
+                'content'  => '<p>Limbah Bahan Berbahaya dan Beracun (B3) merupakan sisa suatu usaha atau kegiatan yang mengandung zat, energi, atau komponen lain yang karena sifat, konsentrasi, dan jumlahnya dapat mencemari lingkungan hidup serta membahayakan kesehatan manusia. Karakteristik limbah B3 yang meliputi sifat mudah meledak, mudah terbakar, reaktif, beracun, korosif, dan infeksius menuntut pengelolaan khusus sejak dihasilkan hingga tahap pemusnahan akhir. Kecerobohan dalam menangani limbah jenis ini dapat berakibat fatal bagi kelangsungan hidup ekosistem di sekitarnya.</p>
 
-<h2>Apa itu Limbah B3?</h2>
-<p>Limbah B3 adalah sisa suatu usaha yang mengandung zat berbahaya atau beracun yang karena sifat, konsentrasi, dan jumlahnya dapat mencemari dan membahayakan lingkungan hidup serta kesehatan manusia.</p>
+<p>Dalam kehidupan sehari-hari, masyarakat tanpa sadar sering menghasilkan limbah kategori B3 dari peralatan rumah tangga yang rusak atau habis pakai. Contoh nyata di antaranya adalah baterai bekas yang mengandung logam berat merkuri, lampu neon yang mengandung uap merkuri beracun, botol aerosol kosmetik yang mudah meledak, obat-obatan kedaluwarsa, serta sisa pelarut cat atau oli kendaraan bekas. Membuang barang-barang berbahaya ini secara sembarangan bersama dengan sampah domestik biasa ke TPA umum dapat memicu kebocoran zat kimia berbahaya yang meresap ke dalam air tanah dan mencemari sumur warga sekitar.</p>
 
-<h2>Contoh Limbah B3 Sehari-hari</h2>
-<ul>
-<li>Baterai bekas (mengandung merkuri dan kadmium)</li>
-<li>Cat dan pelarut bekas</li>
-<li>Oli motor bekas</li>
-<li>Lampu neon bekas (mengandung merkuri)</li>
-<li>Obat-obatan kedaluwarsa</li>
-<li>Produk elektronik rusak (e-waste)</li>
-</ul>
+<p>Paparan zat berbahaya dari limbah B3 yang tidak terkelola dengan baik dapat masuk ke dalam tubuh manusia melalui saluran pernapasan, kontak kulit, maupun rantai makanan yang terkontaminasi. Akumulasi logam berat seperti timbal, merkuri, dan kadmium di dalam tubuh dalam jangka panjang berpotensi merusak sistem saraf pusat, memicu gagal ginjal akut, merusak organ reproduksi, hingga menyebabkan kanker serta cacat lahir pada bayi. Oleh karena itu, edukasi mengenai bahaya limbah B3 dan pemisahan mutlak di tingkat rumah tangga harus menjadi prioritas utama komunitas.</p>
 
-<h2>Dampak Limbah B3 terhadap Kesehatan</h2>
-<p>Paparan limbah B3 dapat menyebabkan berbagai penyakit serius, mulai dari gangguan sistem saraf, kerusakan organ, hingga kanker. Anak-anak dan ibu hamil adalah kelompok paling rentan.</p>
+<p>Apabila masyarakat menemukan adanya tindakan pembuangan limbah industri atau B3 secara ilegal di lahan kosong, selokan, maupun daerah aliran sungai, tindakan cepat untuk melapor sangat diperlukan. Langkah pertama adalah mendokumentasikan temuan tersebut berupa foto atau video yang jelas mengenai tumpukan limbah dan plat nomor kendaraan pengangkut jika memungkinkan, serta mencatat koordinat lokasi kejadian secara presisi. Selanjutnya, laporan resmi dapat dikirimkan kepada Dinas Lingkungan Hidup setempat atau melalui portal pengaduan resmi Kementerian Lingkungan Hidup dan Kehutanan (KLHK).</p>
 
-<h2>Cara Melaporkan Pembuangan Limbah B3 Ilegal</h2>
-<ol>
-<li><strong>Dokumentasikan bukti</strong>: Foto atau video lokasi pembuangan</li>
-<li><strong>Catat lokasi</strong>: Koordinat GPS atau alamat lengkap</li>
-<li><strong>Lapor ke KLHK</strong>: Melalui aplikasi SIMPONI atau call center 1500-940</li>
-<li><strong>Lapor ke Dinas LH</strong>: Dinas Lingkungan Hidup setempat</li>
-<li><strong>Gunakan LaporHijau</strong>: Platform ini memudahkan pelaporan dengan foto dan GPS</li>
-</ol>
-
-<p>Jangan ragu untuk melapor! Pelaporan yang cepat dapat mencegah kerusakan lingkungan yang lebih parah dan melindungi kesehatan masyarakat sekitar.</p>',
+<p>Penggunaan platform pengaduan digital seperti LaporHijau juga sangat disarankan karena sistemnya yang terintegrasi secara langsung dengan peta interaktif dan notifikasi instan kepada instansi berwenang serta relawan setempat. Dengan melaporkan indikasi pelanggaran pengelolaan limbah secara cepat dan akurat, kita membantu mencegah terjadinya bencana pencemaran lingkungan yang lebih luas dan melindungi keselamatan ratusan jiwa di sekitar lokasi pembuangan. Peran aktif masyarakat dalam pengawasan adalah kunci utama terciptanya lingkungan yang bersih, aman, dan bebas dari bahaya racun limbah B3.</p>',
             ],
             [
                 'author' => $admin,
                 'title'    => 'Gerakan Zero Waste: Kisah Sukses Komunitas Peduli Lingkungan',
                 'category' => 'Inspirasi',
-                'content'  => '<p>Di tengah krisis sampah yang melanda berbagai kota di Indonesia, muncul cahaya harapan dari komunitas-komunitas kecil yang bergerak dengan filosofi zero waste. Mereka membuktikan bahwa perubahan nyata dimulai dari tingkat lokal.</p>
+                'content'  => '<p>Gerakan gaya hidup bebas sampah atau dikenal dengan sebutan "Zero Waste" kini bukan lagi sekadar tren gaya hidup melainkan gerakan perubahan sosial yang masif di berbagai penjuru dunia, termasuk di Indonesia. Gerakan ini menekankan prinsip desain ulang siklus hidup sumber daya agar semua produk dapat digunakan kembali secara optimal tanpa menyisakan sampah yang dibuang ke alam. Melalui pemahaman yang mendalam mengenai pentingnya pengurangan konsumsi barang sekali pakai, komunitas-komunitas lokal mulai membuktikan bahwa perubahan besar dapat diwujudkan melalui komitmen bersama.</p>
 
-<h2>Apa itu Zero Waste?</h2>
-<p>Zero waste bukan berarti benar-benar tidak menghasilkan sampah sama sekali, melainkan upaya maksimal untuk mengurangi sampah yang berakhir di TPA melalui strategi Refuse, Reduce, Reuse, Recycle, dan Rot (5R).</p>
+<p>Kisah inspiratif datang dari komunitas Bank Sampah di salah satu kelurahan padat penduduk di Pekanbaru, yang diinisiasi oleh sekelompok ibu rumah tangga pada awal tahun 2021. Berawal dari keprihatinan mendalam atas menumpuknya sampah rumah tangga di sepanjang gang pemukiman dan sering tersumbatnya saluran drainase akibat sampah plastik, mereka mendirikan wadah edukasi pilah sampah mandiri. Dengan tekad yang kuat, mereka melatih warga sekitar untuk mulai memisahkan sampah bernilai ekonomi langsung dari sumbernya di dalam rumah.</p>
 
-<h2>Kisah Inspiratif: Bank Sampah Melati</h2>
-<p>Di sebuah kelurahan di Pekanbaru, sekelompok ibu rumah tangga mendirikan Bank Sampah Melati pada 2019. Dimulai dengan 20 anggota, kini mereka telah berkembang menjadi lebih dari 200 anggota aktif yang berhasil mengurangi sampah ke TPA hingga 40%.</p>
+<p>Dalam kurun waktu dua tahun, inisiatif lokal ini berhasil berkembang pesat dengan merangkul lebih dari tiga ratus kepala keluarga sebagai nasabah aktif bank sampah. Sampah anorganik seperti botol plastik, kertas, kardus, dan logam yang terkumpul ditimbang secara berkala dan dikonversi menjadi tabungan rupiah yang dapat dicairkan oleh warga untuk membantu kebutuhan pokok harian. Lebih dari itu, sampah organik rumah tangga diolah bersama-sama menggunakan metode lubang biopori dan pembuatan pupuk cair organik untuk menyuburkan tanaman hijau di sepanjang koridor pemukiman warga.</p>
 
-<p>Sampah yang dikumpulkan dipilah dan dijual ke pengepul, menghasilkan pendapatan tambahan rata-rata Rp 150.000 per bulan per anggota. Surplus dana digunakan untuk kegiatan sosial dan penghijauan lingkungan.</p>
+<p>Dampak ekologis dari gerakan kolektif ini sangat signifikan, di antaranya penurunan volume sampah yang diangkut ke TPA regional hingga mencapai tiga puluh lima persen setiap bulannya. Lingkungan pemukiman yang dulunya kumuh kini berubah menjadi asri, bersih, dan bebas dari genangan air banjir saat musim hujan tiba karena saluran air yang terjaga bebas dari sumbatan plastik. Keberhasilan ini menarik perhatian pemerintah kota setempat yang kemudian menetapkan wilayah kelurahan tersebut sebagai percontohan kawasan Kampung Iklim bebas sampah tingkat provinsi.</p>
 
-<h2>Langkah Memulai Gerakan Zero Waste di Komunitas</h2>
-<ol>
-<li><strong>Mulai dari diri sendiri</strong>: Audit sampah pribadi selama seminggu</li>
-<li><strong>Edukasi keluarga</strong>: Libatkan seluruh anggota keluarga</li>
-<li><strong>Bentuk kelompok kecil</strong>: Ajak 5-10 tetangga yang tertarik</li>
-<li><strong>Buat sistem pemilahan</strong>: Organik, anorganik, dan B3</li>
-<li><strong>Cari mitra</strong>: Hubungi pengepul daur ulang atau bank sampah terdekat</li>
-<li><strong>Dokumentasikan progress</strong>: Catat dan bagikan di media sosial</li>
-</ol>
-
-<h2>Dampak Nyata yang Bisa Dirasakan</h2>
-<p>Komunitas yang telah menerapkan zero waste melaporkan berkurangnya biaya retribusi sampah, lingkungan yang lebih bersih dan sehat, serta meningkatnya rasa kebersamaan antarwarga.</p>
-
-<p>Seperti kata para pegiat lingkungan: "We don\'t need a handful of people doing zero waste perfectly. We need millions of people doing it imperfectly." Mari mulai dari sekarang!</p>',
+<p>Kisah sukses komunitas ini membuktikan bahwa keberhasilan gerakan penyelamatan lingkungan tidak bergantung pada segelintir orang yang melakukannya secara sempurna, melainkan jutaan orang yang bersedia memulainya dengan tidak sempurna namun konsisten. Langkah kecil seperti membatasi konsumsi plastik sekali pakai, membuat kompos dari sisa dapur, serta aktif memilah sampah jika dilakukan bersama-sama akan melipatgandakan dampak positif bagi kelestarian bumi. Semoga kisah perjuangan komunitas ini mampu menginspirasi wilayah lain untuk segera bergerak demi kelestarian alam dan lingkungan hidup kita bersama.</p>',
             ],
         ];
 
         foreach ($articles as $data) {
             $title = $data['title'];
-            $slug  = \Illuminate\Support\Str::slug($title);
+            $slug  = Str::slug($title);
             $base  = $slug;
             $count = 0;
             while (Article::where('slug', $slug)->exists()) {
@@ -194,6 +108,6 @@ class ArticleSeeder extends Seeder
             );
         }
 
-        $this->command->info('✅ ArticleSeeder: 5 artikel selesai.');
+        $this->command->info('✅ ArticleSeeder: 5 artikel berkualitas tinggi selesai.');
     }
 }
