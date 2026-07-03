@@ -9,10 +9,11 @@ use App\Models\PointLog;
 use App\Models\Report;
 use App\Models\UserBadge;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
         $user = auth()->user();
 
