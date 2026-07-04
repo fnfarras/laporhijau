@@ -175,10 +175,11 @@
                             Dashboard →
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="hidden sm:block text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-green-600 transition-colors">Masuk</a>
+                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-green-600 transition-colors">Masuk</a>
                         <a href="{{ route('register') }}"
-                           class="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-extrabold rounded-xl transition-all shadow-md animate-pulse-subtle">
-                            Daftar Gratis
+                           class="px-3.5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm font-extrabold rounded-xl transition-all shadow-md animate-pulse-subtle">
+                            <span class="sm:hidden">Daftar</span>
+                            <span class="hidden sm:inline">Daftar Gratis</span>
                         </a>
                     @endauth
                 </div>
