@@ -548,7 +548,7 @@
                             Ikuti event aksi bersih-bersih penanggulangan lingkungan bersama warga dan komunitas relawan LaporHijau terdekat.
                         </p>
                     </div>
-                    <a href="{{ route('event.index') }}" class="block text-center w-full py-3.5 bg-sky-650 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm">
+                    <a href="{{ route('event.index') }}" class="block text-center w-full py-3.5 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition-all shadow-sm">
                         Lihat Event
                     </a>
                 </div>
