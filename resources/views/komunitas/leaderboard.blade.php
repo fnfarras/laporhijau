@@ -105,10 +105,25 @@
 
             {{-- Full Rankings List --}}
             @if ($leaders->isEmpty())
-                <div class="bg-white rounded-2xl border border-gray-100 p-16 text-center shadow-sm">
-                    <div class="text-5xl mb-3">🌱</div>
-                    <h3 class="text-base font-bold text-gray-700 mb-1">Belum ada data untuk periode ini</h3>
-                    <p class="text-sm text-gray-400">Mulailah berkontribusi untuk masuk leaderboard!</p>
+                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700/80 p-12 text-center shadow-sm">
+                    {{-- Trophy with Question Mark SVG --}}
+                    <div class="w-48 h-36 mx-auto mb-4 relative">
+                        <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full mx-auto">
+                            <!-- Piala Kuning Emas -->
+                            <path d="M55 40 H105 V70 C105 85, 80 90, 80 90 C80 90, 55 85, 55 70 Z" fill="#facc15"/>
+                            <rect x="75" y="90" width="10" height="15" fill="#eab308"/>
+                            <rect x="60" y="105" width="40" height="6" rx="3" fill="#cbd5e1" class="dark:fill-slate-600"/>
+                            
+                            <!-- Kup Kup Piala (Grip Kiri Kanan) -->
+                            <path d="M55 45 H45 V60 H55" stroke="#facc15" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M105 45 H115 V60 H105" stroke="#facc15" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            
+                            <!-- Tanda Tanya di Tengah Piala -->
+                            <text x="80" y="68" font-family="'Plus Jakarta Sans', sans-serif" font-size="24" font-weight="900" fill="#ca8a04" text-anchor="middle">?</text>
+                        </svg>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white mb-1">Belum ada data peringkat untuk periode ini</h3>
+                    <p class="text-xs text-gray-550 dark:text-gray-400 max-w-xs mx-auto">Jadilah kontributor pertama! Mulailah melaporkan masalah lingkungan atau ikut berpartisipasi dalam event aksi lingkungan untuk mengumpulkan poin.</p>
                 </div>
             @else
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">

@@ -37,7 +37,7 @@ class ReportController extends Controller
     {
         Gate::authorize('create', Report::class);
 
-        $categories = ReportCategory::orderBy('name')->get();
+        $categories = cache()->remember('laporhijau_categories', 3600, fn() => ReportCategory::orderBy('name')->get());
 
         return view('laporan.create', compact('categories'));
     }

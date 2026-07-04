@@ -73,13 +73,35 @@
 
             {{-- Grid Event --}}
             @if ($events->isEmpty())
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-16 text-center">
-                    <div class="text-5xl mb-3">{{ $filter === 'upcoming' ? '📅' : '📁' }}</div>
-                    <h3 class="text-base font-bold text-gray-700 mb-1">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700/80 shadow-sm p-12 text-center">
+                    {{-- Calendar with Leaves SVG --}}
+                    <div class="w-48 h-36 mx-auto mb-4 relative">
+                        <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full mx-auto">
+                            <!-- Badan Kalender -->
+                            <rect x="40" y="30" width="80" height="70" rx="8" fill="#cbd5e1" class="dark:fill-slate-600"/>
+                            <rect x="40" y="45" width="80" height="55" rx="4" fill="#f8fafc" class="dark:fill-slate-700"/>
+                            <!-- Header Kalender Merah/Hijau -->
+                            <rect x="40" y="30" width="80" height="15" rx="4" fill="#ef4444"/>
+                            
+                            <!-- Cincin Pengikat Kalender -->
+                            <rect x="55" y="22" width="6" height="12" rx="3" fill="#64748b"/>
+                            <rect x="99" y="22" width="6" height="12" rx="3" fill="#64748b"/>
+                            
+                            <!-- Angka & Baris Keterangan di Kalender -->
+                            <rect x="50" y="55" width="20" height="20" rx="4" fill="#e2e8f0" class="dark:fill-slate-650"/>
+                            <rect x="50" y="80" width="60" height="6" rx="3" fill="#e2e8f0" class="dark:fill-slate-650"/>
+                            <rect x="50" y="90" width="40" height="6" rx="3" fill="#e2e8f0" class="dark:fill-slate-650"/>
+                            
+                            <!-- Daun Hijau Muncul di Belakang -->
+                            <path d="M120 40 C140 40, 140 60, 120 70 C110 60, 110 40, 120 40 Z" fill="#22c55e"/>
+                            <path d="M120 40 C130 30, 140 30, 140 45 C130 50, 120 45, 120 40 Z" fill="#15803d"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white mb-1">
                         {{ $filter === 'upcoming' ? 'Belum ada event mendatang' : 'Belum ada past event' }}
                     </h3>
-                    <p class="text-sm text-gray-400">
-                        {{ $filter === 'upcoming' ? 'Event baru akan segera hadir. Pantau terus!' : 'Riwayat event akan tampil di sini.' }}
+                    <p class="text-xs text-gray-550 dark:text-gray-400 max-w-xs mx-auto">
+                        {{ $filter === 'upcoming' ? 'Aksi kolaboratif penanaman pohon dan bersih-bersih baru akan segera hadir. Pantau terus halaman ini!' : 'Riwayat event aksi penanganan lingkungan akan tampil di sini.' }}
                     </p>
                 </div>
             @else

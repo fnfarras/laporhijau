@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             maxZoom: 18,
             minZoom: 6
         }).setView(defaultCenter, defaultZoom);
+        window.map = map;
 
         // CartoDB Voyager Tile Layer (lebih bersih & profesional dari OSM default)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -61,11 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function createCustomMarkerIcon(status) {
+    function createCustomMarkerIcon(status, isOverdue = false) {
         const color = getMarkerColor(status);
+        const overdueClass = isOverdue ? 'overdue-marker' : '';
         return L.divIcon({
             className: 'custom-div-icon',
-            html: `<div class="marker-pin" style="background-color: ${color};"></div>`,
+            html: `<div class="marker-pin ${overdueClass}" style="background-color: ${color};"></div>`,
             iconSize: [30, 42],
             iconAnchor: [15, 42],
             popupAnchor: [0, -36]
@@ -93,9 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
                </div>`
             : '';
 
+        const overdueBadge = report.is_overdue 
+            ? `<div class="mb-2.5 px-2.5 py-1 bg-red-100 dark:bg-red-950/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/45 rounded-lg text-[9px] font-black flex items-center gap-1 leading-tight uppercase">
+                 <span>⚠️</span> ${report.status === 'pending' ? report.sla_verification_label : report.sla_handling_label}
+               </div>`
+            : '';
+
         return `
             <div class="p-1 font-sans max-w-[240px]">
                 ${imgHtml}
+                ${overdueBadge}
                 <div class="flex items-center gap-1.5 mb-1 flex-wrap">
                     <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-semibold">
                         ${report.category.icon} ${report.category.name}
@@ -210,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         filtered.forEach(report => {
             // 1. Render Map Marker
             const marker = L.marker([report.latitude, report.longitude], {
-                icon: createCustomMarkerIcon(report.status)
+                icon: createCustomMarkerIcon(report.status, report.is_overdue)
             });
 
             marker.bindPopup(generatePopupHtml(report));
@@ -346,6 +355,59 @@ document.addEventListener('DOMContentLoaded', () => {
                     btnLokasiSaya.innerHTML = '📍 Lokasi Saya';
                 }
             );
+        });
+
+        // Address Geocoding Search (Fitur Wow Peta GIS)
+        const mapAddressSearchInput = document.getElementById('map-address-search');
+        const btnSearchAddress = document.getElementById('btn-search-address');
+
+        async function performMapSearch() {
+            const query = mapAddressSearchInput.value.trim();
+            if (!query) return;
+
+            btnSearchAddress.disabled = true;
+            btnSearchAddress.textContent = '⏳';
+
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lon = parseFloat(data[0].lon);
+                        
+                        map.flyTo([lat, lon], 14, {
+                            animate: true,
+                            duration: 1.5
+                        });
+
+                        // Tambahkan indikator pencarian sementara di peta
+                        const circleIndicator = L.circle([lat, lon], {
+                            color: '#0ea5e9',
+                            fillColor: '#0ea5e9',
+                            fillOpacity: 0.1,
+                            radius: 300
+                        }).addTo(map);
+
+                        setTimeout(() => map.removeLayer(circleIndicator), 5000);
+                    } else {
+                        alert('Lokasi tidak ditemukan. Coba ketik nama jalan atau kelurahan yang lebih spesifik.');
+                    }
+                }
+            } catch (err) {
+                console.error('Gagal mencari lokasi:', err);
+                alert('Gagal menghubungi layanan peta. Silakan coba lagi.');
+            } finally {
+                btnSearchAddress.disabled = false;
+                btnSearchAddress.textContent = 'Cari';
+            }
+        }
+
+        btnSearchAddress.addEventListener('click', performMapSearch);
+        mapAddressSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                performMapSearch();
+            }
         });
     }
 

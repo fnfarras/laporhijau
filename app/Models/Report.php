@@ -22,14 +22,34 @@ class Report extends Model
         'latitude',
         'longitude',
         'status',
+        'after_photo_url',
+        'verified_deadline',
+        'handled_deadline',
+        'is_overdue',
     ];
 
     protected function casts(): array
     {
         return [
-            'latitude'  => 'decimal:7',
-            'longitude' => 'decimal:7',
+            'latitude'          => 'decimal:7',
+            'longitude'         => 'decimal:7',
+            'verified_deadline' => 'datetime',
+            'handled_deadline'  => 'datetime',
+            'is_overdue'        => 'boolean',
         ];
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($report) {
+            $report->verified_deadline = now()->addHours(48);
+        });
+
+        static::updating(function ($report) {
+            if ($report->isDirty('status') && $report->status === 'verified') {
+                $report->handled_deadline = now()->addDays(7);
+            }
+        });
     }
 
     // ── Relationships ────────────────────────────────────────────
@@ -88,5 +108,65 @@ class Report extends Model
             'rejected'    => 'Ditolak',
             default       => 'Menunggu',
         };
+    }
+
+    public function getSlaVerificationAttribute()
+    {
+        if (in_array($this->status, ['verified', 'in_progress', 'resolved'])) {
+            return ['status' => 'completed', 'label' => 'Terverifikasi'];
+        }
+        if (!$this->verified_deadline) {
+            return ['status' => 'waiting', 'label' => 'Menunggu Batas Waktu'];
+        }
+        if (now()->gt($this->verified_deadline)) {
+            $diff = now()->diff($this->verified_deadline);
+            return [
+                'status' => 'overdue',
+                'label' => 'Terlambat ' . $diff->days . ' hari ' . $diff->h . ' jam',
+                'percent' => 100
+            ];
+        }
+        $total = $this->created_at->diffInMinutes($this->verified_deadline);
+        $elapsed = $this->created_at->diffInMinutes(now());
+        $percent = $total > 0 ? min(100, max(0, round(($elapsed / $total) * 100))) : 0;
+        
+        $diff = now()->diff($this->verified_deadline);
+        return [
+            'status' => 'on_time',
+            'label' => 'Sisa ' . $diff->days . ' hari ' . $diff->h . ' jam',
+            'percent' => $percent
+        ];
+    }
+
+    public function getSlaHandlingAttribute()
+    {
+        if ($this->status === 'resolved') {
+            return ['status' => 'completed', 'label' => 'Selesai Tepat Waktu'];
+        }
+        if (!$this->handled_deadline) {
+            return ['status' => 'waiting', 'label' => 'Menunggu Verifikasi'];
+        }
+        if (now()->gt($this->handled_deadline)) {
+            $diff = now()->diff($this->handled_deadline);
+            return [
+                'status' => 'overdue',
+                'label' => 'Terlambat ' . $diff->days . ' hari',
+                'percent' => 100
+            ];
+        }
+        
+        $verifiedLog = $this->statusLogs()->where('new_status', 'verified')->first();
+        $verifiedAt = $verifiedLog ? $verifiedLog->created_at : $this->created_at;
+
+        $total = $verifiedAt->diffInMinutes($this->handled_deadline);
+        $elapsed = $verifiedAt->diffInMinutes(now());
+        $percent = $total > 0 ? min(100, max(0, round(($elapsed / $total) * 100))) : 0;
+        
+        $diff = now()->diff($this->handled_deadline);
+        return [
+            'status' => 'on_time', 
+            'label' => 'Sisa ' . $diff->days . ' hari',
+            'percent' => $percent
+        ];
     }
 }

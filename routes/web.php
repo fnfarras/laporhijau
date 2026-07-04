@@ -18,6 +18,13 @@ Route::get('/api/stats', [HomeController::class, 'apiStats'])->name('api.home-st
 // ── Public Routes ──────────────────────────────────────────────────────────
 Route::get('/peta',         [MapController::class, 'index'])->name('peta');
 Route::get('/api/map-data', [MapController::class, 'getData'])->name('api.map-data');
+Route::get('/tentang', function() {
+    return view('tentang');
+})->name('tentang');
+
+Route::get('/cara-lapor', function() {
+    return view('cara-lapor');
+})->name('cara-lapor');
 
 // Gamification (public)
 Route::get('/komunitas/leaderboard', [GamificationController::class, 'leaderboard'])->name('leaderboard');
@@ -47,7 +54,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/laporan', [ReportController::class, 'store'])->name('laporan.store');
     Route::get('/laporan/{report}', [ReportController::class, 'show'])->name('laporan.show');
 
-    // ── Masyarakat Area ───────────────────────────────────────────
+    // ── Masyarakat Area & Gamification Hadiah ─────────────────────
+    Route::get('/hadiah', [GamificationController::class, 'hadiah'])->name('hadiah');
+    Route::post('/hadiah/redeem', [GamificationController::class, 'redeemHadiah'])->name('hadiah.redeem');
+    Route::post('/notifikasi/baca-semua', [GamificationController::class, 'bacaSemuaNotifikasi'])->name('notifications.read-all');
     Route::get('/masyarakat/laporan', [ReportController::class, 'index'])->name('masyarakat.laporan');
 
     // ── Event: create (relawan & pemerintah) + rsvp (semua auth) ──

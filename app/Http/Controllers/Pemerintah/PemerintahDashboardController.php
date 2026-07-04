@@ -13,6 +13,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Cloudinary\Configuration\Configuration;
+use Cloudinary\Api\Upload\UploadApi;
 
 class PemerintahDashboardController extends Controller
 {
@@ -36,6 +38,13 @@ class PemerintahDashboardController extends Controller
             ->limit(5)
             ->get();
 
+        // ── 5 laporan overdue (terlambat) ────────
+        $overdueReports = Report::with(['category', 'user'])
+            ->where('is_overdue', true)
+            ->whereNotIn('status', ['resolved', 'rejected'])
+            ->latest()
+            ->get();
+
         // ── Data tren 6 bulan (untuk Chart.js) ────────────────
         $trendData = $this->getTrendData();
 
@@ -43,7 +52,7 @@ class PemerintahDashboardController extends Controller
         $categoryData = $this->getCategoryData();
 
         return view('pemerintah.dashboard', compact(
-            'stats', 'actionNeeded', 'trendData', 'categoryData'
+            'stats', 'actionNeeded', 'trendData', 'categoryData', 'overdueReports'
         ));
     }
 
@@ -75,7 +84,7 @@ class PemerintahDashboardController extends Controller
         }
 
         $reports    = $query->paginate(15)->withQueryString();
-        $categories = ReportCategory::orderBy('name')->get();
+        $categories = cache()->remember('laporhijau_categories', 3600, fn() => ReportCategory::orderBy('name')->get());
 
         return view('pemerintah.laporan', compact(
             'reports', 'categories', 'statusFilter', 'categoryFilter', 'dateFrom', 'dateTo'
@@ -108,8 +117,34 @@ class PemerintahDashboardController extends Controller
 
         $oldStatus = $report->status;
 
+        // Upload after_photo jika ada dan action is resolved
+        $afterPhotoUrl = null;
+        if ($targetStatus === 'resolved' && $request->hasFile('after_photo')) {
+            $cloudinaryConfig = config('filesystems.disks.cloudinary');
+            Configuration::instance([
+                'cloud' => [
+                    'cloud_name' => $cloudinaryConfig['cloud'],
+                    'api_key'    => $cloudinaryConfig['key'],
+                    'api_secret' => $cloudinaryConfig['secret'],
+                ],
+                'url' => ['secure' => true],
+            ]);
+
+            $uploadApi = new UploadApi();
+            $uploaded = $uploadApi->upload($request->file('after_photo')->getRealPath(), [
+                'folder'       => 'laporhijau/reports/' . $report->id,
+                'quality'      => 'auto',
+                'fetch_format' => 'auto',
+            ]);
+            $afterPhotoUrl = $uploaded['secure_url'];
+        }
+
         // 1. Update status laporan
-        $report->update(['status' => $targetStatus]);
+        $updateData = ['status' => $targetStatus];
+        if ($afterPhotoUrl) {
+            $updateData['after_photo_url'] = $afterPhotoUrl;
+        }
+        $report->update($updateData);
 
         // 2. Catat di report_status_logs
         $notes = match($targetStatus) {

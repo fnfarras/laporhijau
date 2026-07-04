@@ -49,6 +49,21 @@
                 box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
                 border: 2px solid white;
             }
+            .marker-pin.overdue-marker {
+                border: 3px solid #ef4444 !important;
+                animation: marker-pulse 1.5s infinite;
+            }
+            @keyframes marker-pulse {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+                }
+                70% {
+                    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+                }
+            }
             .marker-pin::after {
                 content: '';
                 width: 12px;
@@ -65,11 +80,23 @@
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
                 border-radius: 12px;
             }
+            .dark .map-overlay-card {
+                background: rgba(30, 41, 59, 0.95) !important;
+                border-color: rgba(51, 65, 85, 0.8) !important;
+                color: #f1f5f9 !important;
+            }
+            .dark .map-overlay-card input,
+            .dark .map-overlay-card select {
+                background-color: #0f172a !important;
+                border-color: #334155 !important;
+                color: #f1f5f9 !important;
+            }
         </style>
     @endpush
 
-    <div class="py-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+    <div class="py-6" style="font-family: 'Plus Jakarta Sans', sans-serif;" x-data="{ showListMobile: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div x-show="showListMobile" @click="showListMobile = false" class="lg:hidden fixed inset-0 bg-black/40 z-[30] backdrop-blur-xs" style="display: none;"></div>
             
             {{-- Header --}}
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
@@ -79,9 +106,16 @@
                     </h1>
                     <p class="text-sm text-gray-500 mt-1">Pantau seluruh laporan masalah lingkungan di Riau secara real-time</p>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button id="btn-lokasi-saya" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 active:bg-gray-100 text-gray-700 text-sm font-semibold rounded-xl transition-colors shadow-sm">
-                        📍 Gunakan Lokasi Saya
+                <div class="flex flex-wrap items-center gap-2">
+                    <div class="relative">
+                        <input type="text" id="map-address-search" placeholder="Cari lokasi/jalan di peta..." class="pl-9 pr-4 py-2.5 bg-white border border-gray-200 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-green-400 w-[220px] shadow-sm dark:bg-gray-800 dark:text-white">
+                        <span class="absolute left-3.5 top-3 text-gray-400 text-xs">🗺️</span>
+                    </div>
+                    <button id="btn-search-address" class="px-4 py-2.5 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-xs font-bold rounded-xl transition-colors shadow-md">
+                        Cari
+                    </button>
+                    <button id="btn-lokasi-saya" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 active:bg-gray-100 text-gray-700 dark:text-gray-300 text-xs font-bold rounded-xl transition-colors shadow-sm whitespace-nowrap">
+                        📍 Lokasi Saya
                     </button>
                 </div>
             </div>
@@ -90,7 +124,8 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 
                 {{-- Sidebar Laporan List (Panel Kiri) --}}
-                <div class="lg:col-span-1 bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col h-[75vh]">
+                <div class="lg:col-span-1 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700/80 shadow-sm p-4 flex flex-col h-[75vh] transition-all"
+                     :class="{'fixed inset-x-4 bottom-24 top-20 z-40 h-auto': showListMobile, 'hidden lg:flex': !showListMobile}">
                     <div class="mb-4">
                         <h2 class="font-bold text-gray-800 text-base">Daftar Laporan</h2>
                         <p class="text-xs text-gray-400 mt-0.5" id="report-count-indicator">Sedang memuat data...</p>
@@ -120,7 +155,19 @@
 
                 {{-- Map Container (Panel Kanan) --}}
                 <div class="lg:col-span-3 relative">
-                    <div id="interactive-map" class="shadow-sm border border-gray-100"></div>
+                    <div id="interactive-map" class="shadow-sm border border-gray-100 dark:border-slate-700/80"></div>
+
+                    {{-- Floating Lapor via WA Button (Fitur Premium) --}}
+                    <button onclick="laporWhatsAppMap()" 
+                            class="absolute bottom-16 lg:bottom-4 right-4 z-[400] px-4.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl shadow-lg flex items-center gap-2 hover:scale-105 transition-transform no-print cursor-pointer">
+                        <span>💬</span> Lapor via WA
+                    </button>
+
+                    {{-- Floating Toggle List Button (Mobile Only) (Fitur Wow Premium Mobile) --}}
+                    <button @click="showListMobile = !showListMobile" 
+                            class="lg:hidden absolute bottom-4 right-4 z-[400] px-4.5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-xl shadow-lg flex items-center gap-2 hover:scale-105 transition-transform no-print">
+                        <span>📋</span> <span x-text="showListMobile ? 'Tutup Daftar' : 'Daftar Laporan'">Daftar Laporan</span>
+                    </button>
 
                     {{-- Panel Filter Pojok Kanan Atas --}}
                     <div class="absolute top-4 right-4 z-[400] w-64 md:w-72 map-overlay-card p-4 hidden md:block">
@@ -256,6 +303,35 @@
         <!-- API endpoints config object -->
         <script>
             window.MAP_DATA_URL = "{{ route('api.map-data') }}";
+
+            function laporWhatsAppMap() {
+                const whatsappNumber = "{{ env('WHATSAPP_NUMBER', '6281234567890') }}";
+                let lat = 0.5074;
+                let lng = 101.4477;
+                
+                if (window.map) {
+                    const center = window.map.getCenter();
+                    lat = center.lat;
+                    lng = center.lng;
+                }
+                
+                const text = `Halo Admin LaporHijau! 🌿
+
+Saya ingin melaporkan masalah lingkungan:
+
+📍 *Lokasi:* ${lat.toFixed(6)}, ${lng.toFixed(6)}
+🗺️ *Google Maps:* https://maps.google.com/?q=${lat.toFixed(6)},${lng.toFixed(6)}
+
+📝 *Deskripsi masalah:*
+[Mohon isi deskripsi masalah di sini]
+
+📸 *Foto:* [Lampirkan foto masalah]
+
+Terima kasih!`;
+                
+                const encodedText = encodeURIComponent(text);
+                window.open(`https://wa.me/${whatsappNumber}?text=${encodedText}`, '_blank');
+            }
         </script>
 
         <!-- Load map logic via Vite -->

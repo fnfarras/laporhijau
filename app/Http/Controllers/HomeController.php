@@ -41,20 +41,29 @@ class HomeController extends Controller
 
     private function getStats(): array
     {
-        $totalReports   = Report::count();
-        $resolvedCount  = Report::where('status', 'resolved')->count();
+        return cache()->remember('laporhijau_stats', 300, function() {
+            $totalReports   = Report::count();
+            $resolvedCount  = Report::where('status', 'resolved')->count();
+            $todayStr       = now()->toDateString();
 
-        return [
-            'total_laporan'   => $totalReports,
-            'laporan_selesai' => $resolvedCount,
-            'relawan_aktif'   => User::role('relawan')->count(),
-            'artikel'         => Article::published()->count(),
-            'resolved_rate'   => $totalReports > 0
-                ? round($resolvedCount / $totalReports * 100)
-                : 0,
-            'laporan_bulan_ini' => Report::whereMonth('created_at', now()->month)
-                ->whereYear('created_at', now()->year)
-                ->count(),
-        ];
+            return [
+                'total_laporan'     => $totalReports,
+                'laporan_selesai'   => $resolvedCount,
+                'relawan_aktif'     => User::role('relawan')->count(),
+                'artikel'           => Article::published()->count(),
+                'resolved_rate'     => $totalReports > 0
+                    ? round($resolvedCount / $totalReports * 100)
+                    : 0,
+                'laporan_bulan_ini' => Report::whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year)
+                    ->count(),
+                
+                // Stats baru hari ini (Fitur 2)
+                'laporan_hari_ini'   => Report::whereDate('created_at', $todayStr)->count(),
+                'selesai_hari_ini'   => Report::where('status', 'resolved')->whereDate('updated_at', $todayStr)->count(),
+                'relawan_hari_ini'   => User::role('relawan')->whereDate('created_at', $todayStr)->count(),
+                'artikel_hari_ini'   => Article::published()->whereDate('published_at', $todayStr)->count(),
+            ];
+        });
     }
 }

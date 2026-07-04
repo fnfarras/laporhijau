@@ -31,7 +31,8 @@
                             @if ($report && $report->photos->isNotEmpty())
                                 <img src="{{ $report->photos->first()->photo_url }}"
                                      alt="{{ $report->title }}"
-                                     class="w-full h-full object-cover">
+                                     class="w-full h-full object-cover"
+                                     loading="lazy">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-gray-300 text-xl">
                                     {{ $isVerified ? '✅' : '❌' }}

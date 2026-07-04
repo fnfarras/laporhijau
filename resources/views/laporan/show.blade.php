@@ -29,6 +29,98 @@
                 display: flex; align-items: center; justify-content: center;
                 font-size: 11px;
             }
+
+            /* ── Print Layout CSS Overrides ── */
+            @media print {
+                /* Sembunyikan navigasi, header web, tombol cetak, komentar, dan map */
+                nav, 
+                header, 
+                .no-print, 
+                #detail-map, 
+                .leaflet-control-container, 
+                button, 
+                form, 
+                #comments-section,
+                .fixed,
+                footer {
+                    display: none !important;
+                }
+
+                body {
+                    background: white !important;
+                    color: black !important;
+                    font-size: 11pt !important;
+                    line-height: 1.5 !important;
+                }
+
+                /* Sempurnakan kontainer cetak */
+                .print-container {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+
+                /* Ubah layout grid menjadi satu kolom penuh */
+                .grid {
+                    display: block !important;
+                }
+                .lg\:col-span-2, .space-y-6, .lg\:col-span-1 {
+                    width: 100% !important;
+                    display: block !important;
+                    margin-bottom: 25px !important;
+                }
+
+                /* Kop Surat Resmi LaporHijau */
+                .print-header-letter {
+                    display: block !important;
+                    text-align: center;
+                    border-bottom: 4px double #000;
+                    margin-bottom: 30px;
+                    padding-bottom: 12px;
+                }
+                .print-header-letter h1 {
+                    font-size: 26pt !important;
+                    font-weight: 900 !important;
+                    letter-spacing: -1px;
+                    margin: 0 !important;
+                    color: #000 !important;
+                }
+                .print-header-letter p {
+                    font-size: 10pt !important;
+                    color: #444 !important;
+                    margin: 4px 0 0 0 !important;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+                
+                /* Reset latar belakang & bayangan card saat cetak */
+                .bg-white {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                    padding: 0 !important;
+                }
+                
+                .border {
+                    border: 1px solid #ddd !important;
+                    border-radius: 8px !important;
+                }
+                
+                /* Tampilan foto samping menyamping saat dicetak */
+                .print-images {
+                    display: flex !important;
+                    gap: 15px !important;
+                    margin: 20px 0 !important;
+                }
+                .print-images img {
+                    width: 48% !important;
+                    height: 250px !important;
+                    object-fit: cover !important;
+                    border-radius: 8px !important;
+                    border: 1px solid #ccc !important;
+                }
+            }
         </style>
     @endpush
 
@@ -40,23 +132,89 @@
                 </svg>
             </a>
             <div>
-                <h2 class="text-xl font-bold text-gray-900 leading-tight">{{ $report->title }}</h2>
-                <p class="text-sm text-gray-500">Laporan #{{ $report->id }} · {{ $report->created_at->format('d M Y') }}</p>
+                <nav class="flex items-center text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-slate-500 mb-1.5 no-print">
+                    <a href="{{ route('home') }}" class="hover:text-green-600 transition-colors">Beranda</a>
+                    <span class="mx-1.5">/</span>
+                    <a href="{{ route('masyarakat.laporan') }}" class="hover:text-green-600 transition-colors">Laporan</a>
+                    <span class="mx-1.5">/</span>
+                    <span class="text-gray-500">Detail Laporan #{{ $report->id }}</span>
+                </nav>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white leading-tight">{{ $report->title }}</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Laporan #{{ $report->id }} · {{ $report->created_at->format('d M Y') }}</p>
             </div>
         </div>
     </x-slot>
 
     <div class="py-8" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 print-container">
+
+            {{-- Kop Surat Cetak (Hanya tampil saat print) --}}
+            <div class="hidden print-header-letter text-center">
+                <h1>LAPORHIJAU</h1>
+                <p>Platform Civic Tech Kolaborasi Aksi Lingkungan Nasional</p>
+                <div class="text-[9px] text-gray-400 mt-1 uppercase tracking-wider font-semibold">DOKUMEN RESMI PENANGANAN MASALAH LINGKUNGAN · TANGGAL CETAK: {{ now()->translatedFormat('d F Y') }}</div>
+            </div>
+
+            {{-- Bukti Foto Cetak Samping Menyamping (Hanya tampil saat print) --}}
+            <div class="hidden print-images">
+                @if ($report->photos->isNotEmpty())
+                    <div style="flex: 1;">
+                        <p class="text-xs font-bold text-gray-500 mb-1 text-center">FOTO SEBELUM PENANGANAN</p>
+                        <img src="{{ $report->photos->first()->photo_url }}" class="rounded-xl border w-full h-[250px] object-cover" alt="Sebelum">
+                    </div>
+                @endif
+                @if ($report->status === 'resolved' && $report->after_photo_url)
+                    <div style="flex: 1;">
+                        <p class="text-xs font-bold text-gray-500 mb-1 text-center">FOTO SESUDAH PENANGANAN</p>
+                        <img src="{{ $report->after_photo_url }}" class="rounded-xl border w-full h-[250px] object-cover" alt="Sesudah">
+                    </div>
+                @endif
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {{-- ── Kolom Kiri (2/3) ─────────────────────────────── --}}
                 <div class="lg:col-span-2 space-y-6">
 
-                    {{-- Slideshow Foto --}}
-                    @if ($report->photos->isNotEmpty())
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    {{-- Slideshow / Before-After Slider (Fitur 1) --}}
+                    @if ($report->status === 'resolved' && $report->after_photo_url)
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden no-print">
+                            <div class="p-6 space-y-4">
+                                <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                    <span>✨</span> Bukti Penanganan (Sebelum vs Sesudah)
+                                </h3>
+                                <div x-data="{ width: 50, containerWidth: 0 }" 
+                                     x-init="containerWidth = $el.clientWidth; window.addEventListener('resize', () => containerWidth = $el.clientWidth)"
+                                     class="relative w-full h-[350px] overflow-hidden rounded-2xl select-none cursor-ew-resize">
+                                     
+                                    <!-- Foto Sesudah (Background) -->
+                                    <div class="absolute inset-0 w-full h-full">
+                                        <img src="{{ $report->after_photo_url }}" class="w-full h-full object-cover pointer-events-none" alt="Setelah Penanganan">
+                                        <div class="absolute right-4 top-4 bg-green-600 text-white text-[10px] font-bold px-2.5 py-1.5 rounded-xl z-10 shadow-sm">SESUDAH</div>
+                                    </div>
+                                    
+                                    <!-- Foto Sebelum (Overlay) -->
+                                    <div class="absolute inset-y-0 left-0 h-full overflow-hidden z-10" :style="'width: ' + width + '%'">
+                                        <img src="{{ $report->photos->first()?->photo_url }}" class="absolute top-0 left-0 h-full object-cover pointer-events-none" :style="'width: ' + containerWidth + 'px; max-width: none;'" alt="Sebelum Penanganan">
+                                        <div class="absolute left-4 top-4 bg-red-600 text-white text-[10px] font-bold px-2.5 py-1.5 rounded-xl z-10 shadow-sm">SEBELUM</div>
+                                    </div>
+                                    
+                                    <!-- Range Slider overlapping -->
+                                    <input type="range" min="0" max="100" x-model="width" 
+                                           class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30 m-0 p-0">
+                                    
+                                    <!-- Divider Bar / Slider Handle -->
+                                    <div class="absolute inset-y-0 w-0.5 bg-white pointer-events-none z-20 shadow-md" :style="'left: ' + width + '%'">
+                                        <div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 bg-white text-gray-700 rounded-full flex items-center justify-center shadow-lg border border-gray-200 text-[10px]">
+                                            ↔️
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-400 text-center">Geser slider di atas untuk membandingkan kondisi sebelum dan sesudah penanganan.</p>
+                            </div>
+                        </div>
+                    @elseif ($report->photos->isNotEmpty())
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden no-print">
                             <div class="slideshow-container">
                                 @foreach ($report->photos as $i => $photo)
                                     <div class="slide {{ $i === 0 ? 'active' : '' }}">
@@ -116,57 +274,109 @@
                         </div>
                     </div>
 
-                    <!-- ── Progress Stepper: Alur Status ── -->
+                    <!-- ── Progress Tracker Laporan (Fitur 4) ── -->
                     @php
-                        $steps = [
-                            'pending'     => ['label' => 'Dilaporkan',  'icon' => '📋', 'color' => '#f59e0b'],
-                            'verified'    => ['label' => 'Terverifikasi','icon' => '✅', 'color' => '#0ea5e9'],
-                            'in_progress' => ['label' => 'Diproses',    'icon' => '🔧', 'color' => '#f97316'],
-                            'resolved'    => ['label' => 'Selesai',     'icon' => '🎉', 'color' => '#16a34a'],
+                        // Get logs indexed by status
+                        $logs = $report->statusLogs->keyBy('new_status');
+                        
+                        $stages = [
+                            [
+                                'key' => 'pending',
+                                'label' => 'Dilaporkan',
+                                'icon' => '📋',
+                                'active' => true,
+                                'log' => $logs->get('pending')
+                            ],
+                            [
+                                'key' => 'verified',
+                                'label' => 'Terverifikasi',
+                                'icon' => '✅',
+                                'active' => in_array($report->status, ['verified', 'in_progress', 'resolved']),
+                                'log' => $logs->get('verified')
+                            ],
+                            [
+                                'key' => 'in_progress',
+                                'label' => 'Ditangani',
+                                'icon' => '🔧',
+                                'active' => in_array($report->status, ['in_progress', 'resolved']),
+                                'log' => $logs->get('in_progress')
+                            ],
+                            [
+                                'key' => 'resolved',
+                                'label' => 'Selesai',
+                                'icon' => '🎉',
+                                'active' => $report->status === 'resolved',
+                                'log' => $logs->get('resolved')
+                            ],
                         ];
-                        $statusOrder  = array_keys($steps);
-                        $currentIndex = array_search($report->status, $statusOrder);
-                        if ($report->status === 'rejected') $currentIndex = -1;
                     @endphp
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Progres Penanganan</p>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-6">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Status Penanganan Laporan</h4>
+                        
                         @if ($report->status === 'rejected')
-                            <div class="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl p-3">
-                                <span class="text-xl">❌</span>
+                            @php $rejectLog = $logs->get('rejected'); @endphp
+                            <div class="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl p-4">
+                                <span class="text-2xl">❌</span>
                                 <div>
                                     <p class="text-sm font-bold text-red-700">Laporan Ditolak</p>
-                                    @if ($report->statusLogs->where('new_status','rejected')->last()?->notes)
-                                        <p class="text-xs text-red-500 mt-0.5">{{ $report->statusLogs->where('new_status','rejected')->last()->notes }}</p>
+                                    @if ($rejectLog?->notes)
+                                        <p class="text-xs text-red-500 mt-1">Alasan: "{{ $rejectLog->notes }}"</p>
                                     @endif
+                                    <p class="text-[10px] text-red-400 mt-0.5">
+                                        Oleh {{ $rejectLog->changedBy->name ?? 'Relawan' }} · {{ $rejectLog->created_at->format('d M Y H:i') }}
+                                    </p>
                                 </div>
                             </div>
                         @else
-                            <div class="flex items-center">
-                                @foreach ($steps as $key => $step)
+                            <div class="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0">
+                                
+                                {{-- Connector Lines (Desktop) --}}
+                                <div class="hidden md:block absolute top-5.5 left-10 right-10 h-0.5 bg-gray-100 -z-10"></div>
+                                
+                                @foreach ($stages as $index => $stage)
                                     @php
-                                        $idx   = array_search($key, $statusOrder);
-                                        $done  = $idx <= $currentIndex;
-                                        $active = $idx === $currentIndex;
+                                        $isActive = $stage['active'];
+                                        $isCurrent = $isActive && (($index === count($stages) - 1) || !$stages[$index + 1]['active']);
+                                        $log = $stage['log'];
                                     @endphp
-                                    <div class="flex flex-col items-center {{ !$loop->last ? 'flex-1' : '' }}">
-                                        <div class="relative w-8 h-8 rounded-full flex items-center justify-center text-sm border-2 transition-all {{ $done ? 'text-white border-transparent' : 'bg-white text-gray-300 border-gray-200' }}"
-                                             style="{{ $done ? 'background:' . $step['color'] . ';' : '' }}">
-                                            @if ($done)
-                                                {{ $step['icon'] }}
-                                            @else
-                                                <span class="text-xs font-bold text-gray-400">{{ $loop->iteration }}</span>
-                                            @endif
-                                            @if ($active)
-                                                <span class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-ping"></span>
+                                    
+                                    <div class="flex md:flex-col items-center gap-4 md:gap-2 flex-1 w-full relative">
+                                        
+                                        {{-- Connector line for Mobile (vertical) --}}
+                                        @if (!$loop->last)
+                                            <div class="md:hidden absolute left-5.5 top-11 bottom-[-24px] w-0.5 {{ $stages[$index + 1]['active'] ? 'bg-green-500' : 'bg-gray-100' }}"></div>
+                                        @endif
+                                        
+                                        {{-- Circle Icon --}}
+                                        <div class="relative">
+                                            <div class="w-11 h-11 rounded-full flex items-center justify-center text-lg border-2 transition-all duration-300 z-10 relative
+                                                {{ $isActive 
+                                                    ? 'bg-green-500 border-transparent text-white shadow-[0_4px_12px_rgba(22,163,74,0.3)]' 
+                                                    : 'bg-white border-gray-200 text-gray-300 dark:bg-gray-800 dark:border-gray-700' }}"
+                                            >
+                                                {{ $stage['icon'] }}
+                                            </div>
+                                            @if ($isCurrent)
+                                                <span class="absolute -inset-1 rounded-full bg-green-400/30 animate-ping"></span>
                                             @endif
                                         </div>
-                                        <p class="text-[9px] font-semibold mt-1 text-center leading-tight {{ $done ? 'text-gray-700' : 'text-gray-300' }}">
-                                            {{ $step['label'] }}
-                                        </p>
+
+                                        {{-- Stage Details --}}
+                                        <div class="text-left md:text-center space-y-1">
+                                            <p class="text-xs font-bold leading-tight {{ $isActive ? 'text-gray-800 dark:text-white' : 'text-gray-300 dark:text-gray-600' }}">
+                                                {{ $stage['label'] }}
+                                            </p>
+                                            @if ($isActive && $log)
+                                                <p class="text-[9px] font-semibold text-gray-500 dark:text-gray-400">
+                                                    {{ $log->changedBy->name ?? 'Sistem' }}
+                                                </p>
+                                                <p class="text-[8px] text-gray-400 font-medium leading-none">
+                                                    {{ $log->created_at->format('d M Y H:i') }}
+                                                </p>
+                                            @endif
+                                        </div>
                                     </div>
-                                    @if (!$loop->last)
-                                        <div class="flex-1 h-0.5 mb-4 rounded-full mx-1 {{ array_search($key, $statusOrder) < $currentIndex ? 'bg-green-400' : 'bg-gray-100' }}"></div>
-                                    @endif
                                 @endforeach
                             </div>
                         @endif
@@ -233,8 +443,77 @@
                         </div>
                     </div>
 
+                    {{-- SLA Transparency Card --}}
+                    @php
+                        $slaVerif = $report->sla_verification;
+                        $slaHand = $report->sla_handling;
+                    @endphp
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700/80 p-5 space-y-4 transition-colors no-print">
+                        <h3 class="text-xs font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider">⏱️ Transparansi SLA</h3>
+                        
+                        {{-- SLA Verifikasi --}}
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between text-xs font-bold">
+                                <span class="text-gray-500 dark:text-gray-400">SLA Verifikasi (48 Jam)</span>
+                                @if ($slaVerif['status'] === 'completed')
+                                    <span class="text-green-600 dark:text-green-400 flex items-center gap-1">✅ Terverifikasi</span>
+                                @elseif ($slaVerif['status'] === 'overdue')
+                                    <span class="text-red-500 flex items-center gap-1">⚠️ Terlambat</span>
+                                @else
+                                    <span class="text-blue-500 flex items-center gap-1">⏳ Tepat Waktu</span>
+                                @endif
+                            </div>
+
+                            <div class="p-3 rounded-xl border {{ $slaVerif['status'] === 'overdue' ? 'bg-red-50/50 dark:bg-red-950/10 border-red-150 dark:border-red-900/40 text-red-700 dark:text-red-400' : ($slaVerif['status'] === 'completed' ? 'bg-green-50/30 dark:bg-green-950/10 border-green-150 dark:border-green-900/30 text-green-700 dark:text-green-400' : 'bg-gray-50 dark:bg-slate-900/50 border-gray-150 dark:border-slate-800 text-gray-600 dark:text-gray-300') }} transition-all">
+                                <p class="text-xs font-extrabold leading-tight">
+                                    {{ $slaVerif['status'] === 'completed' ? 'Terverifikasi Tepat Waktu' : ($slaVerif['status'] === 'overdue' ? 'Melewati Batas Waktu Verifikasi' : 'Dalam Batas Waktu Verifikasi') }}
+                                </p>
+                                <p class="text-[10px] text-gray-400 mt-0.5">
+                                    Tenggat: {{ $report->verified_deadline ? $report->verified_deadline->format('d M Y H:i') : '-' }}
+                                </p>
+                                @if ($slaVerif['status'] !== 'completed')
+                                    <p class="text-xs font-extrabold mt-1.5">{{ $slaVerif['label'] }}</p>
+                                    <div class="w-full bg-gray-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden mt-1.5">
+                                        <div class="h-full rounded-full {{ $slaVerif['status'] === 'overdue' ? 'bg-red-500' : 'bg-green-600' }}" style="width: {{ $slaVerif['percent'] }}%"></div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- SLA Penanganan (Hanya muncul jika status sudah minimal verified) --}}
+                        @if ($report->status !== 'pending' && $report->status !== 'rejected')
+                            <div class="space-y-2 pt-2 border-t border-gray-50 dark:border-slate-750">
+                                <div class="flex items-center justify-between text-xs font-bold">
+                                    <span class="text-gray-500 dark:text-gray-400">SLA Penanganan (7 Hari)</span>
+                                    @if ($slaHand['status'] === 'completed')
+                                        <span class="text-green-600 dark:text-green-400 flex items-center gap-1">🎉 Selesai</span>
+                                    @elseif ($slaHand['status'] === 'overdue')
+                                        <span class="text-red-500 flex items-center gap-1">⚠️ Terlambat</span>
+                                    @else
+                                        <span class="text-orange-500 flex items-center gap-1">🔧 Diproses</span>
+                                    @endif
+                                </div>
+
+                                <div class="p-3 rounded-xl border {{ $slaHand['status'] === 'overdue' ? 'bg-red-50/50 dark:bg-red-950/10 border-red-150 dark:border-red-900/40 text-red-700 dark:text-red-400' : ($slaHand['status'] === 'completed' ? 'bg-green-50/30 dark:bg-green-950/10 border-green-150 dark:border-green-900/30 text-green-700 dark:text-green-400' : 'bg-gray-50 dark:bg-slate-900/50 border-gray-150 dark:border-slate-800 text-gray-600 dark:text-gray-300') }} transition-all">
+                                    <p class="text-xs font-extrabold leading-tight">
+                                        {{ $slaHand['status'] === 'completed' ? 'Ditangani Tepat Waktu' : ($slaHand['status'] === 'overdue' ? 'Melewati Batas Waktu Penanganan' : 'Dalam Batas Waktu Penanganan') }}
+                                    </p>
+                                    <p class="text-[10px] text-gray-400 mt-0.5">
+                                        Tenggat: {{ $report->handled_deadline ? $report->handled_deadline->format('d M Y H:i') : '-' }}
+                                    </p>
+                                    @if ($slaHand['status'] !== 'completed')
+                                        <p class="text-xs font-extrabold mt-1.5">{{ $slaHand['label'] }}</p>
+                                        <div class="w-full bg-gray-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden mt-1.5">
+                                            <div class="h-full rounded-full {{ $slaHand['status'] === 'overdue' ? 'bg-red-500' : 'bg-green-600' }}" style="width: {{ $slaHand['percent'] }}%"></div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
                     {{-- Timeline Status --}}
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700/80 p-5 transition-colors">
                         <h3 class="text-sm font-bold text-gray-800 mb-4">📅 Riwayat Status</h3>
                         @if ($report->statusLogs->isEmpty())
                             <p class="text-xs text-gray-400 text-center py-4">Belum ada riwayat status.</p>
@@ -283,17 +562,36 @@
 
                     </div>
 
-                    {{-- ── Share Laporan ───────────────────────────────── --}}
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Bagikan Laporan</p>
-                        <div class="space-y-2">
-                            <a href="https://wa.me/?text={{ urlencode('🌿 LaporHijau: ' . $report->title . "\n📍 " . $report->address . "\n\nLihat laporan: " . url()->current()) }}"
+                    {{-- ── Share Laporan ── --}}
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 no-print">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Tindakan & Bagikan</p>
+                        <div class="space-y-2" x-data="{ openShareModal: false, shareCardUrl: '' }" @open-share-modal.window="openShareModal = true; shareCardUrl = $event.detail.url">
+                            
+                            {{-- Print PDF Button --}}
+                            <button onclick="window.print()" 
+                                    class="flex items-center justify-center gap-2.5 w-full px-3 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl transition-all shadow-md">
+                                <span>📄</span> Cetak Laporan Resmi
+                            </button>
+
+                            @if ($report->status === 'resolved')
+                                <button @click="generateShareCard()" 
+                                        class="flex items-center justify-center gap-2.5 w-full px-3 py-2.5 bg-gradient-to-r from-green-600 to-teal-500 hover:from-green-700 hover:to-teal-600 text-white text-xs font-bold rounded-xl transition-all shadow-md">
+                                    <span>🎉</span> Bagikan Pencapaian
+                                </button>
+                            @endif
+                            @php
+                                $shareText = "Lihat laporan lingkungan ini di LaporHijau! 🌿\n\n" .
+                                             "📋 *" . $report->title . "*\n" .
+                                             "📍 " . $report->address . "\n" .
+                                             "🔴 Status: " . $report->getStatusLabel() . "\n\n" .
+                                             "Pantau penanganannya di:\n" .
+                                             url()->current() . "\n\n" .
+                                             "#LaporHijau #LingkunganIndonesia";
+                            @endphp
+                            <a href="https://wa.me/?text={{ urlencode($shareText) }}"
                                target="_blank" rel="noopener noreferrer"
-                               class="flex items-center gap-2.5 w-full px-3 py-2.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded-xl transition-all shadow-sm">
-                                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                                </svg>
-                                Share ke WhatsApp
+                               class="flex items-center justify-center gap-2.5 w-full px-3 py-2.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded-xl transition-all shadow-sm">
+                                💬 Share ke WhatsApp
                             </a>
                             <button onclick="copyLaporanLink()" id="btn-copy-link"
                                     class="flex items-center gap-2.5 w-full px-3 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-bold rounded-xl border border-gray-200 transition-all">
@@ -302,6 +600,47 @@
                                 </svg>
                                 Salin Link
                             </button>
+
+                            <!-- Modal Share Card -->
+                            <div x-show="openShareModal" 
+                                 class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+                                 
+                                <!-- Overlay -->
+                                <div class="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity" @click="openShareModal = false"></div>
+                                
+                                <div class="flex min-h-full items-center justify-center p-4 text-center">
+                                    <div class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md p-6 border border-gray-100 dark:border-gray-700">
+                                        <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-700 mb-4">
+                                            <h3 class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                                                <span>🎉</span> Bagikan Pencapaian LaporHijau
+                                            </h3>
+                                            <button type="button" @click="openShareModal = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">✕</button>
+                                        </div>
+                                        
+                                        <div class="flex flex-col items-center gap-4">
+                                            <!-- Preview Image -->
+                                            <div class="w-full border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
+                                                <img :src="shareCardUrl" alt="Share Card Preview" class="w-full h-auto">
+                                            </div>
+                                            
+                                            <div class="grid grid-cols-2 gap-3 w-full">
+                                                <!-- Download PNG -->
+                                                <a :href="shareCardUrl" download="laporhijau-pencapaian.png"
+                                                   class="flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm text-center">
+                                                    💾 Unduh PNG
+                                                </a>
+                                                
+                                                <!-- WA Share -->
+                                                <a :href="'https://wa.me/?text=' + encodeURIComponent('Alhamdulillah, masalah lingkungan ini berhasil diselesaikan! Lihat buktinya di LaporHijau: ' + window.location.href)"
+                                                   target="_blank"
+                                                   class="flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl transition-all shadow-sm text-center">
+                                                    💬 Share WA
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -356,6 +695,93 @@
             }).addTo(detailMap)
               .bindPopup('<b>{{ addslashes($report->title) }}</b><br>{{ addslashes($report->address) }}')
               .openPopup();
+
+            // ── Canvas Share Card Generator (Fitur 3) ──────────────────────
+            function generateShareCard() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 600;
+                canvas.height = 400;
+                const ctx = canvas.getContext('2d');
+
+                // Background Gradient
+                const grad = ctx.createLinearGradient(0, 0, 600, 400);
+                grad.addColorStop(0, '#16a34a');
+                grad.addColorStop(1, '#0d9488');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 600, 400);
+
+                // Decorative Shapes
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.beginPath(); ctx.arc(550, 50, 150, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(50, 350, 100, 0, Math.PI * 2); ctx.fill();
+
+                // Logo Box
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath(); ctx.roundRect(40, 40, 42, 42, 12); ctx.fill();
+                
+                // Logo Icon
+                ctx.fillStyle = '#16a34a';
+                ctx.font = 'black 20px "Plus Jakarta Sans", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('LH', 61, 61);
+
+                // Brand Name
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'extrabold 22px "Plus Jakarta Sans", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('LaporHijau', 94, 61);
+
+                // Subtitle
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText('PENCAPAIAN AKSI LINGKUNGAN NYATA', 40, 125);
+
+                // Main Heading
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'extrabold 24px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText('Masalah Lingkungan Berhasil Ditangani! ✅', 40, 155);
+
+                // Wrap Title Text
+                ctx.font = 'bold 18px "Plus Jakarta Sans", sans-serif';
+                const title = "{{ addslashes($report->title) }}";
+                const words = title.split(' ');
+                let line = '';
+                let y = 205;
+                const maxWidth = 520;
+                const lineHeight = 26;
+
+                for (let n = 0; n < words.length; n++) {
+                    let testLine = line + words[n] + ' ';
+                    let metrics = ctx.measureText(testLine);
+                    if (metrics.width > maxWidth && n > 0) {
+                        ctx.fillText(line, 40, y);
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.fillText(line, 40, y);
+
+                // Metadata Details
+                const resolvedDate = "{{ $report->statusLogs->where('new_status','resolved')->last()?->created_at?->format('d M Y') ?? $report->updated_at->format('d M Y') }}";
+                const reporterName = "{{ addslashes($report->user->name) }}";
+                const address = "{{ addslashes(Str::limit($report->address, 55)) }}";
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(`📍 Lokasi: ${address}`, 40, 310);
+                ctx.fillText(`📅 Selesai: ${resolvedDate}  ·  Dilaporkan oleh: ${reporterName}`, 40, 332);
+
+                // Web Info Footer
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+                ctx.font = '800 10px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText('laporhijau.app — Bersama Jaga Lingkungan Indonesia', 40, 370);
+
+                const dataUrl = canvas.toDataURL('image/png');
+                window.dispatchEvent(new CustomEvent('open-share-modal', { detail: { url: dataUrl } }));
+            }
 
             // ── Copy Link ──────────────────────────────────────────────────
             function copyLaporanLink() {

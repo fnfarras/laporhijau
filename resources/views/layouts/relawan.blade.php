@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id"
+      x-data="darkModeApp()"
+      x-init="initDark()"
+      :class="{ 'dark': dark }">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }} Relawan — @yield('title', 'Dashboard')</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
     <!-- Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -234,6 +238,23 @@
 
     function closeVerifyModal() {
         document.getElementById('verify-modal').classList.replace('flex', 'hidden');
+    }
+    function darkModeApp() {
+        return {
+            dark: false,
+            initDark() {
+                const saved = localStorage.getItem('laporhijau-dark');
+                if (saved !== null) {
+                    this.dark = saved === 'true';
+                } else {
+                    this.dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                }
+            },
+            toggleDark() {
+                this.dark = !this.dark;
+                localStorage.setItem('laporhijau-dark', this.dark);
+            }
+        }
     }
 </script>
 

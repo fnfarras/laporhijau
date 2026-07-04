@@ -61,7 +61,8 @@
                         @if ($report->photos->isNotEmpty())
                             <img src="{{ $report->photos->first()->photo_url }}"
                                  alt="{{ $report->title }}"
-                                 class="w-full h-full object-cover">
+                                 class="w-full h-full object-cover"
+                                 loading="lazy">
                         @else
                             <div class="absolute inset-0 flex flex-col items-center justify-center text-gray-300">
                                 <svg class="w-10 h-10 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

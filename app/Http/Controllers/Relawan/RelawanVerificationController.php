@@ -62,7 +62,7 @@ class RelawanVerificationController extends Controller
         }
 
         $pending    = $query->paginate(15);
-        $categories = \App\Models\ReportCategory::orderBy('name')->get();
+        $categories = cache()->remember('laporhijau_categories', 3600, fn() => \App\Models\ReportCategory::orderBy('name')->get());
 
         return view('relawan.antrian', compact('pending', 'categories', 'categoryId'));
     }

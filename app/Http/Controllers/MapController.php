@@ -14,7 +14,7 @@ class MapController extends Controller
      */
     public function index(): View
     {
-        $categories = ReportCategory::orderBy('name')->get();
+        $categories = cache()->remember('laporhijau_categories', 3600, fn() => ReportCategory::orderBy('name')->get());
         return view('peta', compact('categories'));
     }
 
@@ -41,6 +41,9 @@ class MapController extends Controller
                     'photo_url'     => $report->photos->first()?->photo_url,
                     'created_at'    => $report->created_at->format('d M Y H:i'),
                     'reporter_name' => $report->user?->name ?? 'Masyarakat',
+                    'is_overdue'    => $report->is_overdue,
+                    'sla_verification_label' => $report->sla_verification['label'],
+                    'sla_handling_label'     => $report->sla_handling['label'],
                 ];
             });
 

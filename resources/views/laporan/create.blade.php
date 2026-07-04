@@ -31,14 +31,36 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
             </a>
-            <h2 class="text-xl font-bold text-gray-900" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                Buat Laporan Masalah Lingkungan
-            </h2>
-        </div>
+            <div>
+                <nav class="flex items-center text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-slate-500 mb-1.5 no-print">
+                    <a href="{{ route('home') }}" class="hover:text-green-600 transition-colors">Beranda</a>
+                    <span class="mx-1.5">/</span>
+                    <a href="{{ route('masyarakat.laporan') }}" class="hover:text-green-600 transition-colors">Laporan</a>
+                    <span class="mx-1.5">/</span>
+                    <span class="text-gray-500">Buat Laporan</span>
+                </nav>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    Buat Laporan Masalah Lingkungan
+                </h2>
+            </div>
     </x-slot>
 
-    <div class="py-8 pb-28" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+    <div class="py-8 pb-28" style="font-family: 'Plus Jakarta Sans', sans-serif;" 
+         x-data="{ step: {{ $errors->has('photos') || $errors->has('photos.*') ? 3 : ($errors->has('address') || $errors->has('latitude') || $errors->has('longitude') ? 2 : 1) }} }" 
+         x-init="$watch('step', val => { if(val === 2) { setTimeout(() => { window.map && window.map.invalidateSize() }, 150) } })">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Progress Bar Step Wizard -->
+            <div class="mb-6 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700/80 p-4.5 shadow-sm">
+                <div class="flex items-center justify-between text-xs font-extrabold text-gray-500 dark:text-gray-400 mb-2.5">
+                    <span :class="{'text-green-600 dark:text-green-400': step >= 1}">1. Detail Laporan</span>
+                    <span :class="{'text-green-600 dark:text-green-400': step >= 2}">2. Lokasi Kejadian</span>
+                    <span :class="{'text-green-600 dark:text-green-400': step >= 3}">3. Foto Bukti</span>
+                </div>
+                <div class="w-full bg-gray-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                    <div class="bg-green-600 h-full transition-all duration-300" :style="'width: ' + (step === 1 ? '33.33%' : (step === 2 ? '66.66%' : '100%'))"></div>
+                </div>
+            </div>
 
             <form method="POST" action="{{ route('laporan.store') }}" enctype="multipart/form-data" id="report-form">
                 @csrf
@@ -56,7 +78,7 @@
                 @endif
 
                 {{-- ── Card: Informasi Laporan ────────────────────────── --}}
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6" x-show="step === 1" x-transition>
                     <h3 class="text-base font-bold text-gray-800 mb-5 pb-3 border-b border-gray-100">
                         📋 Informasi Laporan
                     </h3>
@@ -120,7 +142,7 @@
                 </div>
 
                 {{-- ── Card: Lokasi ───────────────────────────────────── --}}
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6" x-show="step === 2" x-transition style="display: none;">
                     <h3 class="text-base font-bold text-gray-800 mb-2 pb-3 border-b border-gray-100">
                         📍 Lokasi Kejadian
                     </h3>
@@ -195,7 +217,7 @@
                 </div>
 
                 {{-- ── Card: Foto ─────────────────────────────────────── --}}
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6" x-show="step === 3" x-transition style="display: none;">
                     <h3 class="text-base font-bold text-gray-800 mb-2 pb-3 border-b border-gray-100">
                         📷 Foto Bukti
                     </h3>
@@ -238,20 +260,47 @@
     </div>
 
     {{-- ── Sticky Submit Bar ────────────────────────────────────── --}}
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-2xl">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-            <p class="text-xs text-gray-500 hidden sm:block">+5 poin setelah laporan terkirim 🌿</p>
-            <button
-                form="report-form"
-                type="submit"
-                id="submit-btn"
-                class="flex-1 sm:flex-none sm:min-w-[200px] py-3 px-8 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-200"
-            >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                </svg>
-                Kirim Laporan
-            </button>
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700/80 shadow-2xl transition-colors">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+            <p class="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">+5 poin setelah laporan terkirim 🌿</p>
+            
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                {{-- Kembali --}}
+                <button
+                    type="button"
+                    x-show="step > 1"
+                    @click="step--"
+                    class="px-5 py-3 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 font-bold text-sm rounded-xl transition-all w-1/2 sm:w-auto text-center"
+                    style="display: none;"
+                >
+                    Kembali
+                </button>
+
+                {{-- Lanjut --}}
+                <button
+                    type="button"
+                    x-show="step < 3"
+                    @click="step++"
+                    class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-green-200 dark:shadow-none w-1/2 sm:w-auto text-center"
+                >
+                    Lanjut
+                </button>
+
+                {{-- Kirim Laporan --}}
+                <button
+                    form="report-form"
+                    type="submit"
+                    id="submit-btn"
+                    x-show="step === 3"
+                    class="px-8 py-3 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-200 dark:shadow-none w-1/2 sm:w-auto text-center"
+                    style="display: none;"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                    </svg>
+                    Kirim Laporan
+                </button>
+            </div>
         </div>
     </div>
 
@@ -263,6 +312,7 @@
             const defaultLng = {{ old('longitude', 101.4477) }};
 
             const map = L.map('map').setView([defaultLat, defaultLng], 13);
+            window.map = map;
 
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -270,7 +320,33 @@
 
             let marker = null;
 
-            function setMarker(lat, lng) {
+            async function reverseGeocode(lat, lng) {
+                const addressInput = document.getElementById('address');
+                const originalPlaceholder = addressInput.placeholder;
+                addressInput.placeholder = '⏳ Mencari alamat otomatis...';
+                addressInput.readOnly = true;
+
+                try {
+                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18`, {
+                        headers: {
+                            'Accept-Language': 'id-ID,id;q=0.9,en;q=0.8'
+                        }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.display_name) {
+                            addressInput.value = data.display_name;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Gagal memuat geocoding:', error);
+                } finally {
+                    addressInput.placeholder = originalPlaceholder;
+                    addressInput.readOnly = false;
+                }
+            }
+
+            function setMarker(lat, lng, triggerGeocode = false) {
                 if (marker) map.removeLayer(marker);
                 marker = L.marker([lat, lng], {
                     icon: L.divIcon({
@@ -285,16 +361,20 @@
                 document.getElementById('longitude').value = lng.toFixed(7);
                 document.getElementById('coords-text').textContent = lat.toFixed(6) + ', ' + lng.toFixed(6);
                 document.getElementById('coords-display').classList.remove('hidden');
+
+                if (triggerGeocode) {
+                    reverseGeocode(lat, lng);
+                }
             }
 
             // Klik peta untuk pilih koordinat manual
             map.on('click', function(e) {
-                setMarker(e.latlng.lat, e.latlng.lng);
+                setMarker(e.latlng.lat, e.latlng.lng, true);
             });
 
             // Restore marker jika ada old value (form validation failed)
             @if(old('latitude'))
-                setMarker({{ old('latitude') }}, {{ old('longitude') }});
+                setMarker({{ old('latitude') }}, {{ old('longitude') }}, false);
                 map.setView([{{ old('latitude') }}, {{ old('longitude') }}], 15);
             @endif
 
@@ -315,7 +395,7 @@
                     function(pos) {
                         const lat = pos.coords.latitude;
                         const lng = pos.coords.longitude;
-                        setMarker(lat, lng);
+                        setMarker(lat, lng, true);
                         map.setView([lat, lng], 16);
                         btnText.textContent = 'Lokasi Ditemukan ✓';
                         btn.classList.replace('bg-sky-500', 'bg-green-600');

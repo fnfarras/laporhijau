@@ -57,6 +57,65 @@
         </div>
     </div>
 
+    @if ($overdueReports->isNotEmpty())
+        {{-- ── Laporan Terlambat SLA ────────────────────────────── --}}
+        <div class="bg-red-50/50 dark:bg-red-950/10 border border-red-200 dark:border-red-900/40 rounded-2xl p-5 mb-8 shadow-sm transition-colors no-print">
+            <h2 class="text-base font-extrabold text-red-650 dark:text-red-400 mb-4 flex items-center gap-2">
+                <span>⚠️</span> Laporan Terlambat — Butuh Tindakan Segera
+            </h2>
+            <div class="bg-white dark:bg-slate-800 rounded-xl border border-red-100 dark:border-slate-700/80 overflow-hidden shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-red-50/70 dark:bg-red-950/20 border-b border-red-100 dark:border-red-900/30 text-xs font-bold text-red-700 dark:text-red-400 uppercase tracking-wider">
+                                <th class="px-5 py-3">Laporan</th>
+                                <th class="px-5 py-3">Lokasi</th>
+                                <th class="px-5 py-3">Keterlambatan</th>
+                                <th class="px-5 py-3">Status</th>
+                                <th class="px-5 py-3 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-red-100/50 dark:divide-red-900/20 text-sm">
+                            @foreach ($overdueReports as $report)
+                                @php
+                                    $diffText = '';
+                                    if ($report->status === 'pending') {
+                                        $diffText = now()->diffInDays($report->verified_deadline) . ' Hari (Verifikasi)';
+                                    } else {
+                                        $diffText = now()->diffInDays($report->handled_deadline) . ' Hari (Penanganan)';
+                                    }
+                                @endphp
+                                <tr style="background: #fef2f2; border-left: 4px solid #ef4444;" class="dark:bg-red-950/10">
+                                    <td class="px-5 py-4">
+                                        <a href="{{ route('laporan.show', $report) }}" class="font-bold text-red-700 dark:text-red-400 hover:underline">
+                                            {{ $report->title }}
+                                        </a>
+                                    </td>
+                                    <td class="px-5 py-4 text-xs text-gray-500 dark:text-gray-400">
+                                        {{ $report->address }}
+                                    </td>
+                                    <td class="px-5 py-4 font-black text-red-650 dark:text-red-400">
+                                        Terlambat {{ $diffText }}
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="px-2.5 py-1 text-[10px] font-bold rounded-full {{ $report->status === 'pending' ? 'bg-amber-100 text-amber-800' : 'bg-sky-100 text-sky-800' }}">
+                                            {{ $report->getStatusLabel() }}
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-4 text-right">
+                                        <a href="{{ route('laporan.show', $report) }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm">
+                                            Tangani Sekarang
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
+
     {{-- ── Grafik ────────────────────────────────────────────── --}}
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
 

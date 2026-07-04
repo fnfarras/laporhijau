@@ -49,15 +49,21 @@
             </div>
 
             {{-- Tombol --}}
-            <div class="flex gap-2">
+            <div class="flex gap-2 flex-wrap sm:flex-nowrap">
                 <button type="submit"
-                    class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold rounded-xl transition-colors">
+                    class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold rounded-xl transition-colors whitespace-nowrap">
                     Filter
                 </button>
                 <a href="{{ route('pemerintah.laporan') }}"
-                    class="px-5 py-2 border border-gray-200 text-gray-500 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors">
+                    class="px-5 py-2 border border-gray-200 text-gray-500 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors whitespace-nowrap">
                     Reset
                 </a>
+                @if (!$reports->isEmpty())
+                    <button type="button" onclick="exportReportsToCSV()"
+                        class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-colors whitespace-nowrap flex items-center gap-1.5 shadow-sm">
+                        💾 Ekspor CSV
+                    </button>
+                @endif
             </div>
         </form>
     </div>
@@ -129,9 +135,14 @@
                                                 </button>
                                             </form>
                                         @elseif ($report->status === 'in_progress')
-                                            <form method="POST" action="{{ route('pemerintah.update-status', $report) }}">
+                                            <form method="POST" action="{{ route('pemerintah.update-status', $report) }}" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-end gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
                                                 @csrf
                                                 <input type="hidden" name="action" value="resolved">
+                                                <div class="flex flex-col items-start gap-1">
+                                                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">📸 Foto Bukti Selesai</label>
+                                                    <input type="file" name="after_photo" required accept="image/*"
+                                                           class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 cursor-pointer">
+                                                </div>
                                                 <button type="submit"
                                                     class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors whitespace-nowrap">
                                                     🎉 Selesai
@@ -154,4 +165,48 @@
             {{ $reports->links() }}
         @endif
     @endif
+
+    @push('scripts')
+    <script>
+        function exportReportsToCSV() {
+            let csv = [];
+            // Header
+            csv.push("Judul Laporan,Alamat,Kategori,Pelapor,Tanggal Pengajuan,Status");
+            
+            // Rows
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach(row => {
+                const cols = row.querySelectorAll("td");
+                if (cols.length >= 5) {
+                    const title = cols[0].querySelector("a")?.innerText.trim() || "";
+                    const address = cols[0].querySelector("p")?.innerText.replace("📍", "").trim() || "";
+                    const category = cols[1]?.innerText.trim() || "";
+                    const reporter = cols[2]?.innerText.trim() || "";
+                    const date = cols[3]?.innerText.trim() || "";
+                    const status = cols[4]?.innerText.trim() || "";
+                    
+                    const rowData = [
+                        `"${title.replace(/"/g, '""')}"`,
+                        `"${address.replace(/"/g, '""')}"`,
+                        `"${category.replace(/"/g, '""')}"`,
+                        `"${reporter.replace(/"/g, '""')}"`,
+                        `"${date.replace(/"/g, '""')}"`,
+                        `"${status.replace(/"/g, '""')}"`
+                    ];
+                    csv.push(rowData.join(","));
+                }
+            });
+            
+            // Download
+            const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + csv.join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `laporhijau-laporan-${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+    @endpush
 </x-pemerintah-layout>
