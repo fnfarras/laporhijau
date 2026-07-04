@@ -257,49 +257,49 @@
 
             </form>
         </div>
-    </div>
 
-    {{-- ── Sticky Submit Bar ────────────────────────────────────── --}}
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700/80 shadow-2xl transition-colors">
-        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-            <p class="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">+5 poin setelah laporan terkirim 🌿</p>
-            
-            <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
-                {{-- Kembali --}}
-                <button
-                    type="button"
-                    x-show="step > 1"
-                    @click="step--"
-                    class="px-5 py-3 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 font-bold text-sm rounded-xl transition-all w-1/2 sm:w-auto text-center"
-                    style="display: none;"
-                >
-                    Kembali
-                </button>
-
-                {{-- Lanjut --}}
-                <button
-                    type="button"
-                    x-show="step < 3"
-                    @click="step++"
-                    class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-green-200 dark:shadow-none w-1/2 sm:w-auto text-center"
-                >
-                    Lanjut
-                </button>
-
-                {{-- Kirim Laporan --}}
-                <button
-                    form="report-form"
-                    type="submit"
-                    id="submit-btn"
-                    x-show="step === 3"
-                    class="px-8 py-3 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-200 dark:shadow-none w-1/2 sm:w-auto text-center"
-                    style="display: none;"
-                >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                    </svg>
-                    Kirim Laporan
-                </button>
+        {{-- ── Sticky Submit Bar ────────────────────────────────────── --}}
+        <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700/80 shadow-2xl transition-colors">
+            <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+                <p class="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">+5 poin setelah laporan terkirim 🌿</p>
+                
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    {{-- Kembali --}}
+                    <button
+                        type="button"
+                        x-show="step > 1"
+                        @click="step--"
+                        class="px-5 py-3 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 font-bold text-sm rounded-xl transition-all w-1/2 sm:w-auto text-center"
+                        style="display: none;"
+                    >
+                        Kembali
+                    </button>
+ 
+                    {{-- Lanjut --}}
+                    <button
+                        type="button"
+                        x-show="step < 3"
+                        @click="step++"
+                        class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-green-200 dark:shadow-none w-1/2 sm:w-auto text-center"
+                    >
+                        Lanjut
+                    </button>
+ 
+                    {{-- Kirim Laporan --}}
+                    <button
+                        form="report-form"
+                        type="submit"
+                        id="submit-btn"
+                        x-show="step === 3"
+                        class="px-8 py-3 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-200 dark:shadow-none w-1/2 sm:w-auto text-center"
+                        style="display: none;"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        Kirim Laporan
+                    </button>
+                </div>
             </div>
         </div>
     </div>
