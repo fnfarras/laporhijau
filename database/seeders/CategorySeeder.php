@@ -22,15 +22,29 @@ class CategorySeeder extends Seeder
             ['name' => 'Lainnya',                 'icon' => '📋'],
         ];
 
-        foreach ($categories as $category) {
-            DB::table('report_categories')->insertOrIgnore([
-                'name'       => $category['name'],
-                'icon'       => $category['icon'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        // 1. Seed or update the categories uniquely
+        $seededIds = [];
+        foreach ($categories as $cat) {
+            $record = \App\Models\ReportCategory::updateOrCreate(
+                ['name' => $cat['name']],
+                ['icon' => $cat['icon']]
+            );
+            $seededIds[$cat['name']] = $record->id;
+            $this->command->info("✅ Kategori [{$cat['name']}] ditambahkan/diperbarui.");
+        }
 
-            $this->command->info("✅ Kategori [{$category['name']}] ditambahkan.");
+        // 2. Clean up any other duplicates in the database
+        $allDbCategories = \App\Models\ReportCategory::all();
+        foreach ($allDbCategories as $dbCat) {
+            if (isset($seededIds[$dbCat->name]) && $dbCat->id != $seededIds[$dbCat->name]) {
+                // Re-associate reports to the correct seeded ID before deleting to prevent cascading deletion
+                \App\Models\Report::where('category_id', $dbCat->id)
+                    ->update(['category_id' => $seededIds[$dbCat->name]]);
+                
+                // Safe to delete duplicate now
+                $dbCat->delete();
+                $this->command->warn("⚠️ Menghapus duplikat kategori [{$dbCat->name}] dengan ID {$dbCat->id}");
+            }
         }
     }
 }

@@ -254,6 +254,7 @@
         </script>
 
         {{-- Bottom Navigation Bar (Mobile Only) --}}
+        @if(!request()->routeIs('laporan.create'))
         <div class="sm:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-gray-150 dark:border-slate-700/80 z-40 py-2.5 px-4 flex justify-between items-center no-print shadow-lg">
             {{-- Beranda --}}
             <a href="{{ route('home') }}" class="flex flex-col items-center gap-1 flex-1 text-center {{ request()->routeIs('home') ? 'text-green-600 dark:text-green-400 font-bold' : 'text-gray-400 dark:text-gray-500' }}">
@@ -291,5 +292,6 @@
                 </a>
             @endauth
         </div>
+        @endif
     </body>
 </html>
