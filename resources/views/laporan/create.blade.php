@@ -223,14 +223,28 @@
                     </h3>
                     <p class="text-xs text-gray-500 mb-4">Maksimal 5 foto (JPG, PNG, WebP), ukuran maks 5MB per foto.</p>
 
-                    <div
-                        id="drop-zone"
-                        onclick="document.getElementById('photos').click()"
-                        class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors mb-4"
-                    >
-                        <div class="text-4xl mb-2">🖼️</div>
-                        <p class="text-sm font-semibold text-gray-600">Klik untuk pilih foto</p>
-                        <p class="text-xs text-gray-400 mt-1">atau seret file ke sini</p>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        {{-- Button Ambil dari Kamera --}}
+                        <button
+                            type="button"
+                            onclick="document.getElementById('camera-capture').click()"
+                            class="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl hover:border-green-500 hover:bg-green-50/50 dark:hover:bg-slate-800/40 transition-all cursor-pointer text-center group"
+                        >
+                            <span class="text-3xl mb-2 group-hover:scale-110 transition-transform">📸</span>
+                            <span class="text-xs font-bold text-gray-700 dark:text-gray-300">Ambil Foto</span>
+                            <span class="text-[9px] text-gray-400 mt-0.5">Buka Kamera HP</span>
+                        </button>
+
+                        {{-- Button Pilih dari Galeri --}}
+                        <button
+                            type="button"
+                            onclick="document.getElementById('photos').click()"
+                            class="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl hover:border-green-500 hover:bg-green-50/50 dark:hover:bg-slate-800/40 transition-all cursor-pointer text-center group"
+                        >
+                            <span class="text-3xl mb-2 group-hover:scale-110 transition-transform">🖼️</span>
+                            <span class="text-xs font-bold text-gray-700 dark:text-gray-300">Pilih Galeri</span>
+                            <span class="text-[9px] text-gray-400 mt-0.5">Pilih dari File/Galeri</span>
+                        </button>
                     </div>
 
                     <input
@@ -241,6 +255,15 @@
                         accept="image/*"
                         class="hidden"
                         onchange="previewPhotos(event)"
+                    >
+
+                    <input
+                        type="file"
+                        id="camera-capture"
+                        accept="image/*"
+                        capture="environment"
+                        class="hidden"
+                        onchange="capturePhoto(event)"
                     >
 
                     <div id="photo-preview-grid" class="grid grid-cols-5 gap-2">
@@ -426,6 +449,19 @@
                 selectedFiles = [...selectedFiles, ...newFiles].slice(0, 5);
 
                 renderPreviews();
+            }
+
+            function capturePhoto(event) {
+                const newFiles = Array.from(event.target.files);
+                if (newFiles.length === 0) return;
+
+                // Gabungkan dengan file sebelumnya, max 5
+                selectedFiles = [...selectedFiles, ...newFiles].slice(0, 5);
+
+                renderPreviews();
+
+                // Reset camera input agar bisa digunakan kembali
+                event.target.value = '';
             }
 
             function renderPreviews() {
