@@ -54,8 +54,7 @@ class HomeController extends Controller
                 'resolved_rate'     => $totalReports > 0
                     ? round($resolvedCount / $totalReports * 100)
                     : 0,
-                'laporan_bulan_ini' => Report::whereMonth('created_at', now()->month)
-                    ->whereYear('created_at', now()->year)
+                'laporan_bulan_ini' => Report::where('created_at', '>=', now()->subMonths(3))
                     ->count(),
                 
                 // Stats baru hari ini (Fitur 2)

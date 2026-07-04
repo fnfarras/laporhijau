@@ -5,8 +5,13 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="/" class="flex items-center gap-2">
+                      <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                        LH
+                      </div>
+                      <span class="font-bold text-green-600 text-lg">
+                        LaporHijau
+                      </span>
                     </a>
                 </div>
 

@@ -63,11 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createCustomMarkerIcon(status, isOverdue = false) {
-        const color = getMarkerColor(status);
         const overdueClass = isOverdue ? 'overdue-marker' : '';
+        const statusClass = `marker-pin-${status}`;
         return L.divIcon({
             className: 'custom-div-icon',
-            html: `<div class="marker-pin ${overdueClass}" style="background-color: ${color};"></div>`,
+            html: `<div class="marker-pin ${statusClass} ${overdueClass}"></div>`,
             iconSize: [30, 42],
             iconAnchor: [15, 42],
             popupAnchor: [0, -36]

@@ -48,7 +48,13 @@
                 justify-content: center;
                 box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
                 border: 2px solid white;
+                transition: none !important;
             }
+            .marker-pin-pending { background-color: #f59e0b !important; }
+            .marker-pin-verified { background-color: #0ea5e9 !important; }
+            .marker-pin-in_progress { background-color: #f97316 !important; }
+            .marker-pin-resolved { background-color: #16a34a !important; }
+            .marker-pin-rejected { background-color: #ef4444 !important; }
             .marker-pin.overdue-marker {
                 border: 3px solid #ef4444 !important;
                 animation: marker-pulse 1.5s infinite;
