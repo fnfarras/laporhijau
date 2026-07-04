@@ -133,7 +133,12 @@
                 <div class="lg:col-span-1 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700/80 shadow-sm p-4 flex flex-col h-[75vh] transition-all"
                      :class="{'fixed inset-x-4 bottom-24 top-20 z-40 h-auto': showListMobile, 'hidden lg:flex': !showListMobile}">
                     <div class="mb-4">
-                        <h2 class="font-bold text-gray-800 text-base">Daftar Laporan</h2>
+                        <div class="flex items-center justify-between">
+                            <h2 class="font-bold text-gray-800 dark:text-white text-base">Daftar Laporan</h2>
+                            <button @click="showListMobile = false" class="lg:hidden text-gray-400 hover:text-gray-600 dark:hover:text-white text-xs font-bold bg-gray-100 dark:bg-slate-700 px-2.5 py-1 rounded-lg">
+                                Tutup
+                            </button>
+                        </div>
                         <p class="text-xs text-gray-400 mt-0.5" id="report-count-indicator">Sedang memuat data...</p>
                         
                         <div class="mt-3 relative">
@@ -163,16 +168,22 @@
                 <div class="lg:col-span-3 relative">
                     <div id="interactive-map" class="shadow-sm border border-gray-100 dark:border-slate-700/80"></div>
 
-                    {{-- Floating Lapor via WA Button (Fitur Premium) --}}
-                    <button onclick="laporWhatsAppMap()" 
-                            class="absolute bottom-16 lg:bottom-4 right-4 z-[400] px-4.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl shadow-lg flex items-center gap-2 hover:scale-105 transition-transform no-print cursor-pointer">
-                        <span>💬</span> Lapor via WA
-                    </button>
+                    {{-- Floating Button Container (Mobile Only: Side-by-side at bottom) --}}
+                    <div class="absolute bottom-4 inset-x-4 z-[400] flex sm:hidden gap-3 no-print" x-show="!showListMobile">
+                        <button onclick="laporWhatsAppMap()" 
+                                class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform cursor-pointer">
+                            <span>💬</span> Lapor via WA
+                        </button>
+                        <button @click="showListMobile = true" 
+                                class="flex-1 py-3 bg-green-600 hover:bg-green-700 text-white text-xs font-extrabold rounded-xl shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                            <span>📋</span> Daftar Laporan
+                        </button>
+                    </div>
 
-                    {{-- Floating Toggle List Button (Mobile Only) (Fitur Wow Premium Mobile) --}}
-                    <button @click="showListMobile = !showListMobile" 
-                            class="lg:hidden absolute bottom-4 right-4 z-[400] px-4.5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-xl shadow-lg flex items-center gap-2 hover:scale-105 transition-transform no-print">
-                        <span>📋</span> <span x-text="showListMobile ? 'Tutup Daftar' : 'Daftar Laporan'">Daftar Laporan</span>
+                    {{-- Desktop Floating Button --}}
+                    <button onclick="laporWhatsAppMap()" 
+                            class="hidden sm:flex absolute bottom-4 right-4 z-[400] px-4.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl shadow-lg items-center gap-2 hover:scale-105 transition-transform no-print cursor-pointer">
+                        <span>💬</span> Lapor via WA
                     </button>
 
                     {{-- Panel Filter Pojok Kanan Atas --}}
