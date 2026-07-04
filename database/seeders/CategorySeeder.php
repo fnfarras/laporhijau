@@ -46,5 +46,8 @@ class CategorySeeder extends Seeder
                 $this->command->warn("⚠️ Menghapus duplikat kategori [{$dbCat->name}] dengan ID {$dbCat->id}");
             }
         }
+
+        // Invalidate categories cache
+        cache()->forget('laporhijau_categories');
     }
 }
