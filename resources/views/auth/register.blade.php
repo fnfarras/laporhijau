@@ -34,10 +34,10 @@
             {{-- Branding Tengah --}}
             <div class="my-auto py-12 relative z-10 space-y-6">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-white text-green-700 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">
-                        LH
+                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                        🌿
                     </div>
-                    <span class="font-black text-2xl tracking-tight">LaporHijau</span>
+                    <span class="font-black text-2xl tracking-tight text-white">LaporHijau</span>
                 </div>
                 
                 <h2 class="text-3xl font-extrabold leading-tight">

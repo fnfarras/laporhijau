@@ -116,7 +116,14 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
-            <span class="font-bold text-gray-800">LaporHijau Relawan</span>
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 bg-green-600 rounded-md flex items-center justify-center text-[10px] shadow-sm">
+                    🌿
+                </div>
+                <span class="font-black text-gray-900 text-sm tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    Lapor<span class="text-green-600">Hijau</span> <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider ml-1">Relawan</span>
+                </span>
+            </div>
         </header>
 
         {{-- Flash messages --}}

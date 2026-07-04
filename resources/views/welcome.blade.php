@@ -142,8 +142,10 @@
             <div class="flex items-center justify-between h-17">
                 {{-- Logo --}}
                 <a href="{{ route('home') }}" class="flex items-center gap-2">
-                    <span class="text-2xl">🍃</span>
-                    <span class="font-extrabold text-gray-900 dark:text-white text-xl tracking-tight">
+                    <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-sm shadow-sm">
+                        🌿
+                    </div>
+                    <span class="font-black text-gray-900 dark:text-white text-xl tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                         Lapor<span class="text-green-600">Hijau</span>
                     </span>
                 </a>

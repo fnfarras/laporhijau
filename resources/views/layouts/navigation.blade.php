@@ -6,11 +6,11 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="/" class="flex items-center gap-2">
-                      <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                        LH
+                      <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-sm shadow-sm">
+                        🌿
                       </div>
-                      <span class="font-bold text-green-600 text-lg">
-                        LaporHijau
+                      <span class="font-black text-gray-900 dark:text-white text-lg tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                        Lapor<span class="text-green-600">Hijau</span>
                       </span>
                     </a>
                 </div>
