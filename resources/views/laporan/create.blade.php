@@ -474,17 +474,14 @@
                 selectedFiles.forEach((file, index) => {
                     dt.items.add(file);
 
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const item = document.createElement('div');
-                        item.className = 'photo-preview-item';
-                        item.innerHTML = `
-                            <img src="${e.target.result}" alt="Preview">
-                            <button class="remove-btn" type="button" onclick="removePhoto(${index})">×</button>
-                        `;
-                        grid.appendChild(item);
-                    };
-                    reader.readAsDataURL(file);
+                    const imgUrl = URL.createObjectURL(file);
+                    const item = document.createElement('div');
+                    item.className = 'photo-preview-item';
+                    item.innerHTML = `
+                        <img src="${imgUrl}" alt="Preview">
+                        <button class="remove-btn" type="button" onclick="removePhoto(${index})">×</button>
+                    `;
+                    grid.appendChild(item);
                 });
 
                 document.getElementById('photos').files = dt.files;
