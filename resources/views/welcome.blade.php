@@ -151,13 +151,13 @@
                 </a>
  
                 {{-- Desktop Nav Links --}}
-                <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-600 dark:text-gray-300">
-                    <a href="{{ route('peta') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🗺 Peta</a>
-                    <a href="{{ route('event.index') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🌿 Event</a>
-                    <a href="{{ route('artikel.index') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">📚 Artikel</a>
-                    <a href="{{ route('leaderboard') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🏆 Leaderboard</a>
-                    <a href="{{ route('hadiah') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🎁 Hadiah</a>
-                    <a href="{{ route('laporan-anonim.create') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🔒 Lapor Anonim</a>
+                <div class="hidden md:flex items-center gap-4 text-xs font-bold text-gray-600 dark:text-gray-300">
+                    <a href="{{ route('peta') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors whitespace-nowrap">🗺 Peta</a>
+                    <a href="{{ route('event.index') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors whitespace-nowrap">🌿 Event</a>
+                    <a href="{{ route('artikel.index') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors whitespace-nowrap">📚 Artikel</a>
+                    <a href="{{ route('leaderboard') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors whitespace-nowrap">🏆 Leaderboard</a>
+                    <a href="{{ route('hadiah') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors whitespace-nowrap">🎁 Hadiah</a>
+                    <a href="{{ route('laporan-anonim.create') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors whitespace-nowrap">🔒 Lapor Anonim</a>
                 </div>
 
                 {{-- Action / Auth --}}
