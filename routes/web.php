@@ -38,6 +38,20 @@ Route::get('/komunitas/event/{event}', [EventController::class, 'show'])->name('
 Route::get('/artikel',         [ArticleController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}',  [ArticleController::class, 'show'])->name('artikel.show');
 
+// ── Open Data Dashboard (public read & downloads) ───────────────────
+use App\Http\Controllers\OpenDataController;
+Route::get('/open-data', [OpenDataController::class, 'index'])->name('open-data');
+Route::get('/open-data/download/csv', [OpenDataController::class, 'downloadCsv'])->name('open-data.download.csv');
+Route::get('/open-data/download/excel', [OpenDataController::class, 'downloadExcel'])->name('open-data.download.excel');
+Route::get('/open-data/download/geojson', [OpenDataController::class, 'downloadGeoJson'])->name('open-data.download.geojson');
+
+// ── Open Data API Endpoints (public JSON) ───────────────────────────
+Route::prefix('api/open-data')->group(function () {
+    Route::get('/stats', [OpenDataController::class, 'apiStats'])->name('api.open-data.stats');
+    Route::get('/reports', [OpenDataController::class, 'apiReports'])->name('api.open-data.reports');
+    Route::get('/geojson', [OpenDataController::class, 'apiGeoJson'])->name('api.open-data.geojson');
+});
+
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('dashboard');

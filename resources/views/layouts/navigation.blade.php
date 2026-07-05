@@ -32,6 +32,9 @@
                     <x-nav-link :href="route('artikel.index')" :active="request()->routeIs('artikel.*')">
                         📚 Artikel
                     </x-nav-link>
+                    <x-nav-link :href="route('open-data')" :active="request()->routeIs('open-data')">
+                        🔓 Open Data
+                    </x-nav-link>
                     <x-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
                         🏆 Leaderboard
                     </x-nav-link>
@@ -247,6 +250,9 @@
              </x-responsive-nav-link>
              <x-responsive-nav-link :href="route('artikel.index')" :active="request()->routeIs('artikel.*')">
                  📚 Artikel Edukasi
+             </x-responsive-nav-link>
+             <x-responsive-nav-link :href="route('open-data')" :active="request()->routeIs('open-data')">
+                 🔓 Open Data
              </x-responsive-nav-link>
              <x-responsive-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
                  🏆 Leaderboard

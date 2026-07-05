@@ -406,6 +406,12 @@
                     <p class="text-green-100/90 text-sm font-semibold tracking-wider uppercase">Tingkat Penyelesaian %</p>
                 </div>
             </div>
+
+            <div class="text-center mt-12">
+                <a href="{{ route('open-data') }}" class="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-green-700 hover:bg-gray-50 font-extrabold text-sm rounded-2xl transition-all shadow-md">
+                    Lihat Data Lengkap →
+                </a>
+            </div>
         </div>
     </section>
 
@@ -602,6 +608,7 @@
                         <li><a href="{{ route('event.index') }}" class="hover:text-green-400 transition-colors">🌿 Event Komunitas</a></li>
                         <li><a href="{{ route('artikel.index') }}" class="hover:text-green-400 transition-colors">📚 Artikel Edukasi</a></li>
                         <li><a href="{{ route('leaderboard') }}" class="hover:text-green-400 transition-colors">🏆 Leaderboard</a></li>
+                        <li><a href="{{ route('open-data') }}" class="hover:text-green-400 transition-colors">🔓 Open Data</a></li>
                         <li><a href="{{ route('tentang') }}" class="hover:text-green-400 transition-colors">ℹ️ Tentang Kami</a></li>
                     </ul>
                 </div>
