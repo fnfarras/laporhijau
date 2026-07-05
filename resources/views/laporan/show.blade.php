@@ -265,7 +265,7 @@
                             </div>
                             <div>
                                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Dilaporkan oleh</p>
-                                <p class="text-sm text-gray-700">{{ $report->user->name }}</p>
+                                <p class="text-sm text-gray-700">{{ $report->is_anonymous ? '🔒 ' . $report->reporter_name . ' (Anonim)' : $report->reporter_name }}</p>
                             </div>
                             <div>
                                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Tanggal</p>
@@ -766,7 +766,7 @@
 
                 // Metadata Details
                 const resolvedDate = "{{ $report->statusLogs->where('new_status','resolved')->last()?->created_at?->format('d M Y') ?? $report->updated_at->format('d M Y') }}";
-                const reporterName = "{{ addslashes($report->user->name) }}";
+                const reporterName = "{{ addslashes($report->is_anonymous ? 'Anonim' : $report->reporter_name) }}";
                 const address = "{{ addslashes(Str::limit($report->address, 55)) }}";
 
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';

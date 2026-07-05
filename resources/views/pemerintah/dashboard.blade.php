@@ -193,7 +193,7 @@
                                         {{ $report->category->icon ?? '' }} {{ $report->category->name ?? '-' }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3.5 text-xs text-gray-500">{{ $report->user->name ?? '-' }}</td>
+                                <td class="px-4 py-3.5 text-xs text-gray-500">{{ $report->is_anonymous ? '🔒 ' . $report->reporter_name . ' (Anonim)' : $report->reporter_name }}</td>
                                 <td class="px-4 py-3.5 text-xs text-gray-400">{{ $report->created_at->format('d M Y') }}</td>
                                 <td class="px-4 py-3.5">
                                     <form method="POST" action="{{ route('pemerintah.update-status', $report) }}" class="inline">

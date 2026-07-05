@@ -118,6 +118,32 @@
                         @endif
                     </div>
 
+                    {{-- ── Hadiah Saya ─────────────────────────────── --}}
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+                        <h2 class="font-bold text-gray-800 mb-4 text-base">🎁 Hadiah Saya</h2>
+
+                        @if ($user->rewardRedemptions->isEmpty())
+                            <p class="text-xs text-gray-400 text-center py-4">Belum ada hadiah yang ditukarkan.</p>
+                        @else
+                            <div class="space-y-3">
+                                @foreach ($user->rewardRedemptions as $redemption)
+                                    <div class="flex items-center justify-between p-3 rounded-xl border border-gray-100 bg-gray-50/40">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-2xl">{{ $redemption->reward->icon }}</span>
+                                            <div>
+                                                <p class="text-xs font-bold text-gray-800">{{ $redemption->reward->name }}</p>
+                                                <p class="text-[9px] text-gray-450">Kode: <span class="font-mono font-semibold">{{ $redemption->certificate_code }}</span> · {{ $redemption->redeemed_at->format('d M Y') }}</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('hadiah.sertifikat', $redemption->certificate_code) }}" class="px-3 py-1.5 bg-green-650 hover:bg-green-750 text-white text-[10px] font-extrabold rounded-lg transition-colors">
+                                            Lihat Sertifikat
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+
                     {{-- ── Laporan Terbaru ──────────────────────────── --}}
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
                         <h2 class="font-bold text-gray-800 mb-4 text-base">📋 Laporan Terbaru</h2>

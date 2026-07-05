@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ReportSeeder::class,
             EventSeeder::class,
             ArticleSeeder::class,
+            RewardSeeder::class,
         ]);
     }
 }

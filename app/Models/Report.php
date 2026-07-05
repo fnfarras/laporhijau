@@ -26,6 +26,10 @@ class Report extends Model
         'verified_deadline',
         'handled_deadline',
         'is_overdue',
+        'is_anonymous',
+        'anonymous_name',
+        'anonymous_contact',
+        'anonymous_code',
     ];
 
     protected function casts(): array
@@ -36,6 +40,7 @@ class Report extends Model
             'verified_deadline' => 'datetime',
             'handled_deadline'  => 'datetime',
             'is_overdue'        => 'boolean',
+            'is_anonymous'      => 'boolean',
         ];
     }
 
@@ -168,5 +173,13 @@ class Report extends Model
             'label' => 'Sisa ' . $diff->days . ' hari',
             'percent' => $percent
         ];
+    }
+
+    public function getReporterNameAttribute(): string
+    {
+        if ($this->is_anonymous) {
+            return $this->anonymous_name ?: 'Pelapor Anonim';
+        }
+        return $this->user->name ?? 'Pelapor Anonim';
     }
 }

@@ -84,7 +84,11 @@
                         </div>
                         <h4 class="font-bold text-gray-800 text-sm leading-snug mb-1 line-clamp-2">{{ $report->title }}</h4>
                         <p class="text-xs text-gray-400 mb-1 truncate">📍 {{ $report->address }}</p>
-                        <p class="text-xs text-gray-400 mb-1">👤 {{ $report->user->name }}</p>
+                        @if($report->is_anonymous)
+                            <p class="text-xs text-gray-400 mb-1">👤 🔒 {{ $report->reporter_name }} (Anonim)</p>
+                        @else
+                            <p class="text-xs text-gray-400 mb-1">👤 {{ $report->reporter_name }}</p>
+                        @endif
                         <p class="text-xs text-gray-300 mb-4">{{ $report->created_at->diffForHumans() }}</p>
 
                         {{-- Actions --}}

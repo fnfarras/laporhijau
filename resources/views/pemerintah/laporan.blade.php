@@ -113,7 +113,7 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-4 text-xs text-gray-500 hidden md:table-cell">
-                                    {{ $report->user->name ?? '-' }}
+                                    {{ $report->is_anonymous ? '🔒 ' . $report->reporter_name . ' (Anonim)' : $report->reporter_name }}
                                 </td>
                                 <td class="px-4 py-4 text-xs text-gray-400 hidden lg:table-cell whitespace-nowrap">
                                     {{ $report->created_at->format('d M Y') }}

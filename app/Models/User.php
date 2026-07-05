@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserBadge::class)->with('badge')->latest();
     }
+
+    public function rewardRedemptions(): HasMany
+    {
+        return $this->hasMany(RewardRedemption::class)->latest();
+    }
 }

@@ -121,6 +121,22 @@
 
             </div>
 
+            {{-- Laporan Anonim Section --}}
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-8 mb-16 shadow-md space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🔒</span>
+                    <h2 class="text-xl font-bold">Laporan Anonim</h2>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Khawatir identitasmu diketahui? Kamu bisa melapor tanpa akun dan identitas sepenuhnya terlindungi. Kami menjamin kerahasiaan penuh laporan Anda tanpa melacak IP address atau data personal lainnya.
+                </p>
+                <div class="pt-2">
+                    <a href="{{ route('laporan-anonim.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-xs font-extrabold rounded-xl transition-all shadow-sm">
+                        Lapor Secara Anonim →
+                    </a>
+                </div>
+            </div>
+
             {{-- FAQ Section --}}
             <div class="bg-gray-55 dark:bg-slate-800/40 rounded-3xl border border-gray-150 dark:border-slate-700/80 p-8 mt-12" x-data="{ activeFaq: null }">
                 <h2 class="text-xl font-black text-gray-950 dark:text-white mb-6 text-center">❓ FAQ (Tanya Jawab Laporan)</h2>

@@ -156,6 +156,8 @@
                     <a href="{{ route('event.index') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🌿 Event</a>
                     <a href="{{ route('artikel.index') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">📚 Artikel</a>
                     <a href="{{ route('leaderboard') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🏆 Leaderboard</a>
+                    <a href="{{ route('hadiah') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🎁 Hadiah</a>
+                    <a href="{{ route('laporan-anonim.create') }}" class="nav-link-anim hover:text-green-600 dark:hover:text-green-400 transition-colors">🔒 Lapor Anonim</a>
                 </div>
 
                 {{-- Action / Auth --}}
@@ -251,6 +253,9 @@
                         </button>
                         <span class="text-[10px] text-gray-400 mt-1 font-semibold">Lebih mudah lewat WhatsApp</span>
                     </div>
+                </div>
+                <div class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                    Atau lapor tanpa akun → <a href="{{ route('laporan-anonim.create') }}" class="text-green-600 dark:text-green-400 hover:underline font-bold">Laporan Anonim</a>
                 </div>
 
                 {{-- Impact Counter --}}
@@ -608,6 +613,8 @@
                         <li><a href="{{ route('event.index') }}" class="hover:text-green-400 transition-colors">🌿 Event Komunitas</a></li>
                         <li><a href="{{ route('artikel.index') }}" class="hover:text-green-400 transition-colors">📚 Artikel Edukasi</a></li>
                         <li><a href="{{ route('leaderboard') }}" class="hover:text-green-400 transition-colors">🏆 Leaderboard</a></li>
+                        <li><a href="{{ route('hadiah') }}" class="hover:text-green-400 transition-colors">🎁 Toko Hadiah</a></li>
+                        <li><a href="{{ route('laporan-anonim.create') }}" class="hover:text-green-400 transition-colors">🔒 Laporan Anonim</a></li>
                         <li><a href="{{ route('open-data') }}" class="hover:text-green-400 transition-colors">🔓 Open Data</a></li>
                         <li><a href="{{ route('tentang') }}" class="hover:text-green-400 transition-colors">ℹ️ Tentang Kami</a></li>
                     </ul>

@@ -41,6 +41,9 @@
                     <x-nav-link :href="route('hadiah')" :active="request()->routeIs('hadiah')">
                         🎁 Hadiah
                     </x-nav-link>
+                    <x-nav-link :href="route('laporan-anonim.create')" :active="request()->routeIs('laporan-anonim.*')">
+                        🔒 Lapor Anonim
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -259,6 +262,9 @@
              </x-responsive-nav-link>
              <x-responsive-nav-link :href="route('hadiah')" :active="request()->routeIs('hadiah')">
                  🎁 Tukar Hadiah
+             </x-responsive-nav-link>
+             <x-responsive-nav-link :href="route('laporan-anonim.create')" :active="request()->routeIs('laporan-anonim.*')">
+                 🔒 Lapor Anonim
              </x-responsive-nav-link>
              <x-responsive-nav-link :href="route('tentang')" :active="request()->routeIs('tentang')">
                  ℹ️ Tentang LaporHijau

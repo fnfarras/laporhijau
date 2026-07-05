@@ -62,7 +62,7 @@
                             </a>
                             <p class="text-xs text-gray-400 mt-0.5">
                                 📍 {{ Str::limit($report->address, 50) }} ·
-                                👤 {{ $report->user->name }} ·
+                                👤 {{ $report->is_anonymous ? '🔒 ' . $report->reporter_name . ' (Anonim)' : $report->reporter_name }} ·
                                 {{ $report->created_at->diffForHumans() }}
                             </p>
                         </div>

@@ -16,6 +16,10 @@ class AwardReportSubmitPoints
         $report = $event->report;
         $user   = $report->user;
 
+        if (!$user) {
+            return;
+        }
+
         // 1. Tambah poin ke kolom users.points
         $user->increment('points', 5);
 

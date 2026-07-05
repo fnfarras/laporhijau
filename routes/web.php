@@ -9,6 +9,8 @@ use App\Http\Controllers\Relawan\RelawanVerificationController;
 use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\GamificationController;
+use App\Http\Controllers\HadiahController;
+use App\Http\Controllers\AnonymousReportController;
 use Illuminate\Support\Facades\Route;
 
 // ── Landing Page ───────────────────────────────────────────────────────────
@@ -52,6 +54,17 @@ Route::prefix('api/open-data')->group(function () {
     Route::get('/geojson', [OpenDataController::class, 'apiGeoJson'])->name('api.open-data.geojson');
 });
 
+// ── Hadiah / Reward Store Routes (public) ───────────────────────────
+Route::get('/hadiah', [HadiahController::class, 'index'])->name('hadiah');
+Route::get('/hadiah/sertifikat/{code}', [HadiahController::class, 'sertifikat'])->name('hadiah.sertifikat');
+
+// ── Laporan Anonim Routes (public) ──────────────────────────────────
+Route::get('/laporan-anonim/create', [AnonymousReportController::class, 'create'])->name('laporan-anonim.create');
+Route::post('/laporan-anonim', [AnonymousReportController::class, 'store'])->name('laporan-anonim.store');
+Route::get('/laporan-anonim/konfirmasi', [AnonymousReportController::class, 'konfirmasi'])->name('laporan-anonim.konfirmasi');
+Route::get('/laporan-anonim/cek', [AnonymousReportController::class, 'cekForm'])->name('laporan-anonim.cek-form');
+Route::post('/laporan-anonim/cek', [AnonymousReportController::class, 'cek'])->name('laporan-anonim.cek');
+
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('dashboard');
@@ -69,8 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/{report}', [ReportController::class, 'show'])->name('laporan.show');
 
     // ── Masyarakat Area & Gamification Hadiah ─────────────────────
-    Route::get('/hadiah', [GamificationController::class, 'hadiah'])->name('hadiah');
-    Route::post('/hadiah/redeem', [GamificationController::class, 'redeemHadiah'])->name('hadiah.redeem');
+    Route::post('/hadiah/{reward}/redeem', [HadiahController::class, 'redeem'])->name('hadiah.redeem');
     Route::post('/notifikasi/baca-semua', [GamificationController::class, 'bacaSemuaNotifikasi'])->name('notifications.read-all');
     Route::get('/masyarakat/laporan', [ReportController::class, 'index'])->name('masyarakat.laporan');
 
