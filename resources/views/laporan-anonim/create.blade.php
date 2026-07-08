@@ -296,8 +296,8 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
             // ── Leaflet Map Setup ──────────────────────────────────────────
-            const defaultLat = {{ old('latitude', 0.5074) }};
-            const defaultLng = {{ old('longitude', 101.4477) }};
+            const defaultLat = {{ old('latitude', -0.9471) }};
+            const defaultLng = {{ old('longitude', 100.4172) }};
 
             const map = L.map('map').setView([defaultLat, defaultLng], 13);
             window.map = map;

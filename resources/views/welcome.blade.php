@@ -765,7 +765,7 @@
 
                 initMap() {
                     const map = L.map('home-map', { zoomControl: true, scrollWheelZoom: false })
-                        .setView([0.5096, 101.4506], 11);
+                        .setView([-0.9471, 100.4172], 11);
 
                     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',

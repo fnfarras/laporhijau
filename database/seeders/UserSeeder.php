@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
                 'role'              => 'relawan',
             ],
             [
-                'name'              => 'Dinas Lingkungan Hidup Pekanbaru',
+                'name'              => 'Dinas Lingkungan Hidup Padang',
                 'email'             => 'pemerintah@laporhijau.test',
                 'password'          => Hash::make('password'),
                 'points'            => 0,

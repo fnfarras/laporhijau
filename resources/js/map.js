@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Initialize Map ────────────────────────────────────────────────
     function initMap() {
-        // Center of Pekanbaru, Riau
-        const defaultCenter = [0.5070, 101.4478];
+        // Center of Padang, West Sumatra
+        const defaultCenter = [-0.9471, 100.4172];
         const defaultZoom = 12;
 
         map = L.map('interactive-map', {

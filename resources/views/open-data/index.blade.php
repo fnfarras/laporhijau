@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Data Terbuka Lingkungan Pekanbaru — LaporHijau')
+    @section('title', 'Data Terbuka Lingkungan Padang — LaporHijau')
 
     @push('styles')
         <style>
@@ -46,7 +46,7 @@
                     </div>
                     
                     <h1 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white leading-tight">
-                        Data Terbuka Lingkungan Pekanbaru
+                        Data Terbuka Lingkungan Padang
                     </h1>
                     <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl">
                         Data laporan masalah lingkungan warga yang transparan, dapat diakses publik secara bebas, dan digunakan untuk mendorong penanggulangan tata kota yang berkelanjutan.

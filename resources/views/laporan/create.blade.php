@@ -153,7 +153,7 @@
                         <label class="block text-xs font-semibold text-gray-500 mb-1.5">🔍 Cari Alamat (ketik lalu tekan Enter)</label>
                         <div class="flex gap-2">
                             <input type="text" id="geocode-input"
-                                   placeholder="cth: Jl. Sudirman, Pekanbaru atau nama tempat..."
+                                   placeholder="cth: Jl. Sudirman, Padang atau nama tempat..."
                                    class="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
                             <button type="button" onclick="geocodeAddress()"
                                     class="px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-all">
@@ -331,8 +331,8 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
             // ── Leaflet Map Setup ──────────────────────────────────────────
-            const defaultLat = {{ old('latitude', 0.5074) }};
-            const defaultLng = {{ old('longitude', 101.4477) }};
+            const defaultLat = {{ old('latitude', -0.9471) }};
+            const defaultLng = {{ old('longitude', 100.4172) }};
 
             const map = L.map('map').setView([defaultLat, defaultLng], 13);
             window.map = map;

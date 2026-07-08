@@ -1,4 +1,4 @@
-﻿<x-app-layout>
+<x-app-layout>
     @section('title', 'Buat Event - LaporHijau')
 
     @push('styles')
@@ -81,7 +81,7 @@
                             <input type="text" id="location" name="location"
                                    class="form-input {{ $errors->has('location') ? 'is-invalid' : '' }}"
                                    value="{{ old('location') }}"
-                                   placeholder="Contoh: Tepi Sungai Kampar, Pekanbaru">
+                                   placeholder="Contoh: Jembatan Siti Nurbaya, Padang">
                             @error('location') <p class="error-msg">{{ $message }}</p> @enderror
                         </div>
 
@@ -154,8 +154,8 @@
         let map, marker;
 
         document.addEventListener('DOMContentLoaded', function () {
-            const defaultLat = {{ old('latitude', 0.5096) }};
-            const defaultLng = {{ old('longitude', 101.4506) }};
+            const defaultLat = {{ old('latitude', -0.9471) }};
+            const defaultLng = {{ old('longitude', 100.4172) }};
 
             map = L.map('create-map').setView([defaultLat, defaultLng], 12);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {

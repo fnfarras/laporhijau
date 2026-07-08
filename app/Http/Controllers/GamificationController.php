@@ -106,7 +106,7 @@ class GamificationController extends Controller
             [
                 'id' => 'pbb_5',
                 'title' => 'Diskon PBB 5%',
-                'description' => 'Voucher pemotongan Pajak Bumi dan Bangunan (PBB) sebesar 5% dari Pemda Kota Pekanbaru.',
+                'description' => 'Voucher pemotongan Pajak Bumi dan Bangunan (PBB) sebesar 5% dari Pemda Kota Padang.',
                 'points' => 300,
                 'icon' => '🏠',
                 'category' => 'Pemerintah'
@@ -122,7 +122,7 @@ class GamificationController extends Controller
             [
                 'id' => 'voucher_ewallet_10',
                 'title' => 'Voucher GoPay / OVO Rp 10.000',
-                'description' => 'Saldo dompet digital Rp 10.000 hasil kerja sama dana CSR Bank Riau Kepri.',
+                'description' => 'Saldo dompet digital Rp 10.000 hasil kerja sama dana CSR Bank Nagari.',
                 'points' => 150,
                 'icon' => '📱',
                 'category' => 'Swasta'
@@ -137,8 +137,8 @@ class GamificationController extends Controller
             ],
             [
                 'id' => 'voucher_bus_trans',
-                'title' => 'Tiket Gratis Bus Trans Metro',
-                'description' => '3x perjalanan gratis naik bus Trans Metro Pekanbaru.',
+                'title' => 'Tiket Gratis Bus Trans Padang',
+                'description' => '3x perjalanan gratis naik bus Trans Padang.',
                 'points' => 80,
                 'icon' => '🚌',
                 'category' => 'Transportasi'

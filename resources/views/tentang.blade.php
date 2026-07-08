@@ -84,7 +84,7 @@
                         </div>
                         <h4 class="font-extrabold text-gray-900 dark:text-white text-base">Budi Santoso</h4>
                         <p class="text-xs text-amber-600 dark:text-amber-450 font-bold mb-2">Data Analyst & Product QA</p>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 leading-relaxed">Menangani optimasi kueri basis data, pengujian performa, dan validasi data riset Pekanbaru.</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 leading-relaxed">Menangani optimasi kueri basis data, pengujian performa, dan validasi data riset Padang.</p>
                     </div>
                 </div>
             </div>
