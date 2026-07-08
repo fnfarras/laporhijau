@@ -5,100 +5,93 @@
 
 ---
 
-## 🔑 Akun Uji Coba (Demo Accounts untuk Juri)
+## 🔑 Akun Uji Coba (Demo Accounts)
 
-Untuk mempermudah pengujian alur sistem oleh Dewan Juri, gunakan akun-akun demo berikut (Password untuk semua akun: `password`):
+Gunakan akun-akun berikut untuk menguji fitur berdasarkan masing-masing peran (Password: `password`):
 
-| Peran (Role) | Alamat Email | Hak Akses / Fitur Utama untuk Diuji |
+| 👤 Peran (Role) | 📧 Email Login | ⚡ Fitur Utama untuk Diuji |
 | :--- | :--- | :--- |
-| **Masyarakat** | `masyarakat@laporhijau.test` | Membuat laporan baru, RSVP event komunitas, menukar poin dengan hadiah & sertifikat. |
-| **Relawan** | `relawan@laporhijau.test` | Memverifikasi/menolak laporan masuk dari warga, mengunggah bukti lapangan, membuat event baru. |
-| **Pemerintah** | `pemerintah@laporhijau.test` | Dashboard analitik (Chart.js), memproses penanganan laporan (`in_progress` $\rightarrow$ `resolved`). |
-| **Admin** | `admin@laporhijau.test` | Mengelola kategori laporan, data pengguna, data hadiah, dan artikel edukasi. |
+| **Masyarakat** | `masyarakat@laporhijau.test` | Membuat laporan baru, RSVP event aksi, dan tukar poin hadiah + sertifikat. |
+| **Relawan** | `relawan@laporhijau.test` | Verifikasi/tolak laporan warga, unggah foto bukti lapangan, buat event aksi. |
+| **Pemerintah** | `pemerintah@laporhijau.test` | Pantau dashboard analitik (Chart.js), proses laporan (`in_progress` & `resolved`). |
+| **Admin** | `admin@laporhijau.test` | Manajemen penuh kategori, data pengguna, data hadiah, dan artikel edukasi. |
 
 ---
 
 ## 🛠️ Teknologi yang Digunakan (Tech Stack)
 
-Aplikasi ini dikembangkan menggunakan teknologi modern, aman, dan berkinerja tinggi:
-
 * **Backend Framework:** Laravel 11 (PHP 8.2+)
-* **Database:** MySQL 8
-* **Frontend Logic & Styling:** Tailwind CSS v4.0 & Alpine.js (Plus Jakarta Sans Font)
-* **Peta Interaktif:** Leaflet.js (Pelacakan koordinat GPS laporan)
-* **Visualisasi Grafik:** Chart.js (Dashboard analitik statistik pemerintah)
-* **Manajemen Otorisasi:** Spatie Laravel-Permission (4 Role Sistem)
-* **Penyimpanan Gambar:** Cloudinary Integration (Foto laporan disimpan di Cloud secara aman)
+* **Database:** MySQL 8.0
+* **Frontend UI:** Tailwind CSS v4.0 & Alpine.js (Font: *Plus Jakarta Sans*)
+* **Peta Spasial:** Leaflet.js (Pelacakan koordinat lokasi laporan)
+* **Grafik Analitik:** Chart.js (Visualisasi statistik di dashboard pemerintah)
+* **Otorisasi Role:** Spatie Laravel-Permission
+* **Cloud Storage:** Cloudinary Integration (Penyimpanan foto laporan di cloud)
 
 ---
 
-## ⚙️ Panduan Instalasi & Menjalankan Website Secara Lokal
+## ⚙️ Panduan Instalasi Lokal (Quick Setup)
 
-Ikuti langkah-langkah mudah berikut untuk menjalankan proyek di komputer lokal Anda:
+Pastikan **PHP >= 8.2**, **Composer**, **Node.js (NPM)**, dan **MySQL** sudah terinstal di komputer Anda.
 
-### 1. Kloning Proyek & Install Dependensi
-Buka terminal Anda dan jalankan perintah berikut:
+### Langkah 1: Kloning & Install Dependensi
+Jalankan perintah ini berurutan di terminal Anda:
 ```bash
-# Kloning repository
+# Kloning repository & masuk ke direktori
 git clone https://github.com/username/laporhijau.git
 cd laporhijau
 
-# Install dependensi PHP (Composer)
+# Install library backend & frontend
 composer install
-
-# Install dependensi JavaScript (NPM)
 npm install
 ```
 
-### 2. Konfigurasi Environment (`.env`)
-Salin file konfigurasi environment:
-```bash
-cp .env.example .env
-```
-Buka file `.env` baru tersebut, lalu sesuaikan koneksi database Anda:
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=laporhijau
-DB_USERNAME=root
-DB_PASSWORD=
-```
-*(Opsional)* Tambahkan konfigurasi API Cloudinary untuk mendukung unggahan foto laporan:
-```env
-CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
-```
+### Langkah 2: Konfigurasi Environment & Database
+1. Buat database baru bernama **`laporhijau`** di MySQL Anda.
+2. Salin file `.env.example` menjadi `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+3. Buka file `.env` dan sesuaikan koneksi database Anda:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=laporhijau
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-### 3. Migrasi & Seeder Database
-Generate application key dan isi database dengan data demo otomatis:
+### Langkah 3: Setup Key & Data Demo (Seeder)
+Jalankan perintah berikut untuk mengisi database dengan data demo otomatis:
 ```bash
 php artisan key:generate
 php artisan migrate:fresh --seed
 ```
 
-### 4. Jalankan Aplikasi
-Jalankan server lokal Laravel dan compiler aset frontend:
+### Langkah 4: Jalankan Aplikasi
+Jalankan perintah berikut di **dua terminal terpisah**:
 
-* **Terminal 1** (Server Laravel):
+* **Terminal 1 (Laravel Server):**
   ```bash
   php artisan serve
   ```
-* **Terminal 2** (Compiler Frontend):
+* **Terminal 2 (Compiler Frontend):**
   ```bash
   npm run dev
   ```
 
-Buka **`http://127.0.0.1:8000`** pada browser Anda untuk mengakses aplikasi LaporHijau.
+Buka **`http://127.0.0.1:8000`** di browser Anda.
 
 ---
 
 ## ✨ Fitur Unggulan LaporHijau
 
-* **Peta Pelaporan Real-Time:** Menampilkan sebaran masalah lingkungan secara spasial menggunakan Leaflet.js.
-* **Laporan Anonim:** Masyarakat dapat melapor secara cepat tanpa login dan melacak progres laporan menggunakan kode lacak unik.
-* **Gamifikasi Poin & Badge:** Sistem poin otomatis berbasis *Laravel Event & Listener* untuk memotivasi partisipasi aktif komunitas.
-* **Toko Hadiah & Sertifikat Digital:** Tukarkan poin dengan hadiah ramah lingkungan dan unduh sertifikat penghargaan resmi.
-* **Open Data Dashboard:** Halaman publik berisi statistik laporan dalam bentuk grafik Chart.js yang dapat diekspor langsung ke format CSV, Excel, dan GeoJSON.
+1. **Peta Pelaporan Real-Time:** Visualisasi lokasi dan kategori masalah lingkungan menggunakan Leaflet.js.
+2. **Laporan Anonim:** Warga dapat mengirim laporan tanpa login dan memantau status via kode unik.
+3. **Gamifikasi Kontribusi:** Perolehan poin otomatis (Event/Listener) & badge penghargaan bagi pelapor aktif.
+4. **Toko Hadiah Poin:** Penukaran poin kontribusi dengan hadiah fisik & sertifikat penghargaan digital.
+5. **Open Data Dashboard:** Dashboard statistik publik yang dapat diekspor langsung ke format CSV, Excel, dan GeoJSON.
 
 ---
-*LaporHijau 🌿 — Bersama menjaga lingkungan Indonesia untuk masa depan yang lebih hijau.*
+*LaporHijau 🌿 — Bersama menjaga kelestarian alam Indonesia.*
