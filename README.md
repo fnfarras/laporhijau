@@ -1,59 +1,104 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LaporHijau 🌿 — Platform Civic Tech Kolaborasi Aksi Lingkungan Nasional
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> **Solusi Digital untuk Keberlanjutan Lingkungan Hidup di Indonesia.**  
+> Dikembangkan untuk **Lomba Web Development NIFC 5.0** dengan tema *"Empowering Communities Through Digital Solutions for Sustainability"*.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🔑 Akun Uji Coba (Demo Accounts untuk Juri)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Untuk mempermudah pengujian alur sistem oleh Dewan Juri, gunakan akun-akun demo berikut (Password untuk semua akun: `password`):
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Peran (Role) | Alamat Email | Hak Akses / Fitur Utama untuk Diuji |
+| :--- | :--- | :--- |
+| **Masyarakat** | `masyarakat@laporhijau.test` | Membuat laporan baru, RSVP event komunitas, menukar poin dengan hadiah & sertifikat. |
+| **Relawan** | `relawan@laporhijau.test` | Memverifikasi/menolak laporan masuk dari warga, mengunggah bukti lapangan, membuat event baru. |
+| **Pemerintah** | `pemerintah@laporhijau.test` | Dashboard analitik (Chart.js), memproses penanganan laporan (`in_progress` $\rightarrow$ `resolved`). |
+| **Admin** | `admin@laporhijau.test` | Mengelola kategori laporan, data pengguna, data hadiah, dan artikel edukasi. |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠️ Teknologi yang Digunakan (Tech Stack)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Aplikasi ini dikembangkan menggunakan teknologi modern, aman, dan berkinerja tinggi:
 
-## Laravel Sponsors
+* **Backend Framework:** Laravel 11 (PHP 8.2+)
+* **Database:** MySQL 8
+* **Frontend Logic & Styling:** Tailwind CSS v4.0 & Alpine.js (Plus Jakarta Sans Font)
+* **Peta Interaktif:** Leaflet.js (Pelacakan koordinat GPS laporan)
+* **Visualisasi Grafik:** Chart.js (Dashboard analitik statistik pemerintah)
+* **Manajemen Otorisasi:** Spatie Laravel-Permission (4 Role Sistem)
+* **Penyimpanan Gambar:** Cloudinary Integration (Foto laporan disimpan di Cloud secara aman)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## ⚙️ Panduan Instalasi & Menjalankan Website Secara Lokal
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Ikuti langkah-langkah mudah berikut untuk menjalankan proyek di komputer lokal Anda:
 
-## Contributing
+### 1. Kloning Proyek & Install Dependensi
+Buka terminal Anda dan jalankan perintah berikut:
+```bash
+# Kloning repository
+git clone https://github.com/username/laporhijau.git
+cd laporhijau
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Install dependensi PHP (Composer)
+composer install
 
-## Code of Conduct
+# Install dependensi JavaScript (NPM)
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Konfigurasi Environment (`.env`)
+Salin file konfigurasi environment:
+```bash
+cp .env.example .env
+```
+Buka file `.env` baru tersebut, lalu sesuaikan koneksi database Anda:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laporhijau
+DB_USERNAME=root
+DB_PASSWORD=
+```
+*(Opsional)* Tambahkan konfigurasi API Cloudinary untuk mendukung unggahan foto laporan:
+```env
+CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+```
 
-## Security Vulnerabilities
+### 3. Migrasi & Seeder Database
+Generate application key dan isi database dengan data demo otomatis:
+```bash
+php artisan key:generate
+php artisan migrate:fresh --seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Jalankan Aplikasi
+Jalankan server lokal Laravel dan compiler aset frontend:
 
-## License
+* **Terminal 1** (Server Laravel):
+  ```bash
+  php artisan serve
+  ```
+* **Terminal 2** (Compiler Frontend):
+  ```bash
+  npm run dev
+  ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Buka **`http://127.0.0.1:8000`** pada browser Anda untuk mengakses aplikasi LaporHijau.
+
+---
+
+## ✨ Fitur Unggulan LaporHijau
+
+* **Peta Pelaporan Real-Time:** Menampilkan sebaran masalah lingkungan secara spasial menggunakan Leaflet.js.
+* **Laporan Anonim:** Masyarakat dapat melapor secara cepat tanpa login dan melacak progres laporan menggunakan kode lacak unik.
+* **Gamifikasi Poin & Badge:** Sistem poin otomatis berbasis *Laravel Event & Listener* untuk memotivasi partisipasi aktif komunitas.
+* **Toko Hadiah & Sertifikat Digital:** Tukarkan poin dengan hadiah ramah lingkungan dan unduh sertifikat penghargaan resmi.
+* **Open Data Dashboard:** Halaman publik berisi statistik laporan dalam bentuk grafik Chart.js yang dapat diekspor langsung ke format CSV, Excel, dan GeoJSON.
+
+---
+*LaporHijau 🌿 — Bersama menjaga lingkungan Indonesia untuk masa depan yang lebih hijau.*
