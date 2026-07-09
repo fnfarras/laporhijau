@@ -1,4 +1,4 @@
-﻿<x-app-layout>
+<x-app-layout>
     @section('title', $event->title . ' - LaporHijau')
 
     @push('styles')
@@ -62,12 +62,26 @@
                         $isRsvped = $userParticipant && $userParticipant->status === 'registered';
                     @endphp
 
-                    <div class="rounded-2xl overflow-hidden" style="background: {{ $grad }};">
-                        <div class="px-8 py-10 text-white">
-                            <div class="text-5xl mb-3">{{ $emoji }}</div>
-                            <span class="text-xs font-semibold bg-white/20 backdrop-blur px-3 py-1 rounded-full">{{ $event->category }}</span>
-                            <h1 class="text-2xl font-extrabold mt-3 leading-tight">{{ $event->title }}</h1>
-                            <p class="text-white/80 text-sm mt-1">Diorganisir oleh <span class="font-bold">{{ $event->organizer->name }}</span></p>
+                    <div class="rounded-3xl overflow-hidden relative min-h-64 flex items-end" style="background: {{ $grad }};">
+                        @if ($event->banner_url)
+                            <img src="{{ $event->banner_url }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover">
+                        @endif
+                        <!-- Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/40 to-transparent"></div>
+                        
+                        <div class="relative px-8 py-8 text-white w-full">
+                            <span class="text-xs font-bold bg-white/95 text-gray-800 shadow-sm backdrop-blur px-3 py-1.5 rounded-xl">
+                                @if ($event->category === 'Bersih-bersih') 🧹
+                                @elseif ($event->category === 'Tanam Pohon') 🌳
+                                @elseif ($event->category === 'Gotong Royong') 🤝
+                                @elseif ($event->category === 'Edukasi') 📚
+                                @elseif ($event->category === 'Pengolahan Sampah') ♻️
+                                @else 🌿
+                                @endif
+                                {{ $event->category }}
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-black mt-3.5 leading-tight tracking-tight">{{ $event->title }}</h1>
+                            <p class="text-white/80 text-sm mt-2">Diorganisir oleh <span class="font-bold text-white">{{ $event->organizer->name }}</span></p>
                         </div>
                     </div>
 

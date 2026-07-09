@@ -45,8 +45,14 @@
                             $grad  = $catGrads[$article->category] ?? 'linear-gradient(135deg,#16a34a,#059669)';
                             $emoji = $catEmojis[$article->category] ?? '📄';
                         @endphp
-                        <div class="h-48 flex items-center justify-center" style="background: {{ $grad }}">
-                            <span class="text-6xl">{{ $emoji }}</span>
+                        <div class="h-64 relative overflow-hidden" style="background: {{ $grad }}">
+                            @if ($article->image_url)
+                                <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-6xl">
+                                    {{ $emoji }}
+                                </div>
+                            @endif
                         </div>
 
                         <div class="p-6">
@@ -102,10 +108,14 @@
                                 @foreach ($related as $rel)
                                     <a href="{{ route('artikel.show', $rel->slug) }}"
                                        class="flex items-start gap-2.5 hover:bg-gray-50 rounded-xl p-2 -m-2 transition-colors">
-                                        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
-                                             style="background: {{ $catGrads[$rel->category] ?? 'linear-gradient(135deg,#16a34a,#059669)' }}">
-                                            {{ $catEmojis[$rel->category] ?? '📄' }}
-                                        </div>
+                                        @if ($rel->image_url)
+                                            <img src="{{ $rel->image_url }}" alt="{{ $rel->title }}" class="w-10 h-10 rounded-xl object-cover flex-shrink-0">
+                                        @else
+                                            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                                                 style="background: {{ $catGrads[$rel->category] ?? 'linear-gradient(135deg,#16a34a,#059669)' }}">
+                                                {{ $catEmojis[$rel->category] ?? '📄' }}
+                                            </div>
+                                        @endif
                                         <div class="flex-1 min-w-0">
                                             <p class="text-xs font-bold text-gray-800 line-clamp-2 leading-snug">{{ $rel->title }}</p>
                                             <p class="text-[10px] text-gray-400 mt-0.5">{{ $rel->reading_time }} mnt · {{ $rel->published_at->format('d M Y') }}</p>
