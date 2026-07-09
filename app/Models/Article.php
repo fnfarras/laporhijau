@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class Article extends Model
 {
     protected $fillable = [
-        'author_id', 'title', 'slug', 'category', 'content', 'published_at',
+        'author_id', 'title', 'slug', 'category', 'image_url', 'content', 'published_at',
     ];
 
     protected $casts = [

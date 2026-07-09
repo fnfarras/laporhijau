@@ -95,39 +95,47 @@
                             $ce = $catEmojis[$article->category] ?? '📄';
                             $cg = $catGrads[$article->category] ?? 'linear-gradient(135deg,#16a34a,#059669)';
                         @endphp
-                        <div class="article-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                            {{-- Thumbnail --}}
-                            <a href="{{ route('artikel.show', $article->slug) }}" class="block">
-                                <div class="h-32 flex items-center justify-center text-4xl"
-                                     style="background: {{ $cg }}">
-                                    {{ $ce }}
-                                </div>
+                        <div class="article-card bg-white dark:bg-slate-800 rounded-3xl border border-gray-100 dark:border-slate-700/80 shadow-sm overflow-hidden flex flex-col h-full group">
+                            {{-- Thumbnail / Banner --}}
+                            <a href="{{ route('artikel.show', $article->slug) }}" class="block relative h-48 overflow-hidden">
+                                @if ($article->image_url)
+                                    <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-4xl" style="background: {{ $cg }}">
+                                        {{ $ce }}
+                                    </div>
+                                @endif
+                                
+                                <!-- Gradient Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
                             </a>
 
-                            <div class="p-4">
-                                <span class="category-pill {{ $cc }}">{{ $article->category }}</span>
+                            <div class="p-5 flex flex-col flex-1 justify-between">
+                                <div>
+                                    <span class="category-pill {{ $cc }}">{{ $article->category }}</span>
 
-                                <a href="{{ route('artikel.show', $article->slug) }}" class="block mt-2">
-                                    <h3 class="font-bold text-gray-900 text-sm leading-snug hover:text-green-700 transition-colors line-clamp-2">
-                                        {{ $article->title }}
-                                    </h3>
-                                </a>
+                                    <a href="{{ route('artikel.show', $article->slug) }}" class="block mt-2.5">
+                                        <h3 class="font-extrabold text-gray-900 dark:text-white text-base leading-snug hover:text-green-600 dark:hover:text-green-400 transition-colors line-clamp-2">
+                                            {{ $article->title }}
+                                        </h3>
+                                    </a>
 
-                                <p class="text-xs text-gray-500 mt-1.5 line-clamp-2 leading-relaxed">
-                                    {{ $article->excerpt }}
-                                </p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 line-clamp-2 leading-relaxed">
+                                        {{ $article->excerpt }}
+                                    </p>
+                                </div>
 
-                                <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
-                                    <div class="flex items-center gap-1.5">
-                                        <div class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-white text-[8px] font-bold">
+                                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100 dark:border-slate-700">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-full bg-green-600 text-white flex items-center justify-center text-[10px] font-bold shadow-sm">
                                             {{ strtoupper(substr($article->author->name, 0, 1)) }}
                                         </div>
-                                        <span class="text-[10px] text-gray-500">{{ $article->author->name }}</span>
+                                        <span class="text-[10px] font-bold text-gray-600 dark:text-gray-350">{{ $article->author->name }}</span>
                                     </div>
-                                    <div class="flex items-center gap-2 text-[10px] text-gray-400">
+                                    <div class="flex items-center gap-1.5 text-[10px] text-gray-400 dark:text-gray-500">
                                         <span>{{ $article->reading_time }} mnt baca</span>
                                         <span>·</span>
-                                        <span>{{ $article->published_at->format('d M Y') }}</span>
+                                        <span>{{ $article->published_at->translatedFormat('d M Y') }}</span>
                                     </div>
                                 </div>
                             </div>
