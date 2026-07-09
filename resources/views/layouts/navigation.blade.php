@@ -5,13 +5,16 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="/" class="flex items-center gap-2">
-                      <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-sm shadow-sm">
-                        🌿
-                      </div>
-                      <span class="font-black text-gray-900 dark:text-white text-lg tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                        Lapor<span class="text-green-600">Hijau</span>
-                      </span>
+                    <a href="/" class="flex items-center gap-2.5 group">
+                        <div class="w-10 h-10 bg-green-50 dark:bg-green-950/30 border border-green-100 dark:border-green-900/50 rounded-2xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5.5 h-5.5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">
+                                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8a7 7 0 0 1-9 10Z"></path>
+                                <path d="M9 22v-4"></path>
+                            </svg>
+                        </div>
+                        <span class="font-black text-gray-900 dark:text-white text-xl tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                            Lapor<span class="text-green-600 dark:text-green-400">Hijau</span>
+                        </span>
                     </a>
                 </div>
 

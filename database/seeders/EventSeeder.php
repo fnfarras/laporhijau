@@ -22,6 +22,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.9575,
                 'longitude'        => 100.3541,
                 'category'         => 'Bersih-bersih',
+                'banner_url'       => 'https://images.unsplash.com/photo-1618477388954-7852f32655ec?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->addWeeks(2)->setTime(7, 30),
                 'max_participants' => 200,
                 'status'           => 'registered',
@@ -34,6 +35,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.9392,
                 'longitude'        => 100.3524,
                 'category'         => 'Tanam Pohon',
+                'banner_url'       => 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->addWeeks(3)->setTime(6, 30),
                 'max_participants' => 500,
                 'status'           => 'registered',
@@ -46,6 +48,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.6264,
                 'longitude'        => 100.1172,
                 'category'         => 'Gotong Royong',
+                'banner_url'       => 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->subWeeks(2)->setTime(8, 0),
                 'max_participants' => 100,
                 'status'           => 'attended',
@@ -58,6 +61,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.9287,
                 'longitude'        => 100.3923,
                 'category'         => 'Edukasi',
+                'banner_url'       => 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->addDays(5)->setTime(9, 0),
                 'max_participants' => 50,
                 'status'           => 'registered',
@@ -70,6 +74,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.9168,
                 'longitude'        => 100.3602,
                 'category'         => 'Gotong Royong',
+                'banner_url'       => 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->addDays(12)->setTime(8, 0),
                 'max_participants' => 100,
                 'status'           => 'registered',
@@ -82,6 +87,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.9452,
                 'longitude'        => 100.3688,
                 'category'         => 'Edukasi',
+                'banner_url'       => 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->subDays(10)->setTime(9, 30),
                 'max_participants' => 75,
                 'status'           => 'attended',
@@ -94,6 +100,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.9419,
                 'longitude'        => 100.3692,
                 'category'         => 'Bersih-bersih',
+                'banner_url'       => 'https://images.unsplash.com/photo-1528190336454-13cd56b45b5a?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->addDays(4)->setTime(6, 0),
                 'max_participants' => 300,
                 'status'           => 'registered',
@@ -106,6 +113,7 @@ class EventSeeder extends Seeder
                 'latitude'         => -0.3068,
                 'longitude'        => 100.3601,
                 'category'         => 'Gotong Royong',
+                'banner_url'       => 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80',
                 'event_date'       => now()->subWeeks(3)->setTime(7, 30),
                 'max_participants' => 150,
                 'status'           => 'attended',
@@ -123,6 +131,7 @@ class EventSeeder extends Seeder
                     'latitude'         => $data['latitude'],
                     'longitude'        => $data['longitude'],
                     'category'         => $data['category'],
+                    'banner_url'       => $data['banner_url'],
                     'event_date'       => $data['event_date'],
                     'max_participants' => $data['max_participants'],
                 ]
@@ -140,6 +149,6 @@ class EventSeeder extends Seeder
             }
         }
 
-        $this->command->info('✅ EventSeeder: 8 event di Sumatera Barat dengan peserta realistis selesai.');
+        $this->command->info('✅ EventSeeder: 8 event di Sumatera Barat dengan cover photo berhasil di-seed.');
     }
 }

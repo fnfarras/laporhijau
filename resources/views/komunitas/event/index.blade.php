@@ -121,115 +121,125 @@
                             $isRsvped = $userParticipant && $userParticipant->status === 'registered';
                         @endphp
 
-                        <div class="event-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div class="event-card bg-white dark:bg-slate-800 rounded-3xl border border-gray-100 dark:border-slate-700/80 shadow-sm overflow-hidden flex flex-col h-full group">
                             {{-- Banner --}}
-                            <a href="{{ route('event.show', $event) }}" class="block">
-                                <div class="{{ $grad }} h-36 relative flex items-center justify-center">
-                                    <div class="text-white text-center px-4">
-                                        <div class="text-3xl mb-1">
-                                            @if ($event->category === 'Bersih-bersih') 🧹
-                                            @elseif ($event->category === 'Tanam Pohon') 🌳
-                                            @elseif ($event->category === 'Gotong Royong') 🤝
-                                            @elseif ($event->category === 'Edukasi') 📚
-                                            @elseif ($event->category === 'Pengolahan Sampah') ♻️
-                                            @else 🌿
-                                            @endif
-                                        </div>
-                                        <span class="text-xs font-semibold bg-white/20 backdrop-blur px-2.5 py-0.5 rounded-full">
-                                            {{ $event->category }}
-                                        </span>
-                                    </div>
+                            <a href="{{ route('event.show', $event) }}" class="block relative h-48 overflow-hidden">
+                                @if ($event->banner_url)
+                                    <img src="{{ $event->banner_url }}" alt="{{ $event->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                @else
+                                    <div class="w-full h-full {{ $grad }}"></div>
+                                @endif
+                                
+                                <!-- Gradient Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/20 to-transparent"></div>
+
+                                <!-- Category Badge on Banner -->
+                                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-white/95 text-gray-800 shadow-sm backdrop-blur">
+                                        @if ($event->category === 'Bersih-bersih') 🧹
+                                        @elseif ($event->category === 'Tanam Pohon') 🌳
+                                        @elseif ($event->category === 'Gotong Royong') 🤝
+                                        @elseif ($event->category === 'Edukasi') 📚
+                                        @elseif ($event->category === 'Pengolahan Sampah') ♻️
+                                        @else 🌿
+                                        @endif
+                                        {{ $event->category }}
+                                    </span>
 
                                     @if (!$isUpcoming)
-                                        <div class="absolute top-3 right-3 bg-gray-800/70 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                        <span class="bg-slate-900/90 text-white text-[9px] font-extrabold px-2.5 py-1 rounded-lg tracking-wider">
                                             SELESAI
-                                        </div>
+                                        </span>
                                     @endif
                                 </div>
                             </a>
 
                             {{-- Content --}}
-                            <div class="p-4">
-                                <a href="{{ route('event.show', $event) }}" class="block">
-                                    <h3 class="font-bold text-gray-900 text-sm leading-snug mb-2 hover:text-green-700 transition-colors line-clamp-2">
-                                        {{ $event->title }}
-                                    </h3>
-                                </a>
+                            <div class="p-5 flex flex-col flex-1 justify-between bg-white dark:bg-slate-800 transition-colors duration-300">
+                                <div>
+                                    <a href="{{ route('event.show', $event) }}" class="block">
+                                        <h3 class="font-extrabold text-gray-900 dark:text-white text-base leading-snug mb-2.5 hover:text-green-600 dark:hover:text-green-400 transition-colors line-clamp-2">
+                                            {{ $event->title }}
+                                        </h3>
+                                    </a>
 
-                                <div class="space-y-1.5 mb-3">
-                                    <div class="flex items-center gap-1.5 text-xs text-gray-500">
-                                        <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
-                                        <span class="truncate">{{ $event->location }}</span>
+                                    <div class="space-y-2 mb-4">
+                                        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                                            <span class="truncate">{{ $event->location }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                            <span>{{ $event->event_date->translatedFormat('D, d M Y • H:i') }} WIB</span>
+                                        </div>
                                     </div>
-                                    <div class="flex items-center gap-1.5 text-xs text-gray-500">
-                                        <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                        <span>{{ $event->event_date->translatedFormat('D, d M Y • H:i') }} WIB</span>
-                                    </div>
-                                </div>
 
-                                {{-- Peserta bar --}}
-                                @php
-                                    $activeCount = $event->active_participants_count ?? $event->activeParticipants()->count();
-                                    $maxP = $event->max_participants;
-                                    $pct  = $maxP ? min(100, round($activeCount / $maxP * 100)) : 0;
-                                @endphp
-                                <div class="flex items-center justify-between text-xs mb-3">
-                                    <span class="text-gray-500">
-                                        <span class="font-bold text-gray-800">{{ $activeCount }}</span>
-                                        {{ $maxP ? '/ ' . $maxP . ' peserta' : 'peserta' }}
-                                    </span>
-                                    @if ($isUpcoming && $maxP)
-                                        <span class="text-green-600 font-semibold">{{ $event->spotsRemaining() }} tersisa</span>
+                                    {{-- Peserta bar --}}
+                                    @php
+                                        $activeCount = $event->active_participants_count ?? $event->activeParticipants()->count();
+                                        $maxP = $event->max_participants;
+                                        $pct  = $maxP ? min(100, round($activeCount / $maxP * 100)) : 0;
+                                    @endphp
+                                    <div class="flex items-center justify-between text-xs mb-1.5">
+                                        <span class="text-gray-500 dark:text-gray-400">
+                                            <span class="font-extrabold text-gray-800 dark:text-gray-200">{{ $activeCount }}</span>
+                                            {{ $maxP ? '/ ' . $maxP . ' peserta' : 'peserta' }}
+                                        </span>
+                                        @if ($isUpcoming && $maxP)
+                                            <span class="text-green-600 dark:text-green-400 font-bold">{{ $event->spotsRemaining() }} tersisa</span>
+                                        @endif
+                                    </div>
+                                    @if ($maxP)
+                                        <div class="w-full bg-gray-100 dark:bg-slate-700 rounded-full h-1.5 mb-4">
+                                            <div class="bg-green-600 dark:bg-green-500 h-1.5 rounded-full transition-all" style="width: {{ $pct }}%"></div>
+                                        </div>
+                                    @endif
+
+                                    {{-- Countdown (Alpine.js) --}}
+                                    @if ($isUpcoming)
+                                        <div x-data="countdown('{{ $event->event_date->toISOString() }}')" class="text-xs text-amber-600 dark:text-amber-500 font-bold mb-4 flex items-center gap-1">
+                                            <span x-text="display"></span>
+                                        </div>
                                     @endif
                                 </div>
-                                @if ($maxP)
-                                    <div class="w-full bg-gray-100 rounded-full h-1.5 mb-3">
-                                        <div class="bg-green-500 h-1.5 rounded-full transition-all" style="width: {{ $pct }}%"></div>
-                                    </div>
-                                @endif
-
-                                {{-- Countdown (Alpine.js) --}}
-                                @if ($isUpcoming)
-                                    <div x-data="countdown('{{ $event->event_date->toISOString() }}')" class="text-xs text-amber-600 font-bold mb-3">
-                                        <span x-text="display"></span>
-                                    </div>
-                                @endif
 
                                 {{-- RSVP Button --}}
-                                @if ($isUpcoming)
-                                    @auth
-                                        @if ($isRsvped)
-                                            <form method="POST" action="{{ route('event.rsvp', $event) }}">
-                                                @csrf
-                                                <button type="submit"
-                                                        class="w-full py-2 text-xs font-bold rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-all">
-                                                    ✕ Batalkan RSVP
+                                <div class="mt-2">
+                                    @if ($isUpcoming)
+                                        @auth
+                                            @if ($isRsvped)
+                                                <form method="POST" action="{{ route('event.rsvp', $event) }}">
+                                                    @csrf
+                                                    <button type="submit"
+                                                            class="w-full py-2.5 text-xs font-bold rounded-xl bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 hover:bg-red-100/70 transition-all cursor-pointer">
+                                                        ✕ Batalkan RSVP
+                                                    </button>
+                                                </form>
+                                            @elseif ($event->isFull())
+                                                <button disabled class="w-full py-2.5 text-xs font-bold rounded-xl bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-gray-500 cursor-not-allowed">
+                                                    Kuota Penuh
                                                 </button>
-                                            </form>
-                                        @elseif ($event->isFull())
-                                            <button disabled class="w-full py-2 text-xs font-bold rounded-xl bg-gray-100 text-gray-400 cursor-not-allowed">
-                                                Kuota Penuh
-                                            </button>
+                                            @else
+                                                <form method="POST" action="{{ route('event.rsvp', $event) }}">
+                                                    @csrf
+                                                    <button type="submit"
+                                                            class="w-full py-2.5 text-xs font-bold rounded-xl bg-green-600 hover:bg-green-700 text-white transition-all shadow-sm hover:shadow cursor-pointer">
+                                                        ✅ RSVP Sekarang (+15 poin)
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @else
-                                            <form method="POST" action="{{ route('event.rsvp', $event) }}">
-                                                @csrf
-                                                <button type="submit"
-                                                        class="w-full py-2 text-xs font-bold rounded-xl bg-green-600 hover:bg-green-700 text-white transition-all shadow-sm">
-                                                    ✅ RSVP Sekarang (+15 poin)
-                                                </button>
-                                            </form>
-                                        @endif
+                                            <a href="{{ route('login') }}"
+                                               class="block w-full py-2.5 text-xs font-bold rounded-xl bg-green-600 hover:bg-green-700 text-white text-center transition-all shadow-sm hover:shadow">
+                                                Login untuk RSVP
+                                            </a>
+                                        @endauth
                                     @else
-                                        <a href="{{ route('login') }}"
-                                           class="block w-full py-2 text-xs font-bold rounded-xl bg-green-600 hover:bg-green-700 text-white text-center transition-all shadow-sm">
-                                            Login untuk RSVP
-                                        </a>
-                                    @endauth
-                                @else
-                                    <div class="w-full py-2 text-xs font-bold rounded-xl bg-gray-100 text-gray-500 text-center">
-                                        Event telah selesai
-                                    </div>
-                                @endif
+                                        <div class="w-full py-2.5 text-xs font-bold rounded-xl bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-400 text-center">
+                                            Event telah selesai
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     @endforeach
