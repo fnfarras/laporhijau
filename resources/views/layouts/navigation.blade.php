@@ -5,21 +5,13 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="/" class="flex items-center gap-2.5 group">
-                        <div class="w-10 h-10 bg-green-50 dark:bg-green-950/30 border border-green-100 dark:border-green-900/50 rounded-2xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300">
-                            <!-- Twin Leaf Modern SVG Logo -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5.5 h-5.5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">
-                                <!-- First Leaf (Left/Back) -->
-                                <path d="M12 22C12 22 7 17 7 11C7 6 12 2 12 2C12 2 17 6 17 11C17 17 12 22 12 22Z" fill="currentColor" class="text-green-200 dark:text-green-900/60" />
-                                <!-- Second Leaf (Right/Front, Smaller) -->
-                                <path d="M14 22C14 22 10.5 18 10.5 13.5C10.5 9.5 14 6.5 14 6.5C14 6.5 17.5 9.5 17.5 13.5C17.5 18 14 22 14 22Z" fill="currentColor" class="text-green-600 dark:text-green-400" />
-                                <!-- Stem -->
-                                <path d="M12 22v-4" />
-                            </svg>
-                        </div>
-                        <span class="font-black text-gray-950 dark:text-white text-xl tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                            Lapor<span class="text-green-600 dark:text-green-400">Hijau</span>
-                        </span>
+                    <a href="/" class="flex items-center gap-2">
+                      <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-sm shadow-sm">
+                        🌿
+                      </div>
+                      <span class="font-black text-gray-900 dark:text-white text-lg tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                        Lapor<span class="text-green-600">Hijau</span>
+                      </span>
                     </a>
                 </div>
 
