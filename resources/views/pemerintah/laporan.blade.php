@@ -170,8 +170,11 @@
     <script>
         function exportReportsToCSV() {
             let csv = [];
+            
+            // Deklarasi pemisah khusus untuk Microsoft Excel
+            csv.push("sep=;");
             // Header
-            csv.push("Judul Laporan,Alamat,Kategori,Pelapor,Tanggal Pengajuan,Status");
+            csv.push("Judul Laporan;Alamat;Kategori;Pelapor;Tanggal Pengajuan;Status");
             
             // Rows
             const rows = document.querySelectorAll("tbody tr");
@@ -193,7 +196,7 @@
                         `"${date.replace(/"/g, '""')}"`,
                         `"${status.replace(/"/g, '""')}"`
                     ];
-                    csv.push(rowData.join(","));
+                    csv.push(rowData.join(";"));
                 }
             });
             
