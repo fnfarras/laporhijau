@@ -59,12 +59,16 @@ Route::prefix('api/open-data')->group(function () {
 Route::get('/hadiah', [HadiahController::class, 'index'])->name('hadiah');
 Route::get('/hadiah/sertifikat/{code}', [HadiahController::class, 'sertifikat'])->name('hadiah.sertifikat');
 
-// ── Laporan Anonim Routes (public) ──────────────────────────────────
-Route::get('/laporan-anonim/create', [AnonymousReportController::class, 'create'])->name('laporan-anonim.create');
-Route::post('/laporan-anonim', [AnonymousReportController::class, 'store'])->name('laporan-anonim.store');
-Route::get('/laporan-anonim/konfirmasi', [AnonymousReportController::class, 'konfirmasi'])->name('laporan-anonim.konfirmasi');
-Route::get('/laporan-anonim/cek', [AnonymousReportController::class, 'cekForm'])->name('laporan-anonim.cek-form');
-Route::post('/laporan-anonim/cek', [AnonymousReportController::class, 'cek'])->name('laporan-anonim.cek');
+// ── Laporan Anonim Routes (public, dengan rate limiting) ────────────
+Route::get('/laporan-anonim/create',    [AnonymousReportController::class, 'create'])->name('laporan-anonim.create');
+Route::get('/laporan-anonim/konfirmasi',[AnonymousReportController::class, 'konfirmasi'])->name('laporan-anonim.konfirmasi');
+Route::get('/laporan-anonim/cek',       [AnonymousReportController::class, 'cekForm'])->name('laporan-anonim.cek-form');
+
+// POST routes dengan rate limiting: max 5 request per IP per menit
+Route::middleware('throttle:5,1')->group(function () {
+    Route::post('/laporan-anonim',      [AnonymousReportController::class, 'store'])->name('laporan-anonim.store');
+    Route::post('/laporan-anonim/cek',  [AnonymousReportController::class, 'cek'])->name('laporan-anonim.cek');
+});
 
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])

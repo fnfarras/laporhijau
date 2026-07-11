@@ -15,8 +15,8 @@ class AnonymousReportTest extends TestCase
     {
         parent::setUp();
         
-        // Seed categories
-        ReportCategory::create(['name' => 'Sampah & Kebersihan', 'icon' => '🗑️', 'points' => 5]);
+        // Seed category — hanya 'name' dan 'icon' sesuai schema
+        ReportCategory::create(['name' => 'Sampah & Kebersihan', 'icon' => '🗑️']);
     }
 
     public function test_guest_can_access_anonymous_report_create_page(): void

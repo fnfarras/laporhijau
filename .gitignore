@@ -23,3 +23,9 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Debug / scratch files — jangan pernah di-commit
+*_test.php
+*_debug.php
+scratch*.php
+test_*.php
