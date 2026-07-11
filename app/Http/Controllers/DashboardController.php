@@ -17,7 +17,6 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        // Redirect ke dashboard role spesifik jika relawan/pemerintah/admin
         if ($user->hasRole('relawan')) {
             return redirect()->route('relawan.dashboard');
         }
@@ -25,7 +24,7 @@ class DashboardController extends Controller
             return redirect()->route('pemerintah.dashboard');
         }
         if ($user->hasRole('admin')) {
-            // Admin: tampilkan overview singkat
+            return redirect()->route('admin.dashboard');
         }
 
         // ── Dashboard Masyarakat ───────────────────────────────────────────

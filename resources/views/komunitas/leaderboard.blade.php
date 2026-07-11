@@ -1,5 +1,6 @@
 <x-app-layout>
-    @section('title', 'Leaderboard Komunitas')
+    @section('title', 'Leaderboard Komunitas LaporHijau')
+    @section('meta_description', 'Lihat ranking komunitas LaporHijau. Siapa pelapor paling aktif minggu ini? Kumpulkan poin dari laporan, verifikasi, dan keikutsertaan event lingkungan.')
 
     @push('styles')
     <style>

@@ -5,28 +5,29 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\Relawan\RelawanVerificationController;
 use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\GamificationController;
 use App\Http\Controllers\HadiahController;
 use App\Http\Controllers\AnonymousReportController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 // ── Landing Page ───────────────────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/api/stats', [HomeController::class, 'apiStats'])->name('api.home-stats');
 
+// ── SEO Routes ────────────────────────────────────────────────────────────
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
 // ── Public Routes ──────────────────────────────────────────────────────────
 Route::get('/peta',         [MapController::class, 'index'])->name('peta');
 Route::get('/api/map-data', [MapController::class, 'getData'])->name('api.map-data');
-Route::get('/tentang', function() {
-    return view('tentang');
-})->name('tentang');
-
-Route::get('/cara-lapor', function() {
-    return view('cara-lapor');
-})->name('cara-lapor');
+Route::get('/tentang',    [PageController::class, 'tentang'])->name('tentang');
+Route::get('/cara-lapor', [PageController::class, 'caraLapor'])->name('cara-lapor');
 
 // Gamification (public)
 Route::get('/komunitas/leaderboard', [GamificationController::class, 'leaderboard'])->name('leaderboard');
@@ -118,6 +119,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/api/stats',          [PemerintahDashboardController::class, 'apiStats'])->name('api.stats');
         Route::get('/api/chart/trend',    [PemerintahDashboardController::class, 'apiChartTrend'])->name('api.chart.trend');
         Route::get('/api/chart/kategori', [PemerintahDashboardController::class, 'apiChartKategori'])->name('api.chart.kategori');
+    });
+
+    // ── Admin Area ────────────────────────────────────────────
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     });
 });
 

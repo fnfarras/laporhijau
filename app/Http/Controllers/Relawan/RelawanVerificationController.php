@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Relawan;
 use App\Events\ReportVerified;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateReportStatusRequest;
+use App\Http\Requests\VerifyReportRequest;
 use App\Models\Notification;
 use App\Models\Report;
+use App\Models\ReportCategory;
 use App\Models\ReportStatusLog;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class RelawanVerificationController extends Controller
@@ -49,9 +52,9 @@ class RelawanVerificationController extends Controller
     /**
      * Halaman antrian — semua laporan pending dengan filter kategori.
      */
-    public function antrian(): View
+    public function antrian(Request $request): View
     {
-        $categoryId = request('category');
+        $categoryId = $request->integer('category') ?: null;
 
         $query = Report::with(['category', 'photos', 'user'])
             ->where('status', 'pending')
@@ -62,7 +65,7 @@ class RelawanVerificationController extends Controller
         }
 
         $pending    = $query->paginate(15);
-        $categories = cache()->remember('laporhijau_categories', 3600, fn() => \App\Models\ReportCategory::orderBy('name')->get());
+        $categories = cache()->remember('laporhijau_categories', 3600, fn() => ReportCategory::orderBy('name')->get());
 
         return view('relawan.antrian', compact('pending', 'categories', 'categoryId'));
     }
@@ -86,7 +89,7 @@ class RelawanVerificationController extends Controller
     /**
      * Verifikasi laporan: pending → verified
      */
-    public function verify(Report $report): RedirectResponse
+    public function verify(Report $report, VerifyReportRequest $request): RedirectResponse
     {
         // Guard: hanya laporan yang masih pending
         if ($report->status !== 'pending') {

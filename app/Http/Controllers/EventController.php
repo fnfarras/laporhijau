@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EventRsvpRegistered;
 use App\Http\Requests\StoreEventRequest;
 use App\Models\Event;
 use App\Models\EventParticipant;
@@ -63,7 +64,7 @@ class EventController extends Controller
             ->orderByDesc('created_at')
             ->get(['id', 'title']);
 
-        $categories = ['Bersih-bersih', 'Tanam Pohon', 'Gotong Royong', 'Edukasi', 'Pengolahan Sampah', 'Umum'];
+        $categories = Event::CATEGORIES;
 
         return view('komunitas.event.create', compact('resolvedReports', 'categories'));
     }
@@ -84,6 +85,8 @@ class EventController extends Controller
 
     /**
      * RSVP atau batalkan RSVP event.
+     * Penambahan poin (+15) dilakukan via EventRsvpRegistered Event & Listener,
+     * bukan hardcode di controller — sesuai konvensi proyek.
      */
     public function rsvp(Event $event): RedirectResponse
     {
@@ -94,12 +97,12 @@ class EventController extends Controller
             ->where('user_id', $user->id)
             ->first();
 
-        DB::transaction(function () use ($event, $user, $participant) {
+        $registered = DB::transaction(function () use ($event, $user, $participant) {
             if ($participant && $participant->status === 'registered') {
                 // ── Batalkan RSVP ──────────────────────────────────────
                 $participant->update(['status' => 'cancelled']);
 
-                // Kurangi -15 poin
+                // Kurangi -15 poin secara langsung (cancel tidak perlu Event)
                 $user->decrement('points', 15);
                 PointLog::create([
                     'user_id'      => $user->id,
@@ -108,42 +111,36 @@ class EventController extends Controller
                     'reference_id' => $event->id,
                 ]);
 
+                return false;
+            }
+
+            // ── RSVP Baru ─────────────────────────────────────────
+            if ($event->isFull()) {
+                return null; // Penuh
+            }
+
+            if ($participant) {
+                // Re-register (sebelumnya cancelled)
+                $participant->update(['status' => 'registered']);
             } else {
-                // ── RSVP Baru ─────────────────────────────────────────
-                // Cek kapasitas (jika ada max_participants)
-                if ($event->isFull()) {
-                    // Tidak throw — handled di view (tombol disabled)
-                    return;
-                }
-
-                if ($participant) {
-                    // Re-register (sebelumnya cancelled)
-                    $participant->update(['status' => 'registered']);
-                } else {
-                    // Baru pertama RSVP
-                    EventParticipant::create([
-                        'event_id' => $event->id,
-                        'user_id'  => $user->id,
-                        'status'   => 'registered',
-                    ]);
-                }
-
-                // Tambah +15 poin (sesuai aturan rules.md)
-                $user->increment('points', 15);
-                PointLog::create([
-                    'user_id'      => $user->id,
-                    'points'       => 15,
-                    'reason'       => 'RSVP event: ' . $event->title,
-                    'reference_id' => $event->id,
+                // Baru pertama RSVP
+                EventParticipant::create([
+                    'event_id' => $event->id,
+                    'user_id'  => $user->id,
+                    'status'   => 'registered',
                 ]);
             }
+
+            return true;
         });
 
-        $participant = EventParticipant::where('event_id', $event->id)
-            ->where('user_id', $user->id)
-            ->first();
+        if ($registered === null) {
+            return back()->with('error', 'Event ini sudah penuh.');
+        }
 
-        if ($participant && $participant->status === 'registered') {
+        if ($registered === true) {
+            // Fire Event → AwardEventPoints Listener akan memberi +15 poin
+            EventRsvpRegistered::dispatch($event, $user);
             return back()->with('success', '✅ Berhasil RSVP! Kamu mendapat +15 poin. Sampai jumpa di event!');
         }
 

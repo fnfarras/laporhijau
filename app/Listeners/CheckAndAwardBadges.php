@@ -3,15 +3,17 @@
 namespace App\Listeners;
 
 use App\Models\Badge;
-use App\Models\Report;
+use App\Models\ReportStatusLog;
 use App\Models\UserBadge;
-use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\DB;
 
-class CheckAndAwardBadges
+class CheckAndAwardBadges implements ShouldQueue
 {
     /**
      * Cek semua badge untuk user yang baru saja mendapat poin.
      * Dipanggil dari event: ReportSubmitted, ReportVerified, ReportResolved.
+     * Dijalankan via queue agar tidak blocking request utama.
      */
     public function handle(object $event): void
     {
@@ -76,12 +78,12 @@ class CheckAndAwardBadges
                 ->count() >= $badge->criteria_value,
 
             // Jumlah laporan yang diverifikasi oleh relawan ini
-            'verification_count' => \App\Models\ReportStatusLog::where('changed_by', $user->id)
+            'verification_count' => ReportStatusLog::where('changed_by', $user->id)
                 ->where('new_status', 'verified')
                 ->count() >= $badge->criteria_value,
 
             // Jumlah event yang diikuti
-            'event_participation' => \DB::table('event_participants')
+            'event_participation' => DB::table('event_participants')
                 ->where('user_id', $user->id)
                 ->count() >= $badge->criteria_value,
 

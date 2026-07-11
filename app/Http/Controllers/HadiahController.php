@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Reward;
 use App\Models\RewardRedemption;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class HadiahController extends Controller
 {
     /**
      * Tampilkan katalog hadiah.
      */
-    public function index()
+    public function index(): View
     {
         $rewards = Reward::where('is_active', true)->orderBy('points_required')->get();
         $user = auth()->user();
-        
+
         $myRedemptionIds = [];
         if ($user) {
             $myRedemptionIds = $user->rewardRedemptions->pluck('reward_id')->toArray();
@@ -26,13 +29,19 @@ class HadiahController extends Controller
     }
 
     /**
-     * Redeem hadiah.
+     * Redeem hadiah — operasi atomic via DB::transaction().
      */
-    public function redeem(Reward $reward)
+    public function redeem(Reward $reward): RedirectResponse
     {
         $user = auth()->user();
+
         if (!$user) {
             return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
+        }
+
+        // Cek ketersediaan hadiah
+        if (!$reward->is_active) {
+            return redirect()->back()->with('error', 'Hadiah ini tidak lagi tersedia.');
         }
 
         // Cek kecukupan poin
@@ -50,36 +59,40 @@ class HadiahController extends Controller
             }
         }
 
-        // Deduct poin
-        $user->points -= $reward->points_required;
-        $user->save();
+        // Eksekusi atomic: poin dikurangi + log + redemption harus berhasil semua
+        $code = DB::transaction(function () use ($user, $reward) {
+            // 1. Kurangi poin
+            $user->decrement('points', $reward->points_required);
 
-        // Catat ke point_logs
-        $user->pointLogs()->create([
-            'points' => -$reward->points_required,
-            'reason' => 'Tukar hadiah: ' . $reward->name,
-            'reference_id' => $reward->id,
-        ]);
+            // 2. Catat ke point_logs
+            $user->pointLogs()->create([
+                'points'       => -$reward->points_required,
+                'reason'       => 'Tukar hadiah: ' . $reward->name,
+                'reference_id' => $reward->id,
+            ]);
 
-        // Generate sertifikat code unik
-        $code = 'LH-' . strtoupper(Str::random(8));
+            // 3. Generate kode sertifikat unik
+            $code = 'LH-' . strtoupper(Str::random(8));
 
-        // Create redemption
-        $redemption = RewardRedemption::create([
-            'user_id' => $user->id,
-            'reward_id' => $reward->id,
-            'redeemed_at' => now(),
-            'certificate_code' => $code,
-        ]);
+            // 4. Create redemption record
+            RewardRedemption::create([
+                'user_id'          => $user->id,
+                'reward_id'        => $reward->id,
+                'redeemed_at'      => now(),
+                'certificate_code' => $code,
+            ]);
+
+            return $code;
+        });
 
         return redirect()->route('hadiah.sertifikat', ['code' => $code])
-            ->with('success', 'Hadiah berhasil ditukarkan!');
+            ->with('success', '🎉 Hadiah berhasil ditukarkan!');
     }
 
     /**
      * Tampilkan sertifikat digital (publik).
      */
-    public function sertifikat($code)
+    public function sertifikat(string $code): View
     {
         $redemption = RewardRedemption::where('certificate_code', $code)
             ->with(['user', 'reward'])

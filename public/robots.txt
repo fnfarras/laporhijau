@@ -1,2 +1,22 @@
 User-agent: *
-Disallow:
+Allow: /
+Allow: /peta
+Allow: /artikel
+Allow: /komunitas
+Allow: /open-data
+Allow: /tentang
+Allow: /cara-lapor
+Allow: /hadiah
+
+# Larang halaman autentikasi & dashboard dari indeks
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /relawan/
+Disallow: /pemerintah/
+Disallow: /admin/
+Disallow: /laporan/create
+Disallow: /laporan-anonim/
+Disallow: /api/
+
+# Sitemap
+Sitemap: /sitemap.xml

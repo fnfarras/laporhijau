@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -17,7 +18,7 @@ class StoreArticleRequest extends FormRequest
     {
         return [
             'title'    => ['required', 'string', 'max:255'],
-            'category' => ['required', 'string', 'in:Daur Ulang,Regulasi,Tips Lingkungan,Edukasi,Inspirasi'],
+            'category' => ['required', 'string', 'in:' . implode(',', Article::CATEGORIES)],
             'content'  => ['required', 'string', 'min:100'],
             'publish'  => ['nullable', 'boolean'],
         ];

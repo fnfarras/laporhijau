@@ -6,6 +6,7 @@ use App\Http\Requests\StoreArticleRequest;
 use App\Models\Article;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -25,7 +26,7 @@ class ArticleController extends Controller
         }
 
         $articles   = $query->paginate(9)->withQueryString();
-        $categories = ['Daur Ulang', 'Regulasi', 'Tips Lingkungan', 'Edukasi', 'Inspirasi'];
+        $categories = Article::CATEGORIES;
 
         return view('artikel.index', compact('articles', 'categories'));
     }
@@ -49,17 +50,23 @@ class ArticleController extends Controller
     public function create(): View
     {
         $this->authorize('create', Article::class);
-        $categories = ['Daur Ulang', 'Regulasi', 'Tips Lingkungan', 'Edukasi', 'Inspirasi'];
+        $categories = Article::CATEGORIES;
         return view('artikel.create', compact('categories'));
     }
 
-    /** Simpan artikel baru */
+    /**
+     * Simpan artikel baru.
+     * Otorisasi berlapis: Form Request authorize() + Gate::authorize() di sini.
+     */
     public function store(StoreArticleRequest $request): RedirectResponse
     {
-        $slug = Str::slug($request->title);
-        // Pastikan slug unik
+        Gate::authorize('create', Article::class);
+
+        $slug  = Str::slug($request->title);
         $base  = $slug;
         $count = 0;
+
+        // Pastikan slug unik
         while (Article::where('slug', $slug)->exists()) {
             $slug = $base . '-' . ++$count;
         }

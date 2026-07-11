@@ -1,6 +1,7 @@
 <x-app-layout>
-    @section('title', 'Tentang Kami — LaporHijau')
-    @section('meta_description', 'Kenali tim pengembang, misi visi, dan teknologi pendukung di balik LaporHijau — Platform Kolaborasi Aksi Lingkungan Nasional.')
+    @section('title', 'Tentang LaporHijau — Platform Civic Tech Lingkungan')
+    @section('meta_description', 'LaporHijau adalah platform civic tech untuk pelaporan dan pemantauan masalah lingkungan secara kolaboratif. Pelajari misi, visi, dan teknologi di balik platform kami.')
+
 
     <div class="py-12 bg-gray-50 dark:bg-slate-900 transition-colors duration-300 font-sans">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">

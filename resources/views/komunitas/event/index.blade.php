@@ -1,5 +1,6 @@
 <x-app-layout>
-    @section('title', 'Event Komunitas - LaporHijau')
+    @section('title', 'Event Komunitas Lingkungan — LaporHijau')
+    @section('meta_description', 'Temukan dan ikuti event bersih-bersih, tanam pohon, dan gotong royong lingkungan hidup di sekitar kamu. Dapatkan poin dan berkontribusi nyata.')
 
     @push('styles')
     <style>

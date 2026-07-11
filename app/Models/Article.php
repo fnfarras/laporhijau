@@ -8,6 +8,18 @@ use Illuminate\Support\Str;
 
 class Article extends Model
 {
+    /**
+     * Daftar kategori artikel yang valid.
+     * Gunakan konstanta ini di Form Request, seeder, dan view.
+     */
+    public const CATEGORIES = [
+        'Daur Ulang',
+        'Regulasi',
+        'Tips Lingkungan',
+        'Edukasi',
+        'Inspirasi',
+    ];
+
     protected $fillable = [
         'author_id', 'title', 'slug', 'category', 'image_url', 'content', 'published_at',
     ];

@@ -299,21 +299,31 @@ class OpenDataController extends Controller
             // 7. Total poin komunitas
             $totalPoints = User::sum('points');
 
-            // 8. Laporan per hari dalam 30 hari terakhir
+            // 8. Laporan per hari dalam 30 hari terakhir — 2 query GROUP BY pengganti 60 query loop
+            $thirtyDaysAgo = now()->subDays(29)->startOfDay();
+
+            $resolvedByDay = \Illuminate\Support\Facades\DB::table('reports')
+                ->selectRaw("DATE(created_at) as day, COUNT(*) as cnt")
+                ->where('status', 'resolved')
+                ->where('created_at', '>=', $thirtyDaysAgo)
+                ->groupByRaw('DATE(created_at)')
+                ->pluck('cnt', 'day');
+
+            $pendingByDay = \Illuminate\Support\Facades\DB::table('reports')
+                ->selectRaw("DATE(created_at) as day, COUNT(*) as cnt")
+                ->where('status', 'pending')
+                ->where('created_at', '>=', $thirtyDaysAgo)
+                ->groupByRaw('DATE(created_at)')
+                ->pluck('cnt', 'day');
+
             $dailyStats = [];
             for ($i = 29; $i >= 0; $i--) {
-                $dayDate = now()->subDays($i);
-                $dateLabel = $dayDate->format('d M');
-                $start = $dayDate->copy()->startOfDay();
-                $end = $dayDate->copy()->endOfDay();
-
-                $resolved = Report::where('status', 'resolved')->whereBetween('created_at', [$start, $end])->count();
-                $pending = Report::where('status', 'pending')->whereBetween('created_at', [$start, $end])->count();
-
+                $dayDate  = now()->subDays($i);
+                $dayKey   = $dayDate->format('Y-m-d');
                 $dailyStats[] = [
-                    'label' => $dateLabel,
-                    'resolved' => $resolved,
-                    'pending' => $pending,
+                    'label'    => $dayDate->format('d M'),
+                    'resolved' => (int) ($resolvedByDay[$dayKey] ?? 0),
+                    'pending'  => (int) ($pendingByDay[$dayKey] ?? 0),
                 ];
             }
 

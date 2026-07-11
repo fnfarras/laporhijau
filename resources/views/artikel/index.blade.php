@@ -1,5 +1,6 @@
 <x-app-layout>
-    @section('title', 'Artikel Edukasi - LaporHijau')
+    @section('title', 'Artikel Edukasi Lingkungan — LaporHijau')
+    @section('meta_description', 'Baca artikel edukasi lingkungan terbaru: daur ulang, tips hijau, regulasi, dan inspirasi aksi nyata untuk Indonesia lebih bersih.')
 
     @push('styles')
     <style>

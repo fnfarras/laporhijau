@@ -1,5 +1,6 @@
 <x-app-layout>
-    @section('title', 'Data Terbuka Lingkungan Padang — LaporHijau')
+    @section('title', 'Data Terbuka Laporan Lingkungan — LaporHijau')
+    @section('meta_description', 'Akses data terbuka laporan lingkungan. Download CSV, Excel, dan GeoJSON. Pantau statistik SLA dan tren penanganan masalah lingkungan di Indonesia.')
 
     @push('styles')
         <style>

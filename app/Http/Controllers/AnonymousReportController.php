@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReportSubmitted;
+use App\Http\Requests\CekAnonymousRequest;
 use App\Http\Requests\StoreAnonymousReportRequest;
 use App\Models\Report;
 use App\Models\ReportCategory;
 use App\Models\ReportPhoto;
 use App\Models\ReportStatusLog;
-use App\Events\ReportSubmitted;
-use Cloudinary\Configuration\Configuration;
-use Cloudinary\Api\Upload\UploadApi;
-use Illuminate\Http\Request;
+use App\Services\CloudinaryService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class AnonymousReportController extends Controller
 {
+    public function __construct(
+        private readonly CloudinaryService $cloudinary
+    ) {}
+
     /**
      * Tampilkan form laporan anonim.
      */
-    public function create()
+    public function create(): View
     {
         $categories = ReportCategory::orderBy('name')->get();
         return view('laporan-anonim.create', compact('categories'));
@@ -26,63 +32,48 @@ class AnonymousReportController extends Controller
     /**
      * Simpan laporan anonim.
      */
-    public function store(StoreAnonymousReportRequest $request)
+    public function store(StoreAnonymousReportRequest $request): RedirectResponse
     {
-        // Generate kode laporan unik: LA-XXXXXX (6 digit angka)
-        $code = 'LA-' . rand(100000, 999999);
-        while (Report::where('anonymous_code', $code)->exists()) {
-            $code = 'LA-' . rand(100000, 999999);
-        }
+        // Generate kode laporan unik: LA-XXXXXXXX (8 karakter alphanumeric)
+        do {
+            $code = 'LA-' . strtoupper(Str::random(6));
+        } while (Report::where('anonymous_code', $code)->exists());
 
         // Simpan data laporan ke database
         $report = Report::create([
-            'user_id' => null,
-            'category_id' => $request->category_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'address' => $request->address,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'status' => 'pending',
-            'is_anonymous' => true,
-            'anonymous_name' => $request->anonymous_name,
+            'user_id'           => null,
+            'category_id'       => $request->category_id,
+            'title'             => $request->title,
+            'description'       => $request->description,
+            'address'           => $request->address,
+            'latitude'          => $request->latitude,
+            'longitude'         => $request->longitude,
+            'status'            => 'pending',
+            'is_anonymous'      => true,
+            'anonymous_name'    => $request->anonymous_name,
             'anonymous_contact' => $request->anonymous_contact,
-            'anonymous_code' => $code,
+            'anonymous_code'    => $code,
         ]);
 
         // Simpan status log awal
         ReportStatusLog::create([
-            'report_id' => $report->id,
+            'report_id'  => $report->id,
             'old_status' => null,
             'new_status' => 'pending',
             'changed_by' => null,
-            'notes' => 'Laporan baru diajukan secara anonim.',
+            'notes'      => 'Laporan baru diajukan secara anonim.',
         ]);
 
-        // Upload foto ke Cloudinary (max 3 foto)
+        // Upload foto ke Cloudinary via CloudinaryService (max 3 foto)
         if ($request->hasFile('photos')) {
-            $cloudinaryConfig = config('filesystems.disks.cloudinary');
-            Configuration::instance([
-                'cloud' => [
-                    'cloud_name' => $cloudinaryConfig['cloud'],
-                    'api_key'    => $cloudinaryConfig['key'],
-                    'api_secret' => $cloudinaryConfig['secret'],
-                ],
-                'url' => ['secure' => true],
-            ]);
-
-            $uploadApi = new UploadApi();
+            $folder = 'laporhijau/reports/' . $report->id;
 
             foreach ($request->file('photos') as $photo) {
-                $uploaded = $uploadApi->upload($photo->getRealPath(), [
-                    'folder'    => 'laporhijau/reports/' . $report->id,
-                    'quality'   => 'auto',
-                    'fetch_format' => 'auto',
-                ]);
+                $url = $this->cloudinary->upload($photo, $folder);
 
                 ReportPhoto::create([
                     'report_id' => $report->id,
-                    'photo_url' => $uploaded['secure_url'],
+                    'photo_url' => $url,
                 ]);
             }
         }
@@ -98,7 +89,7 @@ class AnonymousReportController extends Controller
     /**
      * Tampilkan konfirmasi sukses pengiriman.
      */
-    public function konfirmasi()
+    public function konfirmasi(): View|RedirectResponse
     {
         $code = session('anonymous_code');
         if (!$code) {
@@ -111,21 +102,17 @@ class AnonymousReportController extends Controller
     /**
      * Tampilkan form pencarian status laporan.
      */
-    public function cekForm()
+    public function cekForm(): View
     {
         return view('laporan-anonim.cek');
     }
 
     /**
-     * Proses pengecekan kode laporan anonim.
+     * Proses pengecekan kode laporan anonim via Form Request.
      */
-    public function cek(Request $request)
+    public function cek(CekAnonymousRequest $request): View|RedirectResponse
     {
-        $request->validate([
-            'code' => ['required', 'string'],
-        ]);
-
-        $code = trim($request->code);
+        $code      = trim($request->validated()['code']);
         $cleanCode = str_replace('#', '', $code);
 
         $report = Report::where('anonymous_code', $cleanCode)

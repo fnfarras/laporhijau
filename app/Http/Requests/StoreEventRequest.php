@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Event;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEventRequest extends FormRequest
@@ -22,7 +23,7 @@ class StoreEventRequest extends FormRequest
             'longitude'        => ['nullable', 'numeric', 'between:-180,180'],
             'event_date'       => ['required', 'date', 'after:now'],
             'max_participants' => ['nullable', 'integer', 'min:1', 'max:10000'],
-            'category'         => ['required', 'string', 'in:Bersih-bersih,Tanam Pohon,Gotong Royong,Edukasi,Pengolahan Sampah,Umum'],
+            'category'         => ['required', 'string', 'in:' . implode(',', Event::CATEGORIES)],
             'report_id'        => ['nullable', 'exists:reports,id'],
         ];
     }

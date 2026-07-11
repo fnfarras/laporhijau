@@ -9,15 +9,18 @@ use App\Models\Notification;
 use App\Models\Report;
 use App\Models\ReportCategory;
 use App\Models\ReportStatusLog;
+use App\Services\CloudinaryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use Cloudinary\Configuration\Configuration;
-use Cloudinary\Api\Upload\UploadApi;
 
 class PemerintahDashboardController extends Controller
 {
+    public function __construct(
+        private readonly CloudinaryService $cloudinary
+    ) {}
     /**
      * Dashboard utama dengan statistik & data grafik.
      */
@@ -59,12 +62,12 @@ class PemerintahDashboardController extends Controller
     /**
      * Daftar laporan verified & in_progress dengan filter.
      */
-    public function reports(): View
+    public function reports(Request $request): View
     {
-        $statusFilter   = request('status');
-        $categoryFilter = request('category');
-        $dateFrom       = request('date_from');
-        $dateTo         = request('date_to');
+        $statusFilter   = $request->string('status')->value();
+        $categoryFilter = $request->string('category')->value();
+        $dateFrom       = $request->string('date_from')->value();
+        $dateTo         = $request->string('date_to')->value();
 
         $query = Report::with(['category', 'user'])
             ->whereIn('status', ['verified', 'in_progress', 'resolved'])
@@ -120,23 +123,10 @@ class PemerintahDashboardController extends Controller
         // Upload after_photo jika ada dan action is resolved
         $afterPhotoUrl = null;
         if ($targetStatus === 'resolved' && $request->hasFile('after_photo')) {
-            $cloudinaryConfig = config('filesystems.disks.cloudinary');
-            Configuration::instance([
-                'cloud' => [
-                    'cloud_name' => $cloudinaryConfig['cloud'],
-                    'api_key'    => $cloudinaryConfig['key'],
-                    'api_secret' => $cloudinaryConfig['secret'],
-                ],
-                'url' => ['secure' => true],
-            ]);
-
-            $uploadApi = new UploadApi();
-            $uploaded = $uploadApi->upload($request->file('after_photo')->getRealPath(), [
-                'folder'       => 'laporhijau/reports/' . $report->id,
-                'quality'      => 'auto',
-                'fetch_format' => 'auto',
-            ]);
-            $afterPhotoUrl = $uploaded['secure_url'];
+            $afterPhotoUrl = $this->cloudinary->upload(
+                $request->file('after_photo'),
+                'laporhijau/reports/' . $report->id
+            );
         }
 
         // 1. Update status laporan

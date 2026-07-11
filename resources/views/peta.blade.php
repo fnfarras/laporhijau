@@ -1,5 +1,6 @@
 <x-app-layout>
-    @section('title', 'Peta Interaktif Laporan')
+    @section('title', 'Peta Interaktif Laporan Lingkungan — LaporHijau')
+    @section('meta_description', 'Lihat peta interaktif seluruh laporan masalah lingkungan di Indonesia secara real-time. Filter berdasarkan kategori dan status penanganan.')
 
     @push('styles')
         <!-- Leaflet.js CSS -->

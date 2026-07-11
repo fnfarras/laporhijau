@@ -8,6 +8,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
 {
+    /**
+     * Daftar kategori event yang valid.
+     */
+    public const CATEGORIES = [
+        'Bersih-bersih',
+        'Tanam Pohon',
+        'Gotong Royong',
+        'Edukasi',
+        'Pengolahan Sampah',
+        'Umum',
+    ];
+
     protected $fillable = [
         'organizer_id', 'report_id', 'title', 'description',
         'location', 'latitude', 'longitude',

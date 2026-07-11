@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Events\ReportSubmitted;
 use App\Events\ReportVerified;
 use App\Events\ReportResolved;
+use App\Events\EventRsvpRegistered;
 use App\Listeners\AwardReportSubmitPoints;
 use App\Listeners\AwardVerificationPoints;
 use App\Listeners\AwardResolvedPoints;
+use App\Listeners\AwardEventPoints;
 use App\Listeners\CheckAndAwardBadges;
 use App\Models\Report;
 use App\Models\Event;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         EventFacade::listen(ReportSubmitted::class, AwardReportSubmitPoints::class);
         EventFacade::listen(ReportVerified::class,  AwardVerificationPoints::class);
         EventFacade::listen(ReportResolved::class,  AwardResolvedPoints::class);
+        EventFacade::listen(EventRsvpRegistered::class, AwardEventPoints::class);
 
         // ── Badge check setelah setiap event poin ───────────────────────────
         EventFacade::listen(ReportSubmitted::class, CheckAndAwardBadges::class);

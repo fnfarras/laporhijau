@@ -1,5 +1,6 @@
 <x-app-layout>
-    @section('title', $article->title . ' - LaporHijau')
+    @section('title', $article->title . ' — LaporHijau')
+    @section('meta_description', Str::limit(strip_tags($article->content), 160))
 
     @push('styles')
     <style>

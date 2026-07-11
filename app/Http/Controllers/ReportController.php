@@ -8,14 +8,17 @@ use App\Models\Report;
 use App\Models\ReportCategory;
 use App\Models\ReportPhoto;
 use App\Models\ReportStatusLog;
-use Cloudinary\Configuration\Configuration;
-use Cloudinary\Api\Upload\UploadApi;
+use App\Services\CloudinaryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class ReportController extends Controller
 {
+    public function __construct(
+        private readonly CloudinaryService $cloudinary
+    ) {}
+
     /**
      * Daftar laporan milik user yang sedang login.
      */
@@ -45,7 +48,7 @@ class ReportController extends Controller
     /**
      * Simpan laporan baru ke database.
      * Validasi via StoreReportRequest (bukan validate() langsung).
-     * Upload foto ke Cloudinary, fire Event untuk poin.
+     * Upload foto ke Cloudinary via CloudinaryService, fire Event untuk poin.
      */
     public function store(StoreReportRequest $request): RedirectResponse
     {
@@ -72,41 +75,26 @@ class ReportController extends Controller
             'notes'      => 'Laporan baru diajukan oleh masyarakat.',
         ]);
 
-        // 3. Upload foto ke Cloudinary (maks 5 foto)
+        // 3. Upload foto ke Cloudinary via service (maks 5 foto)
         if ($request->hasFile('photos')) {
-            // Konfigurasi Cloudinary dari config filesystems.disks.cloudinary
-            $cloudinaryConfig = config('filesystems.disks.cloudinary');
-            Configuration::instance([
-                'cloud' => [
-                    'cloud_name' => $cloudinaryConfig['cloud'],
-                    'api_key'    => $cloudinaryConfig['key'],
-                    'api_secret' => $cloudinaryConfig['secret'],
-                ],
-                'url' => ['secure' => true],
-            ]);
-
-            $uploadApi = new UploadApi();
+            $folder = 'laporhijau/reports/' . $report->id;
 
             foreach ($request->file('photos') as $photo) {
-                $uploaded = $uploadApi->upload($photo->getRealPath(), [
-                    'folder'    => 'laporhijau/reports/' . $report->id,
-                    'quality'   => 'auto',
-                    'fetch_format' => 'auto',
-                ]);
+                $url = $this->cloudinary->upload($photo, $folder);
 
                 ReportPhoto::create([
                     'report_id' => $report->id,
-                    'photo_url' => $uploaded['secure_url'],
+                    'photo_url' => $url,
                 ]);
             }
         }
 
-        // 4. Fire event → Listener akan memberi +5 poin via Queue (non-blocking)
+        // 4. Fire event → Listener akan memberi +5 poin
         ReportSubmitted::dispatch($report);
 
         return redirect()
             ->route('laporan.show', $report)
-            ->with('success', '✅ Laporan berhasil dikirim! Poin +5 sedang diproses.');
+            ->with('success', '✅ Laporan berhasil dikirim! Poin +5 akan segera diproses.');
     }
 
     /**
