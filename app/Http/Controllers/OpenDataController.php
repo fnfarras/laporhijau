@@ -87,44 +87,62 @@ class OpenDataController extends Controller
     }
 
     /**
-     * Download: CSV Laporan Resolved.
+     * Download: CSV Laporan Resolved — rapi & siap buka di Excel.
      */
     public function downloadCsv()
     {
         $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="laporan_resolved_laporhijau.csv"',
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="laporan_laporhijau_' . now()->format('Ymd') . '.csv"',
+            'Cache-Control'       => 'no-cache, no-store, must-revalidate',
+            'Pragma'              => 'no-cache',
         ];
 
         $callback = function () {
             $file = fopen('php://output', 'w');
-            fputs($file, "\xEF\xBB\xBF"); // UTF-8 BOM
-            
+            fputs($file, "\xEF\xBB\xBF"); // UTF-8 BOM agar Excel baca karakter Indonesia
+
+            // ── Header baris info aplikasi ────────────────────────────
+            fputcsv($file, ['LaporHijau — Data Open Laporan Lingkungan']);
+            fputcsv($file, ['Diunduh pada:', now()->translatedFormat('d F Y, H:i') . ' WIB']);
+            fputcsv($file, ['Sumber:', config('app.url')]);
+            fputcsv($file, []); // baris kosong
+
+            // ── Baris kolom ───────────────────────────────────────────
             fputcsv($file, [
-                'ID Laporan', 'Judul Laporan', 'Kategori', 'Alamat', 
-                'Latitude', 'Longitude', 'Status', 'Tanggal Lapor', 
-                'Tanggal Selesai', 'Durasi Penanganan (Hari)'
+                'No',
+                'ID Laporan',
+                'Judul Laporan',
+                'Kategori',
+                'Alamat Lokasi',
+                'Latitude',
+                'Longitude',
+                'Tanggal Lapor',
+                'Tanggal Selesai',
+                'Durasi Penanganan (Hari)',
             ]);
 
+            $counter = 1;
             Report::where('status', 'resolved')
                 ->with(['category', 'statusLogs' => fn($q) => $q->where('new_status', 'resolved')])
-                ->chunk(100, function ($reports) use ($file) {
+                ->orderBy('created_at')
+                ->chunk(200, function ($reports) use ($file, &$counter) {
                     foreach ($reports as $rpt) {
                         $resolvedLog = $rpt->statusLogs->first();
-                        $resolvedAt = $resolvedLog ? $resolvedLog->created_at : $rpt->updated_at;
-                        $duration = round($rpt->created_at->diffInHours($resolvedAt) / 24, 1);
+                        $resolvedAt  = $resolvedLog ? $resolvedLog->created_at : $rpt->updated_at;
+                        $durationDay = round($rpt->created_at->diffInHours($resolvedAt) / 24, 1);
 
                         fputcsv($file, [
+                            $counter++,
                             $rpt->id,
                             $rpt->title,
                             $rpt->category->name ?? '-',
                             $rpt->address,
-                            $rpt->latitude,
-                            $rpt->longitude,
-                            $rpt->status,
-                            $rpt->created_at->format('Y-m-d H:i:s'),
-                            $resolvedAt->format('Y-m-d H:i:s'),
-                            $duration,
+                            number_format((float) $rpt->latitude,  7, '.', ''),
+                            number_format((float) $rpt->longitude, 7, '.', ''),
+                            $rpt->created_at->format('d/m/Y H:i'),
+                            $resolvedAt->format('d/m/Y H:i'),
+                            $durationDay,
                         ]);
                     }
                 });
@@ -132,66 +150,92 @@ class OpenDataController extends Controller
             fclose($file);
         };
 
-        return response()->streamDownload($callback, 'laporan_resolved_laporhijau.csv', $headers);
+        return response()->streamDownload($callback, 'laporan_laporhijau_' . now()->format('Ymd') . '.csv', $headers);
     }
 
     /**
-     * Download: Excel (.xls) Laporan Resolved.
+     * Download: Excel (.xls) Laporan Resolved — dengan header info & styling.
      */
     public function downloadExcel()
     {
+        $filename = 'laporan_laporhijau_' . now()->format('Ymd') . '.xls';
+
         $headers = [
-            'Content-Type' => 'application/vnd.ms-excel',
-            'Content-Disposition' => 'attachment; filename="laporan_resolved_laporhijau.xls"',
+            'Content-Type'        => 'application/vnd.ms-excel; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Cache-Control'       => 'no-cache, no-store, must-revalidate',
+            'Pragma'              => 'no-cache',
         ];
 
         $callback = function () {
-            echo '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+            echo "\xEF\xBB\xBF"; // UTF-8 BOM
+            echo '<html xmlns:o="urn:schemas-microsoft-com:office:office" ';
+            echo 'xmlns:x="urn:schemas-microsoft-com:office:excel" ';
+            echo 'xmlns="http://www.w3.org/TR/REC-html40">';
             echo '<head><meta charset="utf-8"></head>';
             echo '<body>';
-            echo '<table border="1">';
+
+            // ── Info header ──────────────────────────────────────────
+            echo '<table>';
+            echo '<tr><td colspan="10" style="font-size:16pt;font-weight:bold;color:#16a34a;">';
+            echo '🌿 LaporHijau — Data Open Laporan Lingkungan</td></tr>';
+            echo '<tr><td colspan="10" style="font-size:10pt;color:#6b7280;">';
+            echo 'Diunduh pada: ' . htmlspecialchars(now()->translatedFormat('d F Y, H:i') . ' WIB');
+            echo ' &nbsp;|&nbsp; Sumber: ' . htmlspecialchars(config('app.url')) . '</td></tr>';
+            echo '<tr><td colspan="10"></td></tr>'; // baris kosong
+            echo '</table>';
+
+            // ── Tabel data ───────────────────────────────────────────
+            echo '<table border="1" cellspacing="0" cellpadding="4" ';
+            echo 'style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:10pt;">';
+
+            // Header kolom dengan background hijau
+            $thStyle = 'style="background-color:#16a34a;color:#ffffff;font-weight:bold;';
+            $thStyle .= 'text-align:center;white-space:nowrap;padding:6px 10px;"';
             echo '<tr>';
-            echo '<th>ID Laporan</th>';
-            echo '<th>Judul Laporan</th>';
-            echo '<th>Kategori</th>';
-            echo '<th>Alamat</th>';
-            echo '<th>Latitude</th>';
-            echo '<th>Longitude</th>';
-            echo '<th>Status</th>';
-            echo '<th>Tanggal Lapor</th>';
-            echo '<th>Tanggal Selesai</th>';
-            echo '<th>Durasi Penanganan (Hari)</th>';
+            foreach ([
+                'No', 'ID', 'Judul Laporan', 'Kategori',
+                'Alamat Lokasi', 'Latitude', 'Longitude',
+                'Tanggal Lapor', 'Tanggal Selesai', 'Durasi (Hari)',
+            ] as $col) {
+                echo "<th {$thStyle}>" . htmlspecialchars($col) . '</th>';
+            }
             echo '</tr>';
+
+            $counter = 1;
+            $rowEven = 'style="background-color:#f0fdf4;"';
+            $rowOdd  = 'style="background-color:#ffffff;"';
 
             Report::where('status', 'resolved')
                 ->with(['category', 'statusLogs' => fn($q) => $q->where('new_status', 'resolved')])
-                ->chunk(100, function ($reports) {
+                ->orderBy('created_at')
+                ->chunk(200, function ($reports) use (&$counter, $rowEven, $rowOdd) {
                     foreach ($reports as $rpt) {
                         $resolvedLog = $rpt->statusLogs->first();
-                        $resolvedAt = $resolvedLog ? $resolvedLog->created_at : $rpt->updated_at;
-                        $duration = round($rpt->created_at->diffInHours($resolvedAt) / 24, 1);
+                        $resolvedAt  = $resolvedLog ? $resolvedLog->created_at : $rpt->updated_at;
+                        $durationDay = round($rpt->created_at->diffInHours($resolvedAt) / 24, 1);
+                        $rowStyle    = ($counter % 2 === 0) ? $rowEven : $rowOdd;
 
-                        echo '<tr>';
-                        echo '<td>' . $rpt->id . '</td>';
+                        echo "<tr {$rowStyle}>";
+                        echo '<td style="text-align:center;">' . $counter++ . '</td>';
+                        echo '<td style="text-align:center;">' . $rpt->id . '</td>';
                         echo '<td>' . htmlspecialchars($rpt->title) . '</td>';
-                        echo '<td>' . htmlspecialchars($rpt->category->name ?? '-') . '</td>';
+                        echo '<td style="text-align:center;">' . htmlspecialchars($rpt->category->name ?? '-') . '</td>';
                         echo '<td>' . htmlspecialchars($rpt->address) . '</td>';
-                        echo '<td>' . $rpt->latitude . '</td>';
-                        echo '<td>' . $rpt->longitude . '</td>';
-                        echo '<td>' . $rpt->status . '</td>';
-                        echo '<td>' . $rpt->created_at->format('Y-m-d H:i:s') . '</td>';
-                        echo '<td>' . $resolvedAt->format('Y-m-d H:i:s') . '</td>';
-                        echo '<td>' . $duration . '</td>';
+                        echo '<td style="text-align:right;mso-number-format:\"0\\.0000000\";">' . number_format((float)$rpt->latitude,  7, '.', '') . '</td>';
+                        echo '<td style="text-align:right;mso-number-format:\"0\\.0000000\";">' . number_format((float)$rpt->longitude, 7, '.', '') . '</td>';
+                        echo '<td style="text-align:center;white-space:nowrap;">' . $rpt->created_at->format('d/m/Y H:i') . '</td>';
+                        echo '<td style="text-align:center;white-space:nowrap;">' . $resolvedAt->format('d/m/Y H:i') . '</td>';
+                        echo '<td style="text-align:center;">' . $durationDay . '</td>';
                         echo '</tr>';
                     }
                 });
 
             echo '</table>';
-            echo '</body>';
-            echo '</html>';
+            echo '</body></html>';
         };
 
-        return response()->streamDownload($callback, 'laporan_resolved_laporhijau.xls', $headers);
+        return response()->streamDownload($callback, $filename, $headers);
     }
 
     /**
