@@ -29,3 +29,7 @@ Thumbs.db
 *_debug.php
 scratch*.php
 test_*.php
+
+# AI Agent config — internal only, bukan bagian dari proyek
+.agents/
+CONTEXT.md
