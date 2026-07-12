@@ -108,7 +108,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // ── Relawan Area ──────────────────────────────────────────────
-    Route::middleware('role:relawan')->prefix('relawan')->name('relawan.')->group(function () {
+    Route::middleware('role:relawan|admin')->prefix('relawan')->name('relawan.')->group(function () {
         Route::get('/dashboard', [RelawanVerificationController::class, 'index'])->name('dashboard');
         Route::get('/antrian',   [RelawanVerificationController::class, 'antrian'])->name('antrian');
         Route::get('/riwayat',   [RelawanVerificationController::class, 'riwayat'])->name('riwayat');
@@ -117,7 +117,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // ── Pemerintah Area ───────────────────────────────────────────
-    Route::middleware('role:pemerintah')->prefix('pemerintah')->name('pemerintah.')->group(function () {
+    Route::middleware('role:pemerintah|admin')->prefix('pemerintah')->name('pemerintah.')->group(function () {
         Route::get('/dashboard',                       [PemerintahDashboardController::class, 'index'])->name('dashboard');
         Route::get('/laporan',                         [PemerintahDashboardController::class, 'reports'])->name('laporan');
         Route::post('/laporan/{report}/update-status', [PemerintahDashboardController::class, 'updateStatus'])->name('update-status');
