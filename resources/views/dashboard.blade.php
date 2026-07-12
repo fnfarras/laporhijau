@@ -182,13 +182,14 @@
                         </div>
 
                         @if ($myReports->isEmpty())
-                            <div class="text-center py-10">
-                                <p class="text-3xl mb-2">📭</p>
-                                <p class="text-sm text-gray-500">Belum ada laporan.</p>
-                                <a href="{{ route('laporan.create') }}"
-                                   class="mt-3 inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 text-white text-xs font-bold rounded-xl hover:bg-green-700 transition-all">
-                                    + Buat Laporan Pertama
-                                </a>
+                            <div class="py-6">
+                                <x-empty-state icon="📭" title="Belum ada laporan" message="Kamu belum membuat laporan apapun." />
+                                <div class="mt-4 text-center">
+                                    <a href="{{ route('laporan.create') }}"
+                                       class="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 text-white text-xs font-bold rounded-xl hover:bg-green-700 transition-all">
+                                        + Buat Laporan Pertama
+                                    </a>
+                                </div>
                             </div>
                         @else
                             <div class="space-y-3">

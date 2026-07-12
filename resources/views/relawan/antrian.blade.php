@@ -27,10 +27,8 @@
 
     {{-- ── List Laporan ─────────────────────────────────────────── --}}
     @if ($pending->isEmpty())
-        <div class="bg-white rounded-2xl border border-gray-100 p-16 text-center">
-            <div class="text-6xl mb-3">🎉</div>
-            <h3 class="text-base font-bold text-gray-700 mb-1">Tidak ada laporan pending</h3>
-            <p class="text-sm text-gray-400">Semua laporan sudah ditangani!</p>
+        <div class="p-6">
+            <x-empty-state icon="🎉" title="Tidak ada laporan pending" message="Semua laporan sudah ditangani! Kerja bagus." />
         </div>
     @else
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">

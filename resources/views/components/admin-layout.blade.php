@@ -146,21 +146,13 @@
             </div>
         </header>
 
-        <main class="flex-1 px-4 lg:px-8 py-6 max-w-7xl w-full mx-auto">
-            @if(session('success'))
-                <div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm flex items-center gap-2">
-                    ✅ {{ session('success') }}
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm flex items-center gap-2">
-                    ❌ {{ session('error') }}
-                </div>
-            @endif
+        <main class="flex-1 px-4 sm:px-6 pb-8">
             {{ $slot }}
         </main>
     </div>
 </div>
+
+<x-toast-container />
 
 <script>
     function toggleSidebar() {

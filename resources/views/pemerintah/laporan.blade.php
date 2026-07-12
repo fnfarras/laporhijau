@@ -70,10 +70,8 @@
 
     {{-- ── Tabel Laporan ─────────────────────────────────────── --}}
     @if ($reports->isEmpty())
-        <div class="bg-white rounded-2xl border border-gray-100 p-16 text-center">
-            <div class="text-5xl mb-3">🔍</div>
-            <h3 class="text-base font-bold text-gray-700 mb-1">Tidak ada laporan ditemukan</h3>
-            <p class="text-sm text-gray-400">Coba ubah filter pencarian.</p>
+        <div class="p-6">
+            <x-empty-state icon="🔍" title="Tidak Ada Laporan" message="Tidak ada laporan yang ditemukan sesuai filter pencarian." />
         </div>
     @else
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
@@ -198,11 +196,12 @@
                 }
             });
             
-            // Download
-            const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + csv.join("\n");
-            const encodedUri = encodeURI(csvContent);
+            // Download menggunakan Blob untuk memastikan BOM (Byte Order Mark) terbaca dengan benar di Excel (Mencegah karakter aneh/mojibake pada emoji)
+            const csvContent = "\uFEFF" + csv.join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
+            link.setAttribute("href", url);
             link.setAttribute("download", `laporhijau-laporan-${new Date().toISOString().slice(0,10)}.csv`);
             document.body.appendChild(link);
             link.click();

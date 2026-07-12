@@ -388,36 +388,6 @@
                         <div id="detail-map"></div>
                     </div>
 
-                    {{-- Komentar --}}
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <h3 class="text-base font-bold text-gray-800 mb-4 pb-3 border-b border-gray-100">
-                            💬 Komentar ({{ $report->comments->count() }})
-                        </h3>
-
-                        @if ($report->comments->isEmpty())
-                            <div class="text-center py-8 text-gray-400">
-                                <div class="text-3xl mb-2">💬</div>
-                                <p class="text-sm">Belum ada komentar.</p>
-                            </div>
-                        @else
-                            <div class="space-y-4">
-                                @foreach ($report->comments->whereNull('parent_id') as $comment)
-                                    <div class="flex gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex-shrink-0 flex items-center justify-center text-white font-bold text-xs">
-                                            {{ strtoupper(substr($comment->user->name, 0, 1)) }}
-                                        </div>
-                                        <div class="flex-1">
-                                            <div class="bg-gray-50 rounded-xl px-4 py-3">
-                                                <p class="text-xs font-semibold text-gray-700 mb-1">{{ $comment->user->name }}</p>
-                                                <p class="text-sm text-gray-600">{{ $comment->content }}</p>
-                                            </div>
-                                            <p class="text-xs text-gray-400 mt-1 ml-1">{{ $comment->created_at->diffForHumans() }}</p>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
 
                 </div>
 
@@ -560,6 +530,37 @@
                         @endif
                     </div>
 
+                    </div>
+
+                    {{-- Komentar --}}
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+                        <h3 class="text-sm font-bold text-gray-800 mb-4 pb-3 border-b border-gray-100">
+                            💬 Diskusi & Komentar ({{ $report->comments->count() }})
+                        </h3>
+
+                        @if ($report->comments->isEmpty())
+                            <div class="text-center py-6 text-gray-400">
+                                <div class="text-3xl mb-2">💬</div>
+                                <p class="text-xs">Belum ada komentar.</p>
+                            </div>
+                        @else
+                            <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                                @foreach ($report->comments->whereNull('parent_id') as $comment)
+                                    <div class="flex gap-3">
+                                        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex-shrink-0 flex items-center justify-center text-white font-bold text-[10px]">
+                                            {{ strtoupper(substr($comment->user->name, 0, 1)) }}
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="bg-gray-50 rounded-xl px-3 py-2 border border-gray-100">
+                                                <p class="text-[10px] font-bold text-gray-700 mb-0.5">{{ $comment->user->name }}</p>
+                                                <p class="text-xs text-gray-600">{{ $comment->content }}</p>
+                                            </div>
+                                            <p class="text-[9px] text-gray-400 mt-1 ml-1">{{ $comment->created_at->diffForHumans() }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
 
                     {{-- ── Share Laporan ── --}}

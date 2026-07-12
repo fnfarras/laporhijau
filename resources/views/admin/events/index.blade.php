@@ -7,7 +7,7 @@
             <p class="text-sm text-gray-500 mt-0.5">{{ $events->total() }} event terdaftar</p>
         </div>
         <a href="{{ route('admin.events.create') }}"
-           class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-colors shadow-sm">
+           class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors shadow-sm">
             + Buat Event
         </a>
     </div>
@@ -32,7 +32,7 @@
                         <tr class="hover:bg-gray-50/50 transition-colors">
                             <td class="px-5 py-4 max-w-xs">
                                 <a href="{{ route('event.show', $event) }}" target="_blank"
-                                   class="font-semibold text-gray-800 hover:text-red-600 transition-colors line-clamp-1 block">
+                                   class="font-semibold text-gray-800 hover:text-green-600 transition-colors line-clamp-1 block">
                                     {{ $event->title }}
                                 </a>
                                 <p class="text-xs text-gray-400 mt-0.5 truncate">📍 {{ $event->location }}</p>

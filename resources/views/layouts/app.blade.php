@@ -71,64 +71,7 @@
         @stack('scripts')
 
         <!-- Toast Notification Stack Component (Fitur 6) -->
-        <div x-data="toastComponent()" 
-             @add-toast.window="add($event.detail.message, $event.detail.type)"
-             class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-3 w-full max-w-sm pointer-events-none">
-             
-            <template x-for="toast in toasts" :key="toast.id">
-                <div class="pointer-events-auto relative overflow-hidden bg-white dark:bg-gray-800 border rounded-2xl shadow-xl p-4.5 flex items-start gap-3 w-full transition-all duration-300 transform translate-y-0"
-                     :class="{
-                         'border-green-200 dark:border-green-800/60': toast.type === 'success',
-                         'border-red-200 dark:border-red-800/60': toast.type === 'error',
-                         'border-amber-200 dark:border-amber-800/60': toast.type === 'warning',
-                         'border-blue-200 dark:border-blue-800/60': toast.type === 'info'
-                     }"
-                     x-show="toast.show"
-                     x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0 translate-x-12"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-200"
-                     x-transition:leave-start="opacity-100 translate-x-0 scale-100"
-                     x-transition:leave-end="opacity-0 translate-x-12 scale-90">
-                     
-                    <!-- Icon -->
-                    <div class="text-xl flex-shrink-0">
-                        <span x-show="toast.type === 'success'">✅</span>
-                        <span x-show="toast.type === 'error'">❌</span>
-                        <span x-show="toast.type === 'warning'">⚠️</span>
-                        <span x-show="toast.type === 'info'">ℹ️</span>
-                    </div>
-                    
-                    <!-- Message Body -->
-                    <div class="flex-1 min-w-0">
-                        <p class="text-[10px] font-bold leading-tight uppercase tracking-wider"
-                           :class="{
-                               'text-green-600': toast.type === 'success',
-                               'text-red-600': toast.type === 'error',
-                               'text-amber-600': toast.type === 'warning',
-                               'text-blue-600': toast.type === 'info'
-                           }"
-                           x-text="toast.type === 'success' ? 'Sukses' : (toast.type === 'error' ? 'Gagal' : (toast.type === 'warning' ? 'Peringatan' : 'Info'))"></p>
-                        <p class="text-xs text-gray-600 dark:text-gray-300 mt-1 font-medium leading-relaxed" x-text="toast.message"></p>
-                    </div>
-                    
-                    <!-- Dismiss Button -->
-                    <button @click="remove(toast.id)" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xs ml-2 flex-shrink-0">✕</button>
-                    
-                    <!-- Progress Bar (countdown indicator) -->
-                    <div class="absolute bottom-0 left-0 h-1 bg-gray-100 dark:bg-gray-700/80 w-full">
-                        <div class="h-full transition-all duration-[4000ms] ease-linear"
-                             :class="{
-                                 'bg-green-500': toast.type === 'success',
-                                 'bg-red-500': toast.type === 'error',
-                                 'bg-amber-500': toast.type === 'warning',
-                                 'bg-blue-500': toast.type === 'info'
-                             }"
-                             :style="toast.progressStyle"></div>
-                    </div>
-                </div>
-            </template>
-        </div>
+        <x-toast-container />
 
         {{-- Scroll to Top Button (Fitur Wow Premium) --}}
         <button x-data="{ show: false }"
@@ -196,61 +139,7 @@
                 }
             }
 
-            function toastComponent() {
-                return {
-                    toasts: [],
-                    add(message, type = 'success') {
-                        if (this.toasts.length >= 3) {
-                            this.toasts.shift();
-                        }
-                        
-                        const id = Date.now() + Math.random();
-                        const toast = {
-                            id,
-                            message,
-                            type,
-                            show: true,
-                            progressStyle: 'width: 100%'
-                        };
-                        this.toasts.push(toast);
-                        
-                        // Start progress bar countdown
-                        setTimeout(() => {
-                            toast.progressStyle = 'width: 0%';
-                        }, 50);
-                        
-                        // Auto dismiss after 4 seconds
-                        setTimeout(() => {
-                            this.remove(id);
-                        }, 4000);
-                    },
-                    remove(id) {
-                        const index = this.toasts.findIndex(t => t.id === id);
-                        if (index !== -1) {
-                            this.toasts[index].show = false;
-                            setTimeout(() => {
-                                this.toasts = this.toasts.filter(t => t.id !== id);
-                            }, 300);
-                        }
-                    }
-                }
-            }
-
-            // Trigger flash messages jika ada dari Laravel session
-            document.addEventListener('DOMContentLoaded', () => {
-                @if (session('success'))
-                    window.dispatchEvent(new CustomEvent('add-toast', { detail: { message: "{{ session('success') }}", type: 'success' } }));
-                @endif
-                @if (session('error'))
-                    window.dispatchEvent(new CustomEvent('add-toast', { detail: { message: "{{ session('error') }}", type: 'error' } }));
-                @endif
-                @if (session('warning'))
-                    window.dispatchEvent(new CustomEvent('add-toast', { detail: { message: "{{ session('warning') }}", type: 'warning' } }));
-                @endif
-                @if (session('info'))
-                    window.dispatchEvent(new CustomEvent('add-toast', { detail: { message: "{{ session('info') }}", type: 'info' } }));
-                @endif
-            });
+            // Toast and Flash message logic has been moved to x-toast-container component
         </script>
 
         {{-- Bottom Navigation Bar (Mobile Only) --}}

@@ -125,34 +125,14 @@
             <span class="font-bold text-gray-800">LaporHijau Relawan</span>
         </header>
 
-        {{-- Flash messages --}}
-        <div class="px-6 pt-4">
-            @if (session('success'))
-                <div class="bg-green-50 border border-green-200 text-green-800 rounded-xl px-4 py-3 mb-4 flex items-start gap-2 text-sm">
-                    <span class="mt-0.5 flex-shrink-0">✅</span>
-                    <span>{{ session('success') }}</span>
-                </div>
-            @endif
-            @if (session('info'))
-                <div class="bg-blue-50 border border-blue-200 text-blue-800 rounded-xl px-4 py-3 mb-4 flex items-start gap-2 text-sm">
-                    <span class="mt-0.5 flex-shrink-0">ℹ️</span>
-                    <span>{{ session('info') }}</span>
-                </div>
-            @endif
-            @if (session('error'))
-                <div class="bg-red-50 border border-red-200 text-red-800 rounded-xl px-4 py-3 mb-4 flex items-start gap-2 text-sm">
-                    <span class="mt-0.5 flex-shrink-0">❌</span>
-                    <span>{{ session('error') }}</span>
-                </div>
-            @endif
-        </div>
-
         {{-- Page Content --}}
         <main class="flex-1 px-4 sm:px-6 pb-8">
             {{ $slot }}
         </main>
     </div>
 </div>
+
+<x-toast-container />
 
 {{-- ── Modal: Tolak Laporan ─────────────────────────────────── --}}
 <div id="reject-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50">

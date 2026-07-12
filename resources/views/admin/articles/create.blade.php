@@ -9,7 +9,7 @@
 
     <div class="max-w-4xl">
         <div class="flex items-center gap-3 mb-6">
-            <a href="{{ route('admin.articles.index') }}" class="text-sm text-gray-400 hover:text-red-600 transition-colors">← Kembali</a>
+            <a href="{{ route('admin.articles.index') }}" class="text-sm text-gray-400 hover:text-green-600 transition-colors">← Kembali</a>
             <span class="text-gray-300">/</span>
             <h1 class="text-xl font-bold text-gray-900">Tulis Artikel Baru</h1>
         </div>
@@ -25,7 +25,7 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Judul Artikel <span class="text-red-500">*</span></label>
                             <input type="text" name="title" value="{{ old('title') }}" required
                                    placeholder="Tulis judul artikel yang menarik..."
-                                   class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-300 text-lg font-semibold @error('title') border-red-400 @enderror">
+                                   class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-300 text-lg font-semibold @error('title') border-red-400 @enderror">
                             @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
 
@@ -33,7 +33,7 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Konten <span class="text-red-500">*</span></label>
                             <textarea name="content" id="content" rows="18" required
                                       placeholder="Tulis isi artikel di sini. Gunakan baris baru untuk paragraf baru. Minimal 50 karakter..."
-                                      class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-300 resize-y leading-relaxed @error('content') border-red-400 @enderror">{{ old('content') }}</textarea>
+                                      class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-300 resize-y leading-relaxed @error('content') border-red-400 @enderror">{{ old('content') }}</textarea>
                             @error('content') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                             <p class="text-xs text-gray-400 mt-1" id="char-count">0 karakter</p>
                         </div>
@@ -52,7 +52,7 @@
                         </div>
                         <p class="text-xs text-gray-400 mb-5">Jika tidak dicentang, artikel akan disimpan sebagai <strong>Draft</strong>.</p>
                         <div class="flex flex-col gap-2">
-                            <button type="submit" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-colors shadow-sm">
+                            <button type="submit" class="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors shadow-sm">
                                 Simpan Artikel
                             </button>
                             <a href="{{ route('admin.articles.index') }}" class="w-full py-2.5 text-center border border-gray-200 text-gray-500 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors">
@@ -68,8 +68,8 @@
                             @foreach ($categories as $cat)
                                 <label class="flex items-center gap-2.5 cursor-pointer group">
                                     <input type="radio" name="category" value="{{ $cat }}" {{ old('category') === $cat ? 'checked' : '' }}
-                                           class="w-4 h-4 accent-red-600">
-                                    <span class="text-sm text-gray-700 group-hover:text-red-600 transition-colors">{{ $cat }}</span>
+                                           class="w-4 h-4 accent-green-600">
+                                    <span class="text-sm text-gray-700 group-hover:text-green-600 transition-colors">{{ $cat }}</span>
                                 </label>
                             @endforeach
                         </div>

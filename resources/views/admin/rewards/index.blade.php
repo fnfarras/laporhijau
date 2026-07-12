@@ -7,7 +7,7 @@
             <p class="text-sm text-gray-500 mt-0.5">Kelola hadiah yang dapat ditukar oleh pengguna</p>
         </div>
         <a href="{{ route('admin.rewards.create') }}"
-           class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-colors shadow-sm">
+           class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors shadow-sm">
             + Tambah Hadiah
         </a>
     </div>
@@ -61,13 +61,13 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-3 bg-white rounded-2xl border border-gray-100 p-16 text-center">
-                <div class="text-5xl mb-3">🎁</div>
-                <h3 class="text-base font-bold text-gray-700 mb-1">Belum ada hadiah</h3>
-                <p class="text-sm text-gray-400 mb-6">Tambahkan hadiah pertama untuk pengguna.</p>
-                <a href="{{ route('admin.rewards.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm rounded-xl transition-colors">
-                    + Tambah Hadiah
-                </a>
+            <div class="col-span-3 p-6">
+                <x-empty-state icon="🎁" title="Belum Ada Hadiah" message="Tambahkan hadiah pertama agar pengguna dapat menukarkan poin mereka." />
+                <div class="mt-4 text-center">
+                    <a href="{{ route('admin.rewards.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm rounded-xl transition-colors">
+                        + Tambah Hadiah
+                    </a>
+                </div>
             </div>
         @endforelse
     </div>

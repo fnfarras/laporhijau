@@ -7,14 +7,14 @@
     </div>
 
     @if ($logs->isEmpty())
-        <div class="bg-white rounded-2xl border border-gray-100 p-16 text-center">
-            <div class="text-6xl mb-3">📜</div>
-            <h3 class="text-base font-bold text-gray-700 mb-1">Belum ada riwayat</h3>
-            <p class="text-sm text-gray-400 mb-6">Kamu belum pernah memverifikasi atau menolak laporan apapun.</p>
-            <a href="{{ route('relawan.antrian') }}"
-               class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm rounded-xl transition-colors">
-                Lihat Antrian Laporan
-            </a>
+        <div class="p-6">
+            <x-empty-state icon="📜" title="Belum ada riwayat" message="Kamu belum pernah memverifikasi atau menolak laporan apapun." />
+            <div class="mt-4 text-center">
+                <a href="{{ route('relawan.antrian') }}"
+                   class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm rounded-xl transition-colors">
+                    Lihat Antrian Laporan
+                </a>
+            </div>
         </div>
     @else
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">

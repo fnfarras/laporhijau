@@ -43,37 +43,16 @@
 
             {{-- ── Laporan List ──────────────────────────────────────── --}}
             @if ($reports->isEmpty())
-                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700/80 shadow-sm p-12 text-center">
-                    {{-- Clean City SVG Illustration --}}
-                    <div class="w-64 h-40 mx-auto mb-4 relative">
-                        <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full mx-auto">
-                            <circle cx="160" cy="40" r="12" fill="#facc15" />
-                            <path d="M30 40 C35 30, 50 30, 55 40 C60 35, 75 35, 80 45 C80 50, 30 50, 30 40 Z" fill="#e2e8f0" class="dark:fill-slate-700"/>
-                            
-                            <rect x="50" y="60" width="25" height="70" fill="#94a3b8" rx="2" class="dark:fill-slate-600"/>
-                            <rect x="80" y="40" width="30" height="90" fill="#cbd5e1" rx="2" class="dark:fill-slate-500"/>
-                            <rect x="115" y="70" width="20" height="60" fill="#94a3b8" rx="2" class="dark:fill-slate-600"/>
-                            
-                            <rect x="86" y="50" width="6" height="8" fill="#fef08a"/>
-                            <rect x="98" y="50" width="6" height="8" fill="#fef08a"/>
-                            
-                            <circle cx="45" cy="115" r="16" fill="#16a34a"/>
-                            <rect x="43" y="125" width="4" height="15" fill="#78350f"/>
-                            
-                            <circle cx="140" cy="110" r="18" fill="#15803d"/>
-                            <rect x="138" y="120" width="4" height="20" fill="#78350f"/>
-                            
-                            <path d="M10 130 C60 125, 140 125, 190 130" stroke="#16a34a" stroke-width="6" stroke-linecap="round"/>
-                        </svg>
+                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700/80 shadow-sm p-6 text-center">
+                    <x-empty-state icon="🌱" title="Belum ada laporan" message="Kamu belum mengajukan laporan masalah lingkungan apapun. Mulai jaga lingkungan kita dengan melaporkan masalah di sekitarmu." />
+                    <div class="mt-6">
+                        <a href="{{ route('laporan.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            Buat Laporan Pertamamu
+                        </a>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Belum ada laporan</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-xs mb-6 max-w-xs mx-auto">Kamu belum mengajukan laporan masalah lingkungan apapun. Mulai jaga lingkungan kita dengan melaporkan masalah di sekitarmu.</p>
-                    <a href="{{ route('laporan.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors shadow-sm">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        Buat Laporan Pertamamu
-                    </a>
                 </div>
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

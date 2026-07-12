@@ -24,5 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, \Illuminate\Http\Request $request) {
+            // Redirect back to login page if session expired (e.g. during logout)
+            return redirect()->route('login')->with('error', 'Sesi Anda telah berakhir karena sudah lama tidak ada aktivitas. Silakan login kembali.');
+        });
     })->create();

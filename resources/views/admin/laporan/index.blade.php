@@ -45,11 +45,11 @@
                 <label class="block text-xs font-semibold text-gray-500 mb-1.5">Cari Laporan</label>
                 <input type="text" name="search" value="{{ request('search') }}"
                     placeholder="Judul atau alamat..."
-                    class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-300">
+                    class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
             </div>
             <div class="min-w-36">
                 <label class="block text-xs font-semibold text-gray-500 mb-1.5">Status</label>
-                <select name="status" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-300 bg-white">
+                <select name="status" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-300 bg-white">
                     <option value="">Semua Status</option>
                     <option value="pending"     {{ request('status') === 'pending'     ? 'selected' : '' }}>⏳ Pending</option>
                     <option value="verified"    {{ request('status') === 'verified'    ? 'selected' : '' }}>✅ Verified</option>
@@ -60,7 +60,7 @@
             </div>
             <div class="min-w-44">
                 <label class="block text-xs font-semibold text-gray-500 mb-1.5">Kategori</label>
-                <select name="category" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-300 bg-white">
+                <select name="category" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-300 bg-white">
                     <option value="">Semua Kategori</option>
                     @foreach ($categories as $cat)
                         <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
@@ -70,7 +70,7 @@
                 </select>
             </div>
             <div class="flex gap-2">
-                <button type="submit" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded-xl transition-colors">Filter</button>
+                <button type="submit" class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl transition-colors">Filter</button>
                 <a href="{{ route('admin.laporan.index') }}" class="px-5 py-2 border border-gray-200 text-gray-500 text-sm font-semibold rounded-xl hover:bg-gray-50">Reset</a>
             </div>
         </form>
@@ -108,7 +108,7 @@
                         <tr class="hover:bg-gray-50/50 transition-colors">
                             <td class="px-5 py-4 max-w-xs">
                                 <a href="{{ route('laporan.show', $report) }}" target="_blank"
-                                   class="font-semibold text-gray-800 hover:text-red-600 transition-colors line-clamp-1 block">
+                                   class="font-semibold text-gray-800 hover:text-green-600 transition-colors line-clamp-1 block">
                                     {{ $report->title }}
                                 </a>
                                 <p class="text-xs text-gray-400 mt-0.5 truncate">📍 {{ Str::limit($report->address, 45) }}</p>
