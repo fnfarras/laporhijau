@@ -2,18 +2,22 @@
     @section('title', 'Sertifikat Penghargaan LaporHijau — ' . $redemption->reward->name)
 
     @push('styles')
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+        
         <style>
             body { font-family: 'Plus Jakarta Sans', sans-serif; }
+            .font-serif { font-family: 'Playfair Display', serif; }
+            .font-signature { font-family: 'Great Vibes', cursive; }
             
-            /* Styles for interactive UI */
             .cert-container {
-                border-radius: 20px;
-                box-shadow: 0 10px 30px -10px rgba(22, 163, 74, 0.2);
+                background-color: #fffaf0; /* floralwhite for a slight parchment feel */
+                box-shadow: 0 20px 40px -15px rgba(22, 163, 74, 0.2);
             }
 
             /* Print-only overrides */
             @media print {
-                /* Hide everything except the certificate frame */
                 body * {
                     visibility: hidden;
                 }
@@ -28,7 +32,7 @@
                     height: 100%;
                     border: none !important;
                     box-shadow: none !important;
-                    background: #f0fdf4 !important; /* Keep light green background on print */
+                    background-color: #fffaf0 !important;
                     -webkit-print-color-adjust: exact;
                     print-color-adjust: exact;
                 }
@@ -40,10 +44,10 @@
     @endpush
 
     <div class="bg-gradient-to-b from-green-50/70 to-white dark:from-slate-900/30 dark:to-slate-900 min-h-screen py-10 pb-20">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
             {{-- Navigation Action (no-print) --}}
-            <div class="flex items-center justify-between no-print bg-white dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 no-print bg-white dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm">
                 <a href="{{ route('hadiah') }}" class="text-xs font-bold text-gray-500 hover:text-green-600 transition-colors flex items-center gap-1.5">
                     ← Kembali ke Toko Hadiah
                 </a>
@@ -66,63 +70,104 @@
             </div>
 
             {{-- ── CERTIFICATE CONTAINER ────────────────────────────────── --}}
-            <div id="certificate-frame" class="cert-container bg-gradient-to-br from-green-50 to-emerald-50 dark:from-slate-900 dark:to-slate-800 p-8 sm:p-14 border-[12px] border-double border-green-700 dark:border-green-600 relative overflow-hidden flex flex-col justify-between text-center min-h-[560px]">
+            <div id="certificate-frame" class="cert-container relative overflow-hidden flex flex-col justify-between text-center min-h-[700px] p-2 sm:p-4">
                 
-                {{-- Decorative Corners --}}
-                <div class="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-green-700/30"></div>
-                <div class="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-green-700/30"></div>
-                <div class="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-green-700/30"></div>
-                <div class="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-green-700/30"></div>
+                {{-- Outer Border (Thick Green) --}}
+                <div class="absolute inset-0 border-[16px] border-[#0f5132] m-2 sm:m-3 pointer-events-none"></div>
+                {{-- Inner Border (Gold) --}}
+                <div class="absolute inset-0 border-[3px] border-[#b8860b] m-8 sm:m-9 pointer-events-none"></div>
+                
+                {{-- Corner Ornaments --}}
+                <div class="absolute top-9 left-9 w-12 h-12 sm:w-16 sm:h-16 border-t-[5px] border-l-[5px] border-[#b8860b] pointer-events-none"></div>
+                <div class="absolute top-9 right-9 w-12 h-12 sm:w-16 sm:h-16 border-t-[5px] border-r-[5px] border-[#b8860b] pointer-events-none"></div>
+                <div class="absolute bottom-9 left-9 w-12 h-12 sm:w-16 sm:h-16 border-b-[5px] border-l-[5px] border-[#b8860b] pointer-events-none"></div>
+                <div class="absolute bottom-9 right-9 w-12 h-12 sm:w-16 sm:h-16 border-b-[5px] border-r-[5px] border-[#b8860b] pointer-events-none"></div>
 
-                {{-- Header --}}
-                <div class="space-y-4">
-                    <div class="flex items-center justify-center gap-2">
-                        <div class="w-8 h-8 bg-green-650 rounded-lg flex items-center justify-center text-white text-sm shadow-sm">
-                            🌿
+                {{-- Watermark --}}
+                <div class="absolute inset-0 flex items-center justify-center opacity-[0.04] pointer-events-none">
+                    <span class="text-[350px] grayscale">🌿</span>
+                </div>
+
+                {{-- Content Container --}}
+                <div class="relative z-10 flex flex-col justify-between h-full py-12 sm:py-16 px-10 sm:px-20">
+                    
+                    {{-- Header --}}
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-center gap-3">
+                            <div class="w-12 h-12 bg-[#0f5132] rounded-full flex items-center justify-center text-white shadow-md text-xl">
+                                🌿
+                            </div>
+                            <span class="font-bold text-gray-800 text-2xl tracking-widest uppercase">Lapor<span class="text-[#198754]">Hijau</span></span>
                         </div>
-                        <span class="font-extrabold text-gray-900 dark:text-white text-lg tracking-tight">Lapor<span class="text-green-600">Hijau</span></span>
+
+                        <div class="space-y-2">
+                            <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl text-[#0f5132] font-black uppercase tracking-widest mt-6">
+                                Sertifikat Penghargaan
+                            </h1>
+                            <p class="text-xs sm:text-sm tracking-[0.4em] text-[#b8860b] uppercase font-bold">
+                                Certificate of Appreciation
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="space-y-1">
-                        <h2 class="text-xs uppercase tracking-[0.25em] font-extrabold text-green-700 dark:text-green-400">Sertifikat Digital Penghargaan</h2>
-                        <div class="w-20 h-0.5 bg-green-600 mx-auto"></div>
+                    {{-- Body Text --}}
+                    <div class="my-14 space-y-6">
+                        <p class="text-sm sm:text-base text-gray-500 italic font-serif">Sertifikat ini diberikan secara terhormat kepada:</p>
+                        
+                        <div class="py-4">
+                            <h2 class="font-signature text-5xl sm:text-7xl md:text-8xl text-gray-900 inline-block px-12 border-b border-gray-300 pb-2">
+                                {{ $redemption->user->name }}
+                            </h2>
+                        </div>
+                        
+                        <div class="space-y-4 max-w-3xl mx-auto pt-4">
+                            <p class="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed font-serif">
+                                Atas dedikasi, partisipasi, dan kontribusi nyata dalam upaya pelestarian lingkungan hidup.
+                                Penghargaan tingkat <span class="font-bold text-[#b8860b] uppercase tracking-wide">"{{ $redemption->reward->name }}"</span> 
+                                diberikan sebagai bentuk apresiasi tertinggi dari komunitas kami.
+                            </p>
+                            <p class="text-xs sm:text-sm text-gray-400 italic">
+                                "{{ $redemption->reward->description }}"
+                            </p>
+                        </div>
+                    </div>
+
+                    {{-- Footer: Seal, Signatures, Verification --}}
+                    <div class="mt-auto grid grid-cols-1 sm:grid-cols-3 items-end gap-8 sm:gap-4">
+                        
+                        {{-- Left: Verification --}}
+                        <div class="text-center sm:text-left space-y-2 order-3 sm:order-1">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Verifikasi Sertifikat</p>
+                            <div class="inline-block bg-gray-100/50 border border-gray-200 py-1.5 px-3 rounded text-center">
+                                <p class="font-mono text-xs font-bold text-gray-800">ID: {{ $redemption->certificate_code }}</p>
+                            </div>
+                            <p class="text-[10px] text-gray-500 font-serif italic">Dikeluarkan pada {{ $redemption->redeemed_at->format('d F Y') }}</p>
+                        </div>
+
+                        {{-- Center: Seal --}}
+                        <div class="flex justify-center order-1 sm:order-2">
+                            <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-[#ffd700] via-[#b8860b] to-[#daa520] flex items-center justify-center p-1.5 shadow-[0_0_20px_rgba(184,134,11,0.4)] relative border-[3px] border-[#fffaf0] outline outline-1 outline-[#b8860b]">
+                                <div class="w-full h-full rounded-full border-2 border-dashed border-[#fffaf0]/60 flex flex-col items-center justify-center text-white font-serif relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-white/10 rotate-45"></div>
+                                    <span class="text-3xl sm:text-4xl leading-none shadow-sm relative z-10 drop-shadow-md">🌿</span>
+                                    <span class="text-[7px] sm:text-[9px] uppercase tracking-[0.2em] font-black mt-2 shadow-sm relative z-10 text-white drop-shadow-md">Verified</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Right: Signature --}}
+                        <div class="text-center space-y-2 order-2 sm:order-3">
+                            <div class="font-signature text-4xl sm:text-5xl text-gray-800 -mb-2 sm:-mb-4 opacity-90 transform -rotate-2">
+                                Admin LaporHijau
+                            </div>
+                            <div class="border-t border-gray-400 w-48 mx-auto pt-2">
+                                <p class="text-[10px] text-gray-800 font-bold uppercase tracking-widest">Ketua Pelaksana</p>
+                                <p class="text-[9px] text-gray-500 font-serif italic">Komunitas LaporHijau Indonesia</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
-                {{-- Body Text --}}
-                <div class="my-10 space-y-6">
-                    <p class="text-xs italic text-gray-400 dark:text-gray-500">Diberikan secara terhormat kepada:</p>
-                    
-                    <h1 class="text-3xl sm:text-4xl font-serif font-black text-gray-800 dark:text-white underline decoration-green-600/30 decoration-wavy underline-offset-8">
-                        {{ $redemption->user->name }}
-                    </h1>
-                    
-                    <div class="space-y-2 max-w-xl mx-auto">
-                        <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                            Sebagai penerima penghargaan: <span class="text-green-600 dark:text-green-400 font-extrabold">{{ $redemption->reward->name }}</span>
-                        </p>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 leading-relaxed italic">
-                            "{{ $redemption->reward->description }}"
-                        </p>
-                    </div>
-                </div>
-
-                {{-- Footer Verification --}}
-                <div class="border-t border-green-600/20 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
-                    <div class="space-y-1 text-center sm:text-left">
-                        <p class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider">Verifikasi Keaslian</p>
-                        <p class="font-mono text-xs font-bold text-gray-700 dark:text-gray-300">Kode: {{ $redemption->certificate_code }}</p>
-                        <p class="text-[9px] text-gray-400 dark:text-gray-500">Tanggal Tukar: {{ $redemption->redeemed_at->format('d F Y H:i') }}</p>
-                    </div>
-
-                    <div class="text-center sm:text-right space-y-1">
-                        <p class="text-[10px] text-gray-500 dark:text-gray-400 font-bold">Platform Lingkungan Komunitas Indonesia</p>
-                        <a href="{{ url('/') }}" class="text-[9px] text-green-600 dark:text-green-400 font-semibold hover:underline">
-                            laporhijau-production.up.railway.app
-                        </a>
-                    </div>
-                </div>
-
             </div>
 
         </div>
