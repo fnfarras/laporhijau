@@ -1,5 +1,12 @@
 @php
-    $layout = auth()->check() && auth()->user()->hasRole('pemerintah') ? 'pemerintah-layout' : 'app-layout';
+    $layout = 'app-layout';
+    if (auth()->check()) {
+        if (auth()->user()->hasRole('admin')) {
+            $layout = 'admin-layout';
+        } elseif (auth()->user()->hasRole('pemerintah')) {
+            $layout = 'pemerintah-layout';
+        }
+    }
 @endphp
 <x-dynamic-component :component="$layout">
     @section('title', 'Tulis Artikel - LaporHijau')
