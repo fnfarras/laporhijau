@@ -1,4 +1,7 @@
-<x-app-layout>
+@php
+    $layout = auth()->check() && auth()->user()->hasRole('pemerintah') ? 'pemerintah-layout' : 'app-layout';
+@endphp
+<x-dynamic-component :component="$layout">
     @section('title', 'Buat Event - LaporHijau')
 
     @push('styles')
@@ -221,5 +224,4 @@
         }
     </script>
     @endpush
-</x-app-layout>
-
+</x-dynamic-component>

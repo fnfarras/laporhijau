@@ -1,4 +1,7 @@
-<x-app-layout>
+@php
+    $layout = auth()->check() && auth()->user()->hasRole('pemerintah') ? 'pemerintah-layout' : 'app-layout';
+@endphp
+<x-dynamic-component :component="$layout">
     @section('title', 'Tulis Artikel - LaporHijau')
 
     @push('styles')
@@ -137,4 +140,4 @@ Tip: Gunakan tag HTML untuk format:
         }
     </script>
     @endpush
-</x-app-layout>
+</x-dynamic-component>
