@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminRewardController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminArticleController;
+use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\GamificationController;
 use App\Http\Controllers\HadiahController;
@@ -149,6 +151,22 @@ Route::middleware('auth')->group(function () {
         Route::post('/categories', [AdminCategoryController::class, 'store'])->name('categories.store');
         Route::put('/categories/{category}', [AdminCategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+
+        // Manajemen Artikel
+        Route::get('/articles', [AdminArticleController::class, 'index'])->name('articles.index');
+        Route::get('/articles/create', [AdminArticleController::class, 'create'])->name('articles.create');
+        Route::post('/articles', [AdminArticleController::class, 'store'])->name('articles.store');
+        Route::get('/articles/{article}/edit', [AdminArticleController::class, 'edit'])->name('articles.edit');
+        Route::put('/articles/{article}', [AdminArticleController::class, 'update'])->name('articles.update');
+        Route::delete('/articles/{article}', [AdminArticleController::class, 'destroy'])->name('articles.destroy');
+
+        // Manajemen Event
+        Route::get('/events', [AdminEventController::class, 'index'])->name('events.index');
+        Route::get('/events/create', [AdminEventController::class, 'create'])->name('events.create');
+        Route::post('/events', [AdminEventController::class, 'store'])->name('events.store');
+        Route::get('/events/{event}/edit', [AdminEventController::class, 'edit'])->name('events.edit');
+        Route::put('/events/{event}', [AdminEventController::class, 'update'])->name('events.update');
+        Route::delete('/events/{event}', [AdminEventController::class, 'destroy'])->name('events.destroy');
     });
 });
 

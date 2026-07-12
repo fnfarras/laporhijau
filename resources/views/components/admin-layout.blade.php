@@ -74,12 +74,12 @@
 
             {{-- Konten --}}
             <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Konten</p>
-            <a href="{{ route('artikel.index') }}"
-               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
+            <a href="{{ route('admin.articles.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.articles.*') ? 'active' : '' }}">
                 <span class="text-lg">📰</span> Artikel
             </a>
-            <a href="{{ route('event.index') }}"
-               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
+            <a href="{{ route('admin.events.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
                 <span class="text-lg">🗓️</span> Event Aksi
             </a>
             <a href="{{ route('open-data') }}"
