@@ -11,6 +11,7 @@ use App\Models\Report;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class EventController extends Controller
@@ -58,7 +59,7 @@ class EventController extends Controller
      */
     public function create(): View
     {
-        $this->authorize('create', Event::class);
+        Gate::authorize('create', Event::class);
 
         $resolvedReports = Report::where('status', 'resolved')
             ->orderByDesc('created_at')

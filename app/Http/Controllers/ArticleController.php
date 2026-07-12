@@ -49,7 +49,7 @@ class ArticleController extends Controller
     /** Form buat artikel (admin & pemerintah) */
     public function create(): View
     {
-        $this->authorize('create', Article::class);
+        Gate::authorize('create', Article::class);
         $categories = Article::CATEGORIES;
         return view('artikel.create', compact('categories'));
     }

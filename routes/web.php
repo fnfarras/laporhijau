@@ -180,4 +180,3 @@ Route::get('/komunitas/event/{event}', [EventController::class, 'show'])->name('
 Route::get('/artikel/{slug}',  [ArticleController::class, 'show'])->name('artikel.show');
 
 require __DIR__.'/auth.php';
-
