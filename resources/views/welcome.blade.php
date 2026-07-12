@@ -141,13 +141,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-17">
                 {{-- Logo --}}
-                <a href="{{ route('home') }}" class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-sm shadow-sm">
-                        🌿
-                    </div>
-                    <span class="font-black text-gray-900 dark:text-white text-xl tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                        Lapor<span class="text-green-600">Hijau</span>
-                    </span>
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <x-app-logo size="md" textColor="default" />
                 </a>
  
                 {{-- Desktop Nav Links --}}

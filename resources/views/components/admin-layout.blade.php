@@ -33,16 +33,11 @@
     <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-100 shadow-sm z-40 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
 
         {{-- Logo --}}
-        <div class="px-6 py-5 border-b border-gray-100">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-rose-600 rounded-lg flex items-center justify-center">
-                    <span class="text-white text-base">⚙️</span>
-                </div>
-                <div>
-                    <span class="font-bold text-gray-900 text-sm">LaporHijau</span>
-                    <span class="block text-xs text-red-500 font-semibold">Administrator</span>
-                </div>
-            </div>
+        <div class="px-5 py-4 border-b border-gray-100">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
+                <x-app-logo size="md" />
+            </a>
+            <span class="mt-1 block text-[10px] font-bold text-red-500 uppercase tracking-widest px-0.5">Administrator</span>
         </div>
 
         {{-- Nav --}}
