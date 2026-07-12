@@ -66,6 +66,18 @@
                 @endif
             </a>
 
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Aksi Edukasi</p>
+            <a href="{{ route('artikel.create') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 {{ request()->routeIs('artikel.create') ? 'active' : '' }}">
+                <span class="text-lg">✍️</span>
+                <span>Tulis Artikel</span>
+            </a>
+            <a href="{{ route('event.create') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 {{ request()->routeIs('event.create') ? 'active' : '' }}">
+                <span class="text-lg">📅</span>
+                <span>Buat Event</span>
+            </a>
+
             <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Komunitas</p>
             <a href="{{ route('open-data') }}" target="_blank"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600">
