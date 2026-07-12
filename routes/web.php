@@ -9,6 +9,9 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Relawan\RelawanVerificationController;
 use App\Http\Controllers\Pemerintah\PemerintahDashboardController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminRewardController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\GamificationController;
 use App\Http\Controllers\HadiahController;
@@ -128,6 +131,24 @@ Route::middleware('auth')->group(function () {
     // ── Admin Area ────────────────────────────────────────────
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Manajemen Pengguna
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.update-role');
+
+        // Manajemen Hadiah
+        Route::get('/rewards', [AdminRewardController::class, 'index'])->name('rewards.index');
+        Route::get('/rewards/create', [AdminRewardController::class, 'create'])->name('rewards.create');
+        Route::post('/rewards', [AdminRewardController::class, 'store'])->name('rewards.store');
+        Route::get('/rewards/{reward}/edit', [AdminRewardController::class, 'edit'])->name('rewards.edit');
+        Route::put('/rewards/{reward}', [AdminRewardController::class, 'update'])->name('rewards.update');
+        Route::delete('/rewards/{reward}', [AdminRewardController::class, 'destroy'])->name('rewards.destroy');
+
+        // Manajemen Kategori
+        Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [AdminCategoryController::class, 'store'])->name('categories.store');
+        Route::put('/categories/{category}', [AdminCategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
     });
 });
 

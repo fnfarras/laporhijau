@@ -47,13 +47,51 @@
 
         {{-- Nav --}}
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+
+            {{-- Overview --}}
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-1 uppercase tracking-widest font-bold">Overview</p>
             <a href="{{ route('admin.dashboard') }}"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <span class="text-lg">📊</span> Dashboard
             </a>
+
+            {{-- Manajemen Data --}}
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Manajemen</p>
+            <a href="{{ route('admin.users.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                <span class="text-lg">👥</span> Pengguna
+                @php $totalUsers = \App\Models\User::count(); @endphp
+                <span class="ml-auto text-xs font-bold text-gray-400">{{ $totalUsers }}</span>
+            </a>
+            <a href="{{ route('admin.categories.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                <span class="text-lg">📂</span> Kategori
+            </a>
+            <a href="{{ route('admin.rewards.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.rewards.*') ? 'active' : '' }}">
+                <span class="text-lg">🎁</span> Hadiah
+            </a>
+
+            {{-- Konten --}}
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Konten</p>
+            <a href="{{ route('artikel.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
+                <span class="text-lg">📰</span> Artikel
+            </a>
+            <a href="{{ route('event.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
+                <span class="text-lg">🗓️</span> Event Aksi
+            </a>
+            <a href="{{ route('open-data') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
+                <span class="text-lg">📈</span> Open Data
+            </a>
+
+            {{-- Area Lain --}}
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Area Role</p>
             <a href="{{ route('relawan.dashboard') }}"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
-                <span class="text-lg">📋</span> Area Relawan
+                <span class="text-lg">🌿</span> Area Relawan
             </a>
             <a href="{{ route('pemerintah.dashboard') }}"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
