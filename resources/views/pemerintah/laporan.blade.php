@@ -135,17 +135,15 @@
                                                 </button>
                                             </form>
                                         @elseif ($report->status === 'in_progress')
-                                            <form method="POST" action="{{ route('pemerintah.update-status', $report) }}" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-end gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                            <form method="POST" action="{{ route('pemerintah.update-status', $report) }}" enctype="multipart/form-data" class="flex flex-col gap-2 p-3 bg-green-50 rounded-xl border border-green-200 min-w-[160px]">
                                                 @csrf
                                                 <input type="hidden" name="action" value="resolved">
-                                                <div class="flex flex-col items-start gap-1">
-                                                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wide">📸 Foto Bukti Selesai</label>
-                                                    <input type="file" name="after_photo" required accept="image/*"
-                                                           class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 cursor-pointer">
-                                                </div>
+                                                <label class="text-[10px] font-bold text-green-700 uppercase tracking-wide">📸 Foto Bukti Selesai</label>
+                                                <input type="file" name="after_photo" required accept="image/*"
+                                                       class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-white file:text-green-700 hover:file:bg-green-100 cursor-pointer">
                                                 <button type="submit"
-                                                    class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors whitespace-nowrap">
-                                                    🎉 Selesai
+                                                    class="w-full px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-lg transition-colors whitespace-nowrap shadow-sm">
+                                                    🎉 Tandai Selesai
                                                 </button>
                                             </form>
                                         @else
