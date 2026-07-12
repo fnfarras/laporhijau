@@ -49,6 +49,8 @@
 
         {{-- Nav --}}
         <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-1 uppercase tracking-widest font-bold">Tugas Saya</p>
             <a href="{{ route('relawan.dashboard') }}"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 {{ request()->routeIs('relawan.dashboard') ? 'active' : '' }}">
                 <span class="text-lg">🏠</span>
@@ -69,14 +71,22 @@
                 <span>Riwayat Saya</span>
             </a>
 
-            <div class="pt-4 mt-4 border-t border-gray-100">
-                <p class="text-xs text-gray-400 px-3 mb-2 uppercase tracking-wide font-semibold">Laporan</p>
-                <a href="{{ route('masyarakat.laporan') }}"
-                   class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600">
-                    <span class="text-lg">🔍</span>
-                    <span>Lihat Semua Laporan</span>
-                </a>
-            </div>
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Komunitas</p>
+            <a href="{{ route('artikel.index') }}" target="_blank"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600">
+                <span class="text-lg">📰</span>
+                <span>Artikel ↗</span>
+            </a>
+            <a href="{{ route('event.index') }}" target="_blank"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600">
+                <span class="text-lg">🗓️</span>
+                <span>Event Aksi ↗</span>
+            </a>
+            <a href="{{ route('leaderboard') }}" target="_blank"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600">
+                <span class="text-lg">🏆</span>
+                <span>Leaderboard ↗</span>
+            </a>
         </nav>
 
         {{-- User info --}}
