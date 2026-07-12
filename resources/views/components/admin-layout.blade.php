@@ -63,6 +63,14 @@
                 @php $totalUsers = \App\Models\User::count(); @endphp
                 <span class="ml-auto text-xs font-bold text-gray-400">{{ $totalUsers }}</span>
             </a>
+            <a href="{{ route('admin.laporan.index') }}"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
+                <span class="text-lg">📋</span> Laporan
+                @php $pendingCount = \App\Models\Report::where('status','pending')->count(); @endphp
+                @if($pendingCount > 0)
+                    <span class="ml-auto bg-amber-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">{{ $pendingCount }}</span>
+                @endif
+            </a>
             <a href="{{ route('admin.categories.index') }}"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                 <span class="text-lg">📂</span> Kategori
@@ -82,13 +90,9 @@
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
                 <span class="text-lg">🗓️</span> Event Aksi
             </a>
-            <a href="{{ route('open-data') }}"
-               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
-                <span class="text-lg">📈</span> Open Data
-            </a>
 
             {{-- Area Lain --}}
-            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Area Role</p>
+            <p class="text-[10px] text-gray-400 px-3 mb-1 mt-4 uppercase tracking-widest font-bold">Pantau</p>
             <a href="{{ route('relawan.dashboard') }}"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
                 <span class="text-lg">🌿</span> Area Relawan
@@ -97,9 +101,13 @@
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
                 <span class="text-lg">🏛️</span> Area Pemerintah
             </a>
-            <a href="{{ route('leaderboard') }}"
+            <a href="{{ route('open-data') }}" target="_blank"
                class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
-                <span class="text-lg">🏆</span> Leaderboard
+                <span class="text-lg">📈</span> Open Data ↗
+            </a>
+            <a href="{{ route('leaderboard') }}" target="_blank"
+               class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-600 font-medium">
+                <span class="text-lg">🏆</span> Leaderboard ↗
             </a>
         </nav>
 

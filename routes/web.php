@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminRewardController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminEventController;
+use App\Http\Controllers\Admin\AdminLaporanController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\GamificationController;
 use App\Http\Controllers\HadiahController;
@@ -159,6 +160,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/articles/{article}/edit', [AdminArticleController::class, 'edit'])->name('articles.edit');
         Route::put('/articles/{article}', [AdminArticleController::class, 'update'])->name('articles.update');
         Route::delete('/articles/{article}', [AdminArticleController::class, 'destroy'])->name('articles.destroy');
+
+        // Manajemen Laporan
+        Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('laporan.index');
+        Route::delete('/laporan/{report}', [AdminLaporanController::class, 'destroy'])->name('laporan.destroy');
 
         // Manajemen Event
         Route::get('/events', [AdminEventController::class, 'index'])->name('events.index');
