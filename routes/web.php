@@ -41,11 +41,9 @@ Route::get('/profil/{user}',         [GamificationController::class, 'profile'])
 
 // Event (public read)
 Route::get('/komunitas/event',         [EventController::class, 'index'])->name('event.index');
-Route::get('/komunitas/event/{event}', [EventController::class, 'show'])->name('event.show');
 
 // Artikel (public read)
 Route::get('/artikel',         [ArticleController::class, 'index'])->name('artikel.index');
-Route::get('/artikel/{slug}',  [ArticleController::class, 'show'])->name('artikel.show');
 
 // ── Open Data Dashboard (public read & downloads) ───────────────────
 use App\Http\Controllers\OpenDataController;
@@ -174,6 +172,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('/events/{event}', [AdminEventController::class, 'destroy'])->name('events.destroy');
     });
 });
+
+// ── Fallback Wildcard Routes ──────────────────────────────────────────
+// Route dengan parameter dinamis {slug} atau {event} harus diletakkan
+// di urutan paling bawah agar tidak membajak (override) route statis seperti /create
+Route::get('/komunitas/event/{event}', [EventController::class, 'show'])->name('event.show');
+Route::get('/artikel/{slug}',  [ArticleController::class, 'show'])->name('artikel.show');
 
 require __DIR__.'/auth.php';
 
